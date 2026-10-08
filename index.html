@@ -651,12 +651,36 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
   *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;animation-delay:0ms !important}
 }
 
+/* ---------- Multi-business ---------- */
+.bizbtn{display:flex;align-items:center;gap:8px;height:44px;padding:0 10px 0 0;border-radius:var(--r-pill);flex:none;max-width:70%;transition:background .2s}
+.bizbtn:active{background:var(--s2)}
+.bizbtn .bn{font-size:var(--fs-h2);font-weight:600;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bizbtn>.ms{font-size:20px;color:var(--ts)}
+.bizbtn.sm{padding:0 6px 0 0;background:var(--s2);box-shadow:var(--ring)}
+.bizbtn.sm .tav{width:44px;height:44px}
+.onb{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;margin:15px var(--gutter) 0;padding:24px 20px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);color:var(--ts);font-size:var(--fs-label);font-weight:300;line-height:1.5}
+.onb>.ms{font-size:28px;color:var(--tp);width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--s3);margin-bottom:4px}
+.onb b{font-size:var(--fs-body);font-weight:600;color:var(--tp)}
+.onb.big{position:relative;margin-top:20px;padding:30px 20px}
+.onb.big::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg);padding:1.5px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.onb.big .btn{margin-top:12px}
+.tplrow{display:flex;align-items:center;gap:12px;width:100%;padding:12px 15px 12px 12px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);text-align:left;transition:background .2s}
+.tplrow:active{background:var(--s3)}
+.tplrow .nm{flex:1;min-width:0}
+.tplrow .nm b{display:block;font-size:var(--fs-body-sm);font-weight:500}
+.tplrow .nm small{display:block;font-size:var(--fs-micro);color:var(--ts);margin-top:2px}
+.tplrow>.ms{color:var(--ts)}
+.tplh{font-size:var(--fs-micro);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ts);margin:22px 0 10px}
+.tplg+.tplg{margin-top:15px}
+.tpli{display:inline-flex;align-items:center;height:24px;padding:0 10px;margin-bottom:8px;border-radius:var(--r-pill);background:var(--s3);font-size:var(--fs-micro);font-weight:500}
+.lrow.cur{box-shadow:inset 0 0 0 1.5px var(--pink)}
+
 </style>
 
 <header class="deck">
-  <div class="eyebrow">Rodood · New feature · Service requests</div>
+  <div class="eyebrow">Rodood · New feature for every business</div>
   <div class="lockup"><img src="data:image/png;base64,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" alt=""><b>Service requests</b></div>
-  <p>A client picks a clearance service, then completes it step by step: answers, quotation, documents, signature. ANFAL's team reviews in Rodood Business while government steps are tracked. Both phones share one live state, so try acting on either side. All names, numbers and documents are sample data.</p>
+  <p>Any business on Rodood sets up its own services, with the questions, steps and price each one needs. Clients request a service in the Rodood client app or on WhatsApp, then complete it step by step while the business team follows along. Switch between sample businesses below. All names, prices and documents are sample data.</p>
   <div class="ctrls">
     <div class="seg" role="group" aria-label="Client entry point">
       <button id="entry-app" class="on" data-entry="app"><span class="ms">smartphone</span>Client app</button>
@@ -666,6 +690,12 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
       <button data-theme-set="light"><span class="ms">light_mode</span>Light</button>
       <button data-theme-set="dark"><span class="ms">dark_mode</span>Dark</button>
       <button data-theme-set="system" class="on"><span class="ms">contrast</span>System</button>
+    </div>
+    <div class="seg" role="group" aria-label="Sample business">
+      <button data-biz-set="anfal" class="on">ANFAL Clearance</button>
+      <button data-biz-set="mawared">Mawared Travel</button>
+      <button data-biz-set="bayt">Bayt Properties</button>
+      <button data-biz-set="new"><span class="ms">add_business</span>New business</button>
     </div>
     <button class="ghost" id="reset"><span class="ms">restart_alt</span>Reset demo</button>
   </div>
@@ -679,7 +709,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
 
 <main class="stage">
   <div class="dev" id="dev-c">
-    <div class="devlabel"><i class="chipdot" style="background:var(--orange)"></i><span id="clabel">ANFAL client app · Yousif, Gulf Star Trading</span></div>
+    <div class="devlabel"><i class="chipdot" style="background:var(--orange)"></i><span id="clabel">Rodood client app · Yousif Al Mannai</span></div>
     <div class="phone" id="ph-c"><div class="notch"></div>
       <div class="vp anfal" id="vp-c">
         <div class="sbar"><span>9:41</span><span class="ic"><span class="ms">signal_cellular_alt</span><span class="ms">wifi</span><span class="ms">battery_full</span></span></div>
@@ -703,7 +733,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
   </aside>
 
   <div class="dev" id="dev-b" data-hide="1">
-    <div class="devlabel"><i class="chipdot" style="background:var(--pink)"></i>Rodood Business · ANFAL team</div>
+    <div class="devlabel"><i class="chipdot" style="background:var(--pink)"></i><span id="blabel">Rodood Business · ANFAL Clearance</span></div>
     <div class="phone" id="ph-b"><div class="notch"></div>
       <div class="vp" id="vp-b">
         <div class="sbar"><span>9:41</span><span class="ic"><span class="ms">signal_cellular_alt</span><span class="ms">wifi</span><span class="ms">battery_full</span></span></div>
@@ -745,15 +775,14 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
     </table></div>
   </section>
   <section>
-    <h2>Rules carried from the ANFAL playbook</h2>
+    <h2>Built-in rules for every business</h2>
     <ul>
-      <li>Government fees and ANFAL's service charge are always shown as separate lines.</li>
-      <li>No screen promises approval or a processing time. Government steps say the decision belongs to LMRA.</li>
-      <li>The app never asks for passwords or PINs, and only collects the documents a step needs.</li>
-      <li>Violations, rejections, absence cases and blocked transfers are flagged for a person on the team.</li>
-      <li>Answers decide which steps apply: a 6-month permit is only offered inside Bahrain, and medical reports only for workers abroad.</li>
-      <li>Each service has a fixed price or is quoted per request. Fixed prices with no government fee go to the client automatically.</li>
-      <li>Editing a service changes new requests only. Open requests keep the steps and price they started with.</li>
+      <li>Each business adds its own services from Services, starting blank or from the template library, and sets a fixed price or quotes each request.</li>
+      <li>Official fees (government, embassy, registry) always appear as their own line, separate from the business's charge. VAT applies to the charge only.</li>
+      <li>No screen promises approval or timing. Authority steps say the decision belongs to the authority.</li>
+      <li>Clients are only asked for what a step needs, and never for passwords or PINs.</li>
+      <li>Answers decide which steps apply, so each client only sees steps that fit their case.</li>
+      <li>Editing a service changes new requests only. Open requests keep their steps and price.</li>
     </ul>
   </section>
 </div>
@@ -778,11 +807,11 @@ const CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.
 /* ---------- Step kinds & fields ---------- */
 const KIND={
   form:{icon:'edit_note',label:'Fill in details',who:'client',desc:'The client answers questions. Answers can switch later steps on or off.'},
-  quote:{icon:'request_quote',label:'Quotation',who:'team',desc:'Your team prices it, the client accepts. Government fees stay separate from your charge.'},
+  quote:{icon:'request_quote',label:'Quotation',who:'team',desc:'Your team prices it, the client accepts. {{fee}}s stay separate from your charge.'},
   upload:{icon:'upload_file',label:'Upload document',who:'client',desc:'The client sends a file. Your team approves it or asks for it again.'},
   sign:{icon:'draw',label:'Sign document',who:'client',desc:'The client signs a letter filled in from their answers.'},
-  team:{icon:'task_alt',label:'Team action',who:'team',desc:'Internal work, like submitting to LMRA. The client is told when it is done.'},
-  gov:{icon:'account_balance',label:'Government decision',who:'gov',desc:'Waiting on the authority. Record approved, more documents, or rejected.'},
+  team:{icon:'task_alt',label:'Team action',who:'team',desc:'Internal work, like submitting an application. The client is told when it is done.'},
+  gov:{icon:'account_balance',label:'Authority decision',who:'gov',desc:'Waiting on the authority. Record approved, more documents, or rejected.'},
 };
 const FL={
   cr:{label:'Company CR number',type:'text',ph:'e.g. 128844-1'},
@@ -797,25 +826,72 @@ const FL={
   noc:{label:'Has the current employer agreed?',type:'choice',opts:['Yes','No']},
   reason:{label:'Reason for cancellation',type:'choice',opts:['End of contract','Resigned','Left Bahrain','Absent from work']},
   extra:{label:'Additional workers needed',type:'text',ph:'e.g. 6'},
-  violation:{label:'Violation code',type:'text',ph:'As shown on LMRA'},
-  appNo:{label:'LMRA application number',type:'text',ph:'If you have one'},
+  violation:{label:'Violation code',type:'text',ph:'As shown on {{auth}}'},
+  appNo:{label:'{{auth}} application number',type:'text',ph:'If you have one'},
   authority:{label:'Which authority?',type:'choice',opts:['MOIC / Sijilat','SIO','NBR','Other']},
   details:{label:'What do you need?',type:'text',ph:'One line is enough'},
   cert:{label:'Does the new job need a certificate?',type:'choice',opts:['Yes','No']},
+  traveller:{label:'Traveller full name',type:'text',ph:'As written in the passport'},
+  destination:{label:'Destination',type:'choice',opts:['France','Germany','Italy','Spain','Other']},
+  travelDate:{label:'Travel date',type:'text',ph:'e.g. 14 Dec 2026'},
+  work:{label:'Work status',type:'choice',opts:['Employed','Self-employed','Student','Retired']},
+  travellers:{label:'Number of travellers',type:'text',ph:'e.g. 4'},
+  month:{label:'Preferred month',type:'choice',opts:['Rajab','Shaban','Shawwal','Other']},
+  unit:{label:'Property or unit',type:'text',ph:'e.g. Seef Tower, flat 1204'},
+  tenantName:{label:'Tenant full name',type:'text'},
+  term:{label:'Lease term',type:'choice',opts:['1 year','2 years']},
+  slot:{label:'Preferred time',type:'choice',opts:['Morning','Afternoon','Evening']},
+  issue:{label:'What needs fixing?',type:'choice',opts:['Plumbing','Electrical','AC','Other']},
 };
-const SAMPLE={cr:'128844-1',employee:'Ramesh Kumar',cpr:'880512347',nationality:'India',occupation:'Electrician',newOcc:'Site supervisor',location:'Outside Bahrain',duration:'24 months',currentEmployer:'99120-3',noc:'Yes',reason:'End of contract',extra:'6',violation:'V-2207',appNo:'',authority:'MOIC / Sijilat',details:'Add an activity to our CR',cert:'No'};
+const SAMPLE={cr:'128844-1',employee:'Ramesh Kumar',cpr:'880512347',nationality:'India',occupation:'Electrician',newOcc:'Site supervisor',location:'Outside Bahrain',duration:'24 months',currentEmployer:'99120-3',noc:'Yes',reason:'End of contract',extra:'6',violation:'V-2207',appNo:'',authority:'MOIC / Sijilat',details:'Add an activity to our CR',cert:'No',traveller:'Yousif Al Mannai',destination:'France',travelDate:'14 Dec 2026',work:'Employed',travellers:'4',month:'Shawwal',unit:'Seef Tower, flat 1204',tenantName:'Yousif Al Mannai',term:'1 year',slot:'Evening',issue:'AC'};
 const S=(kind,name,o={})=>({id:uid('st'),kind,name,...o});
 const IN={f:'location',eq:'Inside Bahrain'},OUT={f:'location',eq:'Outside Bahrain'};
 // Pricing: two options per service. 'fixed' = set price shown up front; 'quote' = the team prices each request.
-// gov: a government fee is added on each quotation (always its own line). vat: 10% on the service charge only.
+// gov: a {{feeShort}} is added on each quotation (always its own line). vat: 10% on the service charge only.
 const PRICE={nwp:{mode:'fixed',fixed:40,gov:true,vat:true},renew:{mode:'fixed',fixed:25,gov:true,vat:true},transfer:{mode:'fixed',fixed:45,gov:true,vat:true},
   cancel:{mode:'fixed',fixed:15,gov:true,vat:true},occ:{mode:'fixed',fixed:30,gov:true,vat:true},ceiling:{mode:'quote',fixed:0,gov:true,vat:true},
   violation:{mode:'quote',fixed:0,gov:true,vat:true},rwp:{mode:'fixed',fixed:35,gov:true,vat:true},tech:{mode:'fixed',fixed:10,gov:false,vat:true},other:{mode:'quote',fixed:0,gov:true,vat:true}};
 const VAT=0.10;
 const qVat=q=>q.vat?Math.round(q.fee*VAT*1000)/1000:0;
 const qTotal=q=>(q.gov||0)+(q.fee||0)+qVat(q);
-function priceSummary(svc){const p=svc.price;return p.mode==='fixed'?BHD(p.fixed)+(p.gov?' + gov. fee':''):'Priced after review'}
-function makeServices(){return SVC_DEFS().map(s=>({...s,on:true,price:{...PRICE[s.id]}}))}
+function priceSummary(svc){const p=svc.price;return p.mode==='fixed'?(p.fixed>0?BHD(p.fixed):'Free')+(p.gov?' + {{feeShort}}':''):'Priced after review'}
+function makeServices(defs){return defs.map(s=>({...s,on:true,price:{...(s.price||PRICE[s.id])}}))}
+function TRAVEL_DEFS(){const EMP={f:'work',eq:'Employed'},SELF={f:'work',eq:'Self-employed'};return[
+  {id:'schengen',name:'Schengen Visa',icon:'flight_takeoff',eta:'Usually 10–15 working days',blurb:'Short-stay visa for Europe. We prepare the file and book your embassy appointment.',fields:['traveller','destination','travelDate','work'],
+   steps:[S('form','Trip and traveller details'),S('upload','Passport copy'),S('upload','Bank statement (3 months)'),S('upload','Employment letter',{cond:EMP}),S('upload','Commercial registration',{cond:SELF}),S('quote','Quotation'),S('sign','Visa application declaration'),S('team','Book embassy appointment'),S('gov','Embassy decision')],price:{mode:'fixed',fixed:25,gov:true,vat:true}},
+  {id:'ukvisa',name:'UK Visit Visa',icon:'travel_explore',eta:'Usually 15 working days',blurb:'Standard visitor visa for tourism or family visits.',fields:['traveller','travelDate','work'],
+   steps:[S('form','Traveller details'),S('upload','Passport copy'),S('upload','Bank statement (6 months)'),S('quote','Quotation'),S('team','Submit online application'),S('gov','Embassy decision')],price:{mode:'fixed',fixed:30,gov:true,vat:true}},
+  {id:'insure',name:'Travel Insurance',icon:'health_and_safety',eta:'Same day',blurb:'Cover that meets embassy visa requirements.',fields:['traveller','destination','travelDate'],
+   steps:[S('form','Trip details'),S('quote','Your price'),S('team','Issue policy')],price:{mode:'fixed',fixed:8,gov:false,vat:true}},
+  {id:'umrah',name:'Umrah Package',icon:'mosque',eta:'Confirmed within 3 days',blurb:'Flights, hotel and visa for your group.',fields:['travellers','month'],
+   steps:[S('form','Group and dates'),S('quote','Package quotation'),S('upload','Passport copies'),S('sign','Booking terms'),S('team','Confirm booking')],price:{mode:'quote',fixed:0,gov:false,vat:true}},
+];}
+function ESTATE_DEFS(){return[
+  {id:'lease',name:'Lease Registration',icon:'contract',eta:'Usually 2–3 working days',blurb:'Register your tenancy contract with RERA.',fields:['unit','tenantName','term'],
+   steps:[S('form','Property and tenant'),S('upload','Tenant CPR copy'),S('upload','Title deed or landlord authorisation'),S('quote','Quotation'),S('sign','Lease agreement'),S('team','Register with RERA'),S('gov','RERA confirmation')],price:{mode:'fixed',fixed:20,gov:true,vat:true}},
+  {id:'viewing',name:'Property Viewing',icon:'home',eta:'Within 2 days',blurb:'Book a time to see a property with one of our agents.',fields:['unit','slot'],
+   steps:[S('form','Property and time'),S('team','Confirm viewing slot')],price:{mode:'fixed',fixed:0,gov:false,vat:false}},
+  {id:'maint',name:'Maintenance Request',icon:'handyman',eta:'Usually within 48 hours',blurb:'Report a problem in your unit and we send a technician.',fields:['unit','issue'],
+   steps:[S('form','What needs fixing'),S('upload','Photo of the issue'),S('quote','Repair quotation'),S('team','Technician visit')],price:{mode:'quote',fixed:0,gov:false,vat:true}},
+];}
+// Every business on Rodood has its own services, prices, requests and numbering. These are sample businesses.
+const TENANTS=[
+  {id:'anfal',name:'ANFAL Clearance',short:'ANFAL',ini:'AN',industry:'Government clearance',auth:'LMRA',fee:'Government fee',feeShort:'gov. fee',prefix:'ANF',seq:2041,
+   client:{company:'Gulf Star Trading W.L.L.',contact:'Yousif Al Mannai'},greet:'Hello! 👋 Welcome to ANFAL Government Document Clearance Services.\nHow can we assist you?',defs:()=>SVC_DEFS()},
+  {id:'mawared',name:'Mawared Travel',short:'Mawared',ini:'MT',industry:'Travel & visas',auth:'the embassy',fee:'Embassy fee',feeShort:'embassy fee',prefix:'MWR',seq:519,
+   client:{company:'Yousif Al Mannai',contact:'Yousif Al Mannai'},greet:'Hello, welcome to Mawared Travel.\nHow can we help with your trip?',defs:()=>TRAVEL_DEFS()},
+  {id:'bayt',name:'Bayt Properties',short:'Bayt',ini:'BP',industry:'Real estate',auth:'RERA',fee:'RERA fee',feeShort:'RERA fee',prefix:'BYT',seq:309,
+   client:{company:'Yousif Al Mannai',contact:'Yousif Al Mannai'},greet:'Hello, welcome to Bayt Properties.\nHow can we help?',defs:()=>ESTATE_DEFS()},
+  {id:'new',name:'Your Business',short:'Your Business',ini:'YB',industry:'New on Rodood',auth:'the authority',fee:'Official fee',feeShort:'official fee',prefix:'REQ',seq:0,
+   client:{company:'Yousif Al Mannai',contact:'Yousif Al Mannai'},greet:'Hello, welcome.\nHow can we help?',defs:()=>[],fresh:true},
+];
+let CUR='anfal';
+const T=()=>TENANTS.find(t=>t.id===CUR);
+const tCap=x=>x.charAt(0).toUpperCase()+x.slice(1);
+function tk(h){if(h==null)return h;const t=T();return String(h)
+  .replace(/(^|[.?!]\s+|>\s*)\{\{auth\}\}/g,(m,p)=>p+tCap(t.auth)).replace(/\{\{auth\}\}/g,t.auth)
+  .replace(/\{\{bizFull\}\}/g,t.name).replace(/\{\{biz\}\}/g,t.short).replace(/\{\{fee\}\}/g,t.fee).replace(/\{\{feeShort\}\}/g,t.feeShort).replace(/\{\{ini\}\}/g,t.ini)}
+const subj=r=>r.values.employee||r.values.traveller||r.values.tenantName||r.values.unit||r.company;
 function SVC_DEFS(){return[
   {id:'nwp',name:'New Work Permit',icon:'badge',eta:'Usually 5–10 working days',blurb:'Hire an expatriate employee, whether they are already in Bahrain or still abroad.',fields:['cr','employee','nationality','occupation','location','duration'],
    steps:[S('form','Company and employee details'),S('quote','Quotation'),S('upload','Passport copy'),S('upload','CPR copy',{cond:IN}),S('upload','Medical examination report',{cond:OUT}),S('sign','Authorization letter'),S('team','Submit to LMRA'),S('gov','LMRA decision')]},
@@ -851,7 +927,7 @@ function thumb(file){return file?.url?`<img src="${file.url}" alt="">`:docArt(fi
 
 /* ---------- State ---------- */
 let ST;
-const CLIENT_CO='Gulf Star Trading W.L.L.';
+
 function svcById(id){return ST.services.find(s=>s.id===id)}
 function reqById(id){return ST.requests.find(r=>r.id===id)}
 function applies(s,r){if(!s.cond)return true;const v=r.values[s.cond.f];if(v==null||v==='')return null;return v===s.cond.eq}
@@ -874,7 +950,7 @@ function advance(r){
 }
 function newRequest(svcId,meta){
   const svc=svcById(svcId);
-  const r={id:meta.id||('ANF-'+(++ST.seq)),svc:svcId,company:meta.company||CLIENT_CO,contact:meta.contact||'Yousif Al Mannai',channel:meta.channel||'app',mine:meta.mine!==false,
+  const r={id:meta.id||(T().prefix+'-'+String(++ST.seq).padStart(4,'0')),svc:svcId,company:meta.company||T().client.company,contact:meta.contact||T().client.contact,channel:meta.channel||'app',mine:meta.mine!==false,
     values:{...(meta.values||{})},steps:svc.steps.map(s=>({...s,id:uid('rs'),st:'todo'})),log:[],created:meta.created||Date.now(),status:'open',quote:null,appNo:null};
   log(r,meta.channel==='wa'?'noor':'client',meta.channel==='wa'?'Noor opened this request on WhatsApp':'Request opened in the client app','You opened this request');
   advance(r);return r;
@@ -889,25 +965,50 @@ function completeSample(r,c){
   if(c.kind==='upload')c.file={name:c.name.replace(/ /g,'_').toLowerCase()+'.jpg',art:artFor(c.name),size:'1.2 MB'};
   if(c.kind==='quote'){const pr=svcById(r.svc).price;r.quote={gov:pr.gov?172:0,fee:pr.mode==='fixed'?pr.fixed:120,vat:pr.vat}}
   if(c.kind==='sign')c.sig=true;
-  if(c.kind==='team'&&/LMRA|Submit|Apply/.test(c.name))r.appNo=r.appNo||'2026-1'+String(18000+Math.floor(Math.random()*900));
+  if(c.kind==='team'&&/Submit|Apply|Register|Raise/.test(c.name))r.appNo=r.appNo||'2026-1'+String(18000+Math.floor(Math.random()*900));
 }
-function seed(){
-  N=0;
-  ST={services:makeServices(),requests:[],seq:2041,unread:1,feed:[],wa:null,entry:ST?.entry||'app',fresh:new Set(),drafts:{},newCards:new Set()};
-  const T=Date.now();
-  const mk=(svc,meta,n,final)=>{const r=newRequest(svc,{...meta,created:T-meta.age*MIN});fastForward(r,n,final);r.log=r.log.slice(-1);
+function seedTenant(t){
+  CUR=t.id;ST.services=makeServices(t.defs());ST.requests=[];ST.seq=t.seq;ST.wa=null;
+  const T0=Date.now();
+  const mk=(svc,meta,n,final)=>{const r=newRequest(svc,{...meta,created:T0-meta.age*MIN});fastForward(r,n,final);r.log=r.log.slice(-1);
     // light log history
     r.steps.filter(s=>s.st==='done').forEach(s=>r.log.unshift({t:s.at,by:KIND[s.kind].who==='client'?'client':'team',text:`${s.name} completed`,ctext:`${s.name} completed`}));r.log[r.log.length-1].t=r.created;
     ST.requests.push(r);return r};
+  if(t.id==='anfal'){
   mk('renew',{id:'ANF-2036',values:{location:'Inside Bahrain',duration:'12 months'},age:200},2);
   mk('transfer',{id:'ANF-2038',company:'Bahrain Bay Contracting',contact:'Fatima Hassan',mine:false,channel:'wa',age:95},1,{phase:'review',file:{name:'passport_scan.jpg',art:'passport',size:'1.6 MB'}});
   mk('ceiling',{id:'ANF-2040',company:'Delmon Foods Co.',contact:'Ali Mansoor',mine:false,age:48},3);
   mk('violation',{id:'ANF-2033',company:'Riffa Auto Parts',contact:'Sara Janahi',mine:false,channel:'wa',age:300},2);
   mk('occ',{id:'ANF-2035',company:'Al Noor Bakery',contact:'Khalid Mahmood',mine:false,age:160,values:{cert:'No'}},2);
   mk('nwp',{id:'ANF-2031',company:'Seef Tech Solutions',contact:'Omar Al Sayed',mine:false,age:2900,values:{location:'Inside Bahrain',duration:'12 months'}},6);
-  mk('cancel',{id:'ANF-2029',company:CLIENT_CO,contact:'Yousif Al Mannai',age:8000,values:{reason:'End of contract',employee:'Joseph Mathew'}},6);
-  const r36=reqById('ANF-2036');log(r36,'team','Quotation accepted by client','ANFAL started on your passport copy check list');
+  mk('cancel',{id:'ANF-2029',company:T().client.company,contact:'Yousif Al Mannai',age:8000,values:{reason:'End of contract',employee:'Joseph Mathew'}},6);
+  const r36=reqById('ANF-2036');log(r36,'team','Quotation accepted by client','{{biz}} started on your passport copy check list');
+    log(reqById('ANF-2036'),'team','Reminder sent','Reminder: your passport copy is the next step');
+  }
+  if(t.id==='mawared'){
+    mk('schengen',{id:'MWR-0519',values:{traveller:'Yousif Al Mannai',work:'Employed'},age:300},2);
+    mk('ukvisa',{id:'MWR-0516',company:'Noora Hassan',contact:'Noora Hassan',mine:false,channel:'wa',values:{traveller:'Noora Hassan'},age:80},1,{phase:'review',file:{name:'passport.jpg',art:'passport',size:'1.1 MB'}});
+    mk('umrah',{id:'MWR-0512',company:'Ahmed Bucheeri',contact:'Ahmed Bucheeri',mine:false,age:140},1);
+    mk('insure',{id:'MWR-0508',company:'Maryam Ali',contact:'Maryam Ali',mine:false,age:5000},3);
+  }
+  if(t.id==='bayt'){
+    mk('maint',{id:'BYT-0305',values:{issue:'AC'},age:60},2);
+    mk('lease',{id:'BYT-0309',company:'Fatima Al Sayed',contact:'Fatima Al Sayed',mine:false,channel:'wa',values:{tenantName:'Fatima Al Sayed'},age:200},4);
+    mk('viewing',{id:'BYT-0302',company:'Ali Mansoor',contact:'Ali Mansoor',mine:false,age:4000},2);
+  }
   ST.requests.sort((a,b)=>b.created-a.created);
+  ST.store[t.id]={services:ST.services,requests:ST.requests,seq:ST.seq,wa:null};
+}
+function seed(){
+  N=0;
+  ST={store:{},services:[],requests:[],seq:0,unread:1,feed:[],wa:null,entry:ST?.entry||'app',fresh:new Set(),drafts:{},newCards:new Set()};
+  TENANTS.forEach(seedTenant);
+  // load the first business directly; useStore() would save the last-seeded business over it
+  CUR='anfal';const x=ST.store.anfal;ST.services=x.services;ST.requests=x.requests;ST.seq=x.seq;ST.wa=x.wa;
+}
+function useStore(id){
+  ST.store[CUR]={services:ST.services,requests:ST.requests,seq:ST.seq,wa:ST.wa};
+  CUR=id;const x=ST.store[id];ST.services=x.services;ST.requests=x.requests;ST.seq=x.seq;ST.wa=x.wa;
 }
 
 /* ---------- Phones ---------- */
@@ -920,7 +1021,7 @@ function paint(side,anim){
   const p=P[side],t=top(side),host=$('.screens',p.vp);
   const old=host.firstElementChild;const keepScroll=!anim&&old?$('.scroll',old)?.scrollTop:0;
   const el=document.createElement('div');el.className='scr'+(anim?' a-'+anim:'');
-  el.innerHTML=SCR[t.scr](t.params,side);
+  el.innerHTML=tk(SCR[t.scr](t.params,side));
   if(t.scr==='w.chat')el.classList.add('wa');
   host.replaceChildren(el);
   $$('.stg',el).forEach(g=>[...g.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,12))));
@@ -941,24 +1042,24 @@ function badges(){
 }
 
 /* sheets, toasts, push */
-function sheet(side,html,mount){const vp=P[side].vp,sh=$('.sheet',vp);sh.innerHTML='<div class="grab"></div>'+html;sh.scrollTop=0;vp.classList.add('sheet-on');mount?.(sh);setTimeout(()=>$('input,textarea',sh)?.focus({preventScroll:true}),320)}
+function sheet(side,html,mount){const vp=P[side].vp,sh=$('.sheet',vp);sh.innerHTML='<div class="grab"></div>'+tk(html);sh.scrollTop=0;vp.classList.add('sheet-on');mount?.(sh);setTimeout(()=>$('input,textarea',sh)?.focus({preventScroll:true}),320)}
 function closeSheet(side){P[side].vp.classList.remove('sheet-on')}
-function toast(side,text,icon='check_circle'){const el=$('.toast',P[side].vp);el.innerHTML=`<span class="ms">${icon}</span>${esc(text)}`;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2200)}
+function toast(side,text,icon='check_circle'){const el=$('.toast',P[side].vp);el.innerHTML=`<span class="ms">${icon}</span>${esc(tk(text))}`;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2200)}
 function push(side,{title,text,req}){
   const el=$('.push',P[side].vp);
-  const icon=side==='b'?`<span class="pi"><img src="${LOGO}" alt=""></span>`:`<span class="pi">${AMARK}</span>`;
-  el.innerHTML=`${icon}<span class="pt"><b>${esc(title)}<i>now</i></b><span>${esc(text)}</span></span>`;
+  const icon=side==='b'?`<span class="pi"><img src="${LOGO}" alt=""></span>`:`<span class="pi"><span class="tav sm">${T().ini}</span></span>`;
+  el.innerHTML=`${icon}<span class="pt"><b>${esc(tk(title))}<i>now</i></b><span>${esc(tk(text))}</span></span>`;
   el.dataset.req=req||'';el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
   clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3600);
 }
 function emit(from,{text,ctext,req,title}){
   const to=from==='c'?'b':'c';
-  if(to==='b')push('b',{title:title||'ANFAL · Requests',text,req});
-  else{ST.unread++;const r=reqById(req);push('c',{title:ST.entry==='wa'?'WhatsApp · ANFAL Clearance':'ANFAL',text:ctext||text,req});
+  if(to==='b')push('b',{title:title||'{{biz}} · Requests',text,req});
+  else{ST.unread++;const r=reqById(req);push('c',{title:ST.entry==='wa'?'WhatsApp · {{bizFull}}':'{{biz}}',text:ctext||text,req});
     if(ST.wa&&r&&r.channel==='wa')ST.wa.msgs.push({me:false,text:ctext||text,t:Date.now()})}
   const pk=$('#packet');pk.className='packet';void pk.offsetWidth;pk.classList.add(from==='c'?'go-r':'go-l');
   ST.feed.unshift({from,text:from==='c'?text:(ctext||text),req});ST.feed=ST.feed.slice(0,5);
-  $('#feed').innerHTML=ST.feed.map(f=>`<li><b><span class="ms">${f.from==='c'?'east':'west'}</span>${f.from==='c'?'Client → ANFAL':'ANFAL → Client'} · ${esc(f.req)}</b>${esc(f.text)}</li>`).join('');
+  $('#feed').innerHTML=tk(ST.feed.map(f=>`<li><b><span class="ms">${f.from==='c'?'east':'west'}</span>${f.from==='c'?'Client → {{biz}}':'{{biz}} → Client'} · ${esc(f.req)}</b>${esc(f.text)}</li>`).join(''));
 }
 function markFresh(r,s){const k=s.id;ST.fresh.add(k);setTimeout(()=>ST.fresh.delete(k),1600)}
 function nudge(side){
@@ -971,17 +1072,17 @@ function stepMeta(r,s,view){
   const a=applies(s,r);
   if(s.st==='done')return{cls:'done',sub:(s.at?`${view==='c'?'Done':'Completed'} · ${fmtT(s.at)}`:'Done')};
   if(s.st==='skipped')return{cls:'skip',sub:'Not needed for this request'};
-  if(s.st==='rejected')return{cls:'rej',sub:'Rejected by LMRA · team reviewing'};
+  if(s.st==='rejected')return{cls:'rej',sub:'Rejected by {{auth}} · team reviewing'};
   if(s.st==='active'){
     const w=({client:'client',redo:'client',review:'team',team:'team',gov:'gov'})[s.phase];
     let sub='';
-    if(view==='c')sub=({client:'Your turn',redo:'Please send it again',review:'ANFAL is checking it',team:s.kind==='quote'?'ANFAL is preparing your quote':'ANFAL is working on it',gov:'Waiting for LMRA'})[s.phase];
-    else sub=({client:`Waiting on client · ${ago(s.since)}`,redo:'Asked again · waiting on client',review:'Needs your review',team:s.kind==='quote'?'Prepare quotation':'Your team',gov:'With LMRA'})[s.phase];
+    if(view==='c')sub=({client:'Your turn',redo:'Please send it again',review:'{{biz}} is checking it',team:s.kind==='quote'?'{{biz}} is preparing your quote':'{{biz}} is working on it',gov:'Waiting for {{auth}}'})[s.phase];
+    else sub=({client:`Waiting on client · ${ago(s.since)}`,redo:'Asked again · waiting on client',review:'Needs your review',team:s.kind==='quote'?'Prepare quotation':'Your team',gov:'With {{auth}}'})[s.phase];
     return{cls:'cur who-'+w+(s.phase==='redo'?' redo':''),sub};
   }
   if(a===false)return{cls:'skip',sub:'Not needed for this request'};
   if(a===null)return{cls:'cond',sub:condText(s)};
-  return{cls:'',sub:view==='c'?({client:'You',team:'ANFAL',gov:'LMRA'})[KIND[s.kind].who]:({client:'Client',team:'Team',gov:'LMRA'})[KIND[s.kind].who]};
+  return{cls:'',sub:view==='c'?({client:'You',team:'{{biz}}',gov:'{{auth}}'})[KIND[s.kind].who]:({client:'Client',team:'Team',gov:'{{auth}}'})[KIND[s.kind].who]};
 }
 function condText(s){if(!s.cond)return'';return`Only if ${FL[s.cond.f].label.toLowerCase().replace(/\?$/,'')}: ${s.cond.eq}`}
 function timeline(r,view){
@@ -997,29 +1098,31 @@ function avatar(name,ch){const i=name.split(/\s+/).filter(w=>/^[A-Z]/.test(w)).s
   return `<span class="av">${i}<span class="chn ${ch==='wa'?'wa':'app'}" aria-label="${ch==='wa'?'WhatsApp':'Client app'}"><span class="ms">${ch==='wa'?'chat':'smartphone'}</span></span></span>`}
 function segbar(r){return `<div class="segbar">${r.steps.filter(s=>s.st!=='skipped'&&applies(s,r)!==false).map(s=>{const w=whoOf(r);return `<i class="${s.st==='done'?'d':s.st==='rejected'?'x':s.st==='active'?'c '+w:''}"></i>`}).join('')}</div>`}
 function nextText(r){const w=whoOf(r),c=curStep(r);if(w==='done')return'Completed';
-  if(c.st==='rejected')return`Rejected by LMRA · decide next step`;
-  return({client:`Waiting on client · ${c.name}`,team:c.phase==='review'?`Review ${c.name.toLowerCase()}`:c.kind==='quote'?'Prepare quotation':c.name,gov:`With LMRA${r.appNo?' · '+r.appNo:''}`})[w]}
-const AMARK='<span class="tav sm">AN</span>';
-const WHOCHIP={team:['w-hu','Needs you'],client:['w-nt','On client'],gov:['w-nt','With LMRA'],done:['w-nt','Done']};
-const FILTERS=[['all','All'],['team','Needs you'],['client','Waiting on client'],['gov','With LMRA'],['done','Completed']];
+  if(c.st==='rejected')return`Rejected by {{auth}} · decide next step`;
+  return({client:`Waiting on client · ${c.name}`,team:c.phase==='review'?`Review ${c.name.toLowerCase()}`:c.kind==='quote'?'Prepare quotation':c.name,gov:`With {{auth}}${r.appNo?' · '+r.appNo:''}`})[w]}
+const AMARK='<span class="tav sm">{{ini}}</span>';
+const WHOCHIP={team:['w-hu','Needs you'],client:['w-nt','On client'],gov:['w-nt','With {{auth}}'],done:['w-nt','Done']};
+const FILTERS=[['all','All'],['team','Needs you'],['client','Waiting on client'],['gov','With {{auth}}'],['done','Completed']];
 const SCR={};const MOUNT={};
 SCR['b.board']=(p)=>{
   const f=p.filter||'all';const mode=p.mode||'req';
   const cnt=k=>ST.requests.filter(r=>whoOf(r)===k).length;
   const list=ST.requests.filter(r=>f==='all'||whoOf(r)===f).sort((a,b)=>({team:0,client:1,gov:2,done:3}[whoOf(a)]-{team:0,client:1,gov:2,done:3}[whoOf(b)])||b.created-a.created);
-  const head=`<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· Requests</span></div><div class="t"></div><button class="ib" data-act="toast" data-text="Search is unchanged in this feature" aria-label="Search"><span class="ms">search</span></button></div>
+  const head=`<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· Requests</span></div><div class="t"></div><button class="bizbtn sm" data-act="bizpick" aria-label="Switch business account, current {{bizFull}}"><span class="tav sm">{{ini}}</span><span class="ms">expand_more</span></button></div>
   <div class="tabs2 ${mode==='svc'?'right':''}"><span class="thumb"></span><button class="${mode==='req'?'on':''}" data-act="bmode" data-mode="req">Requests</button><button class="${mode==='svc'?'on':''}" data-act="bmode" data-mode="svc">Services</button></div>`;
   if(mode==='svc'){
+    if(!ST.services.length)return head+`<div class="scroll"><div class="onb big"><span class="ms">add_business</span><b>Set up your services</b><span>Add what your clients can request. Each service gets its own questions, steps and price. Start from a template or from blank.</span><button class="btn pri" data-act="newsvc"><span class="ms">add</span>Add your first service</button></div></div>`;
     return head+`<div class="scroll"><div class="pad" style="margin-top:15px"><button class="btn pri" data-act="newsvc"><span class="ms">add</span>New service</button></div><div class="sec">${ST.services.filter(s=>s.on).length} of ${ST.services.length} offered to clients</div><div class="svl stg">${ST.services.map(s=>{const open=ST.requests.filter(r=>r.svc===s.id&&r.status!=='done').length;
       return `<div class="svr"><button class="ibx" data-act="builder" data-svc="${s.id}" aria-label="Edit ${esc(s.name)}"><span class="ms">${s.icon}</span></button><button class="nm" style="text-align:left" data-act="builder" data-svc="${s.id}"><b>${esc(s.name)}</b><small>${s.on?'':'Draft · '}${priceSummary(s)} · ${open} open</small></button><button class="tgl ${s.on?'on':''}" data-act="svctoggle" data-svc="${s.id}" role="switch" aria-checked="${s.on}" aria-label="Offer ${esc(s.name)}"></button></div>`}).join('')}</div></div>`;
   }
+  if(!ST.services.length)return head+`<div class="scroll"><div class="onb big"><span class="ms">add_business</span><b>Set up your services</b><span>Add what your clients can request. Each service gets its own questions, steps and price. Start from a template or from blank.</span><button class="btn pri" data-act="newsvc"><span class="ms">add</span>Add your first service</button></div></div>`;
   return head+`<div class="scroll"><div class="sum">
     <button class="${f==='team'?'on':''}" data-act="bfilter" data-f="team"><b data-count="${cnt('team')}">${cnt('team')}</b><span><i style="background:var(--orange)"></i>Needs you</span></button>
     <button class="${f==='client'?'on':''}" data-act="bfilter" data-f="client"><b data-count="${cnt('client')}">${cnt('client')}</b><span><i style="background:var(--tp)"></i>On client</span></button>
-    <button class="${f==='gov'?'on':''}" data-act="bfilter" data-f="gov"><b data-count="${cnt('gov')}">${cnt('gov')}</b><span><i style="background:var(--ts)"></i>With LMRA</span></button></div>
+    <button class="${f==='gov'?'on':''}" data-act="bfilter" data-f="gov"><b data-count="${cnt('gov')}">${cnt('gov')}</b><span><i style="background:var(--ts)"></i>With {{auth}}</span></button></div>
     <div class="pills">${FILTERS.map(([k,l])=>`<button class="${f===k?'on':''}" data-act="bfilter" data-f="${k}">${l}</button>`).join('')}</div>
     <div class="rq stg">${list.length?list.map(r=>{const w=whoOf(r);const svc=svcById(r.svc);const flag=curStep(r)?.flag||curStep(r)?.st==='rejected';
-      return `<button class="rc ${ST.newCards.has(r.id)?'new':''}" data-act="breq" data-id="${r.id}"><div class="r1">${avatar(r.company,r.channel)}<div class="nm"><b>${esc(r.company)}</b><small>${esc(svc.name)}${r.values.employee?' · '+esc(r.values.employee):''}</small></div><div class="id">${r.id}</div></div>${segbar(r)}<div class="r3"><span class="chip ${WHOCHIP[w][0]}">${WHOCHIP[w][1]}</span>${flag?'<span class="chip w-hu"><span class="ms">flag</span>Person</span>':''}<span class="nx">${esc(nextText(r))}</span><time>${ago(curStep(r)?.since||r.doneAt||r.created)}</time></div></button>`}).join(''):'<div class="empty-note">Nothing here right now.</div>'}</div></div>`;
+      return `<button class="rc ${ST.newCards.has(r.id)?'new':''}" data-act="breq" data-id="${r.id}"><div class="r1">${avatar(r.company,r.channel)}<div class="nm"><b>${esc(r.company)}</b><small>${esc(svc.name)}${subj(r)!==r.company?' · '+esc(subj(r)):''}</small></div><div class="id">${r.id}</div></div>${segbar(r)}<div class="r3"><span class="chip ${WHOCHIP[w][0]}">${WHOCHIP[w][1]}</span>${flag?'<span class="chip w-hu"><span class="ms">flag</span>Person</span>':''}<span class="nx">${esc(nextText(r))}</span><time>${ago(curStep(r)?.since||r.doneAt||r.created)}</time></div></button>`}).join(''):'<div class="empty-note">Nothing here right now.</div>'}</div></div>`;
 };
 MOUNT['b.board']=(el,p,side,anim)=>{
   if(anim&&!RM())$$('[data-count]',el).forEach(b=>{const n=+b.dataset.count;let s=null;const step=t=>{s??=t;const k=Math.min(1,(t-s)/650);b.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
@@ -1028,12 +1131,12 @@ MOUNT['b.board']=(el,p,side,anim)=>{
 SCR['b.req']=(p)=>{
   const r=reqById(p.id),svc=svcById(r.svc),c=curStep(r),w=whoOf(r);
   let act='';
-  if(w==='team'&&c.st==='rejected'){act=`<div class="act team"><div class="ah"><span class="ms">flag</span>Needs a person</div><h2>LMRA rejected the application</h2><p>Check the reason with the client before resubmitting. The client sees that the team is reviewing.</p><div class="row2"><button class="btn sm sec2" data-act="toast" data-text="Opens the WhatsApp conversation">Message client</button><button class="btn sm pri" data-act="reopen" data-id="${r.id}">Resubmit</button></div></div>`}
+  if(w==='team'&&c.st==='rejected'){act=`<div class="act team"><div class="ah"><span class="ms">flag</span>Needs a person</div><h2>{{auth}} rejected the application</h2><p>Check the reason with the client before resubmitting. The client sees that the team is reviewing.</p><div class="row2"><button class="btn sm sec2" data-act="toast" data-text="Opens the WhatsApp conversation">Message client</button><button class="btn sm pri" data-act="reopen" data-id="${r.id}">Resubmit</button></div></div>`}
   else if(w==='team'&&c.phase==='review'){act=`<div class="act team"><div class="ah"><span class="ms">visibility</span>Needs your review</div><h2>${esc(c.name)}</h2><p>Check it is clear, valid and matches the request.</p><div class="docprev"><div class="th">${thumb(c.file)}</div><div class="dm"><b>${esc(c.file?.name||'document')}</b><small>${esc(c.file?.size||'')} · ${c.file?.via==='wa'?'sent on WhatsApp':'uploaded in app'}</small></div></div><div class="row2"><button class="btn sm sec2" data-act="askagain" data-id="${r.id}"><span class="ms">undo</span>Ask again</button><button class="btn sm pri" data-act="approve" data-id="${r.id}"><span class="ms">check</span>Approve</button></div></div>`}
-  else if(w==='team'&&c.kind==='quote'){act=`<div class="act team"><div class="ah"><span class="ms">request_quote</span>Your turn</div><h2>Prepare the quotation</h2><p>Enter the government fee and ANFAL's service charge separately. The client accepts before work continues.</p><div class="row2"><button class="btn sm pri" data-act="quote" data-id="${r.id}">Prepare quotation</button></div></div>`}
+  else if(w==='team'&&c.kind==='quote'){act=`<div class="act team"><div class="ah"><span class="ms">request_quote</span>Your turn</div><h2>Prepare the quotation</h2><p>Enter the {{feeShort}} and {{biz}}'s service charge separately. The client accepts before work continues.</p><div class="row2"><button class="btn sm pri" data-act="quote" data-id="${r.id}">Prepare quotation</button></div></div>`}
   else if(w==='team'){act=`<div class="act team"><div class="ah"><span class="ms">task_alt</span>Your turn${c.flag?' · needs a person':''}</div><h2>${esc(c.name)}</h2><p>${c.flag?'This case type always gets a person from the clearance team. Review it, then mark it done.':'Mark it done when the team has finished. The client gets an update.'}</p><div class="row2"><button class="btn sm pri" data-act="teamdone" data-id="${r.id}">Mark as done</button></div></div>`}
   else if(w==='client'){act=`<div class="act"><div class="ah"><span class="ms">hourglass_top</span>Waiting on client · ${ago(c.since)}</div><h2>${esc(c.name)}</h2><p>${c.phase==='redo'?`You asked for it again: ${esc(c.reason)}.`:`${esc(r.contact)} has been asked to complete this in the ${r.channel==='wa'?'WhatsApp link':'client app'}.`}</p><div class="row2"><button class="btn sm sec2" data-act="remind" data-id="${r.id}"><span class="ms">notifications_active</span>Send reminder</button></div></div>`}
-  else if(w==='gov'){act=`<div class="act"><div class="ah"><span class="ms">account_balance</span>With LMRA${r.appNo?' · '+r.appNo:''}</div><h2>${esc(c.name)}</h2><p>Record the outcome when LMRA decides.</p><div class="row2"><button class="btn sm pri" data-act="gov" data-id="${r.id}">Record decision</button></div></div>`}
+  else if(w==='gov'){act=`<div class="act"><div class="ah"><span class="ms">account_balance</span>With {{auth}}${r.appNo?' · '+r.appNo:''}</div><h2>${esc(c.name)}</h2><p>Record the outcome when {{auth}} decides.</p><div class="row2"><button class="btn sm pri" data-act="gov" data-id="${r.id}">Record decision</button></div></div>`}
   else act=`<div class="act"><div class="ah" style="color:var(--ok-tx)"><span class="ms">verified</span>Completed ${r.doneAt?fmtD(r.doneAt):''}</div><h2>${esc(svc.name)} done</h2><p>All steps are complete and the client has been told.</p></div>`;
   const files=r.steps.filter(s=>s.file);
   const kv=svc.fields.filter(f=>r.values[f]).map(f=>`<dt>${esc(FL[f].label)}</dt><dd>${esc(r.values[f])}</dd>`).join('');
@@ -1041,7 +1144,7 @@ SCR['b.req']=(p)=>{
   <div class="scroll"><div class="stg">${act}
   <div><div class="sec">Journey · ${progress(r).d} of ${progress(r).t}</div><div class="pad">${timeline(r,'b')}</div></div>
   ${files.length?`<div><div class="sec">Documents</div><div class="docs">${files.map(s=>`<figure><div class="th">${thumb(s.file)}</div><figcaption>${esc(s.name)}</figcaption></figure>`).join('')}</div></div>`:''}
-  ${kv?`<div><div class="sec">Answers</div><div class="pad"><div class="card"><dl class="kv">${kv}${r.quote?`<dt>Government fee</dt><dd>${BHD(r.quote.gov)}</dd><dt>Service charge</dt><dd>${BHD(r.quote.fee)}</dd>${r.quote.vat?`<dt>VAT 10%</dt><dd>${BHD(qVat(r.quote))}</dd>`:''}<dt>Total</dt><dd>${BHD(qTotal(r.quote))}</dd>`:''}</dl></div></div></div>`:''}
+  ${kv?`<div><div class="sec">Answers</div><div class="pad"><div class="card"><dl class="kv">${kv}${r.quote?`<dt>{{fee}}</dt><dd>${BHD(r.quote.gov)}</dd><dt>Service charge</dt><dd>${BHD(r.quote.fee)}</dd>${r.quote.vat?`<dt>VAT 10%</dt><dd>${BHD(qVat(r.quote))}</dd>`:''}<dt>Total</dt><dd>${BHD(qTotal(r.quote))}</dd>`:''}</dl></div></div></div>`:''}
   <div><div class="sec">Activity</div><ul class="log">${r.log.slice(0,8).map(l=>`<li><span class="ms">${({client:'person',team:'groups',gov:'account_balance',noor:'auto_awesome'})[l.by]}</span><span>${esc(l.text)}</span><time>${fmtT(l.t)}</time></li>`).join('')}</ul></div>
   </div></div>`;
 };
@@ -1052,13 +1155,13 @@ SCR['b.builder']=(p)=>{
   ${open?`<div class="info"><span class="ms">info</span><span>Changes apply to new requests. ${open} open request${open===1?' keeps its':'s keep their'} current steps and price.</span></div>`:`<div class="info"><span class="ms">info</span><span>${s.on?'Clients can request this service now.':'Turn on the switch above when it is ready for clients.'}</span></div>`}
   <div><div class="sec">Details</div><div class="pad"><button class="svr" data-act="editdetails" data-svc="${s.id}"><span class="ibx"><span class="ms">${s.icon}</span></span><span class="nm"><b>${esc(s.name)}</b><small>${esc(s.eta)}</small></span><span class="ms" style="color:var(--ts)">edit</span></button></div></div>
   <div><div class="sec">Price</div><div class="pad"><button class="card pcard" data-act="editprice" data-svc="${s.id}">
-    <span class="prow"><span><b>${pr.mode==='fixed'?'Fixed price':'Quote each request'}</b><small>${pr.mode==='fixed'?'Clients see the price before they start':'Your team prices it after reviewing the request'}</small></span><span class="pv2">${pr.mode==='fixed'?BHD(pr.fixed):'—'}</span></span>
-    <span class="prow"><span><b>Government fee</b><small>${pr.gov?'Added on each quotation, on its own line':'No government fee for this service'}</small></span><span class="pv2">${pr.gov?'Per request':'None'}</span></span>
+    <span class="prow"><span><b>${pr.mode==='fixed'?'Fixed price':'Quote each request'}</b><small>${pr.mode==='fixed'?'Clients see the price before they start':'Your team prices it after reviewing the request'}</small></span><span class="pv2">${pr.mode==='fixed'?(pr.fixed>0?BHD(pr.fixed):'Free'):'—'}</span></span>
+    <span class="prow"><span><b>{{fee}}</b><small>${pr.gov?'Added on each quotation, on its own line':'No {{feeShort}} for this service'}</small></span><span class="pv2">${pr.gov?'Per request':'None'}</span></span>
     <span class="prow"><span><b>VAT</b><small>On the service charge only</small></span><span class="pv2">${pr.vat?'10%':'Off'}</span></span>
     <span class="pedit"><span class="ms">edit</span>Edit price</span></button></div></div>
   <div><div class="sec">Questions for the client</div><div class="fields">${s.fields.map(f=>`<button data-act="editq" data-svc="${s.id}" data-f="${f}">${esc(FL[f].label)}</button>`).join('')}<button class="addq" data-act="addq" data-svc="${s.id}"><span class="ms">add</span>Add question</button></div></div>
   <div><div class="sec">Journey · drag to reorder</div>
-  <ol class="bsl" id="bsl">${s.steps.map((st,i)=>{const k=KIND[st.kind];const w=k.who;return `<li class="bs-row ${ST.fresh.has(st.id)?'fresh':''}" data-id="${st.id}"><button class="handle" aria-label="Move ${esc(st.name)}, use arrow keys" data-i="${i}"><span class="ms">drag_indicator</span></button><span class="num">${i+1}</span><span class="ibx"><span class="ms">${k.icon}</span></span><button class="nm" data-act="editstep" data-svc="${s.id}" data-id="${st.id}"><b>${esc(st.name)}</b><small><span class="chip w-nt"><span class="ms">${({client:'person',team:'groups',gov:'account_balance'})[w]}</span>${({client:'Client',team:'Team',gov:'LMRA'})[w]}</span>${st.cond?`<span class="chip w-nt"><span class="ms">call_split</span>${esc(st.cond.eq)}</span>`:''}${st.flag?'<span class="chip w-hu"><span class="ms">flag</span>Person</span>':''}</small></button><span class="ms" style="color:var(--ts);font-size:18px">chevron_right</span></li>`}).join('')}</ol>
+  <ol class="bsl" id="bsl">${s.steps.map((st,i)=>{const k=KIND[st.kind];const w=k.who;return `<li class="bs-row ${ST.fresh.has(st.id)?'fresh':''}" data-id="${st.id}"><button class="handle" aria-label="Move ${esc(st.name)}, use arrow keys" data-i="${i}"><span class="ms">drag_indicator</span></button><span class="num">${i+1}</span><span class="ibx"><span class="ms">${k.icon}</span></span><button class="nm" data-act="editstep" data-svc="${s.id}" data-id="${st.id}"><b>${esc(st.name)}</b><small><span class="chip w-nt"><span class="ms">${({client:'person',team:'groups',gov:'account_balance'})[w]}</span>${({client:'Client',team:'Team',gov:'{{auth}}'})[w]}</span>${st.cond?`<span class="chip w-nt"><span class="ms">call_split</span>${esc(st.cond.eq)}</span>`:''}${st.flag?'<span class="chip w-hu"><span class="ms">flag</span>Person</span>':''}</small></button><span class="ms" style="color:var(--ts);font-size:18px">chevron_right</span></li>`}).join('')}</ol>
   <button class="addstep" data-act="addstep" data-svc="${s.id}"><span class="ms">add</span>Add a step</button></div>
   <div class="pad" style="margin-top:20px"><button class="btn sec2" data-act="preview" data-svc="${s.id}"><span class="ms">smartphone</span>Preview in the client app</button></div>
   </div></div>`;
@@ -1080,14 +1183,10 @@ MOUNT['b.builder']=(el,p)=>{
   });
 };
 SCR['b.inbox']=()=>{
-  const waReq=ST.requests.filter(r=>r.channel==='wa'&&r.mine);
-  const rows=[...waReq.map(r=>({n:CLIENT_CO,m:`Noor opened ${r.id} · ${svcById(r.svc).name}`,t:ago(r.created),ch:'wa',tag:['w-ai','Noor'],req:r.id})),
-    {n:'Bahrain Bay Contracting',m:'Sent the passport scan for ANF-2038',t:'1h',ch:'wa',tag:['w-hu','You'],req:'ANF-2038'},
-    {n:'Riffa Auto Parts',m:'We got a violation notice, can you help?',t:'5h',ch:'wa',tag:['w-hu','You'],req:'ANF-2033'},
-    {n:'Hussain Ebrahim',m:'شكراً، متى يصل التصريح؟',t:'1d',ch:'wa',tag:['w-ai','Noor']}];
+  const rows=ST.requests.filter(r=>r.status!=='done').slice(0,6).map(r=>{const w=whoOf(r);return{n:r.company,m:`${svcById(r.svc).name} · ${nextText(r)}`,t:ago(curStep(r)?.since||r.created),ch:r.channel,tag:w==='team'?['w-hu','You']:['w-ai','Noor'],req:r.id}});
   return `<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· Inbox</span></div><div class="t"></div></div>
   <div><span class="aipill"><span class="gdot"></span><b>Noor is live.</b> Opening requests from WhatsApp.</span></div>
-  <div class="scroll"><div class="inbox stg">${rows.map(r=>`<button class="irow" ${r.req?`data-act="breq" data-id="${r.req}"`:'data-act="toast" data-text="Conversations work as they do today"'}>${avatar(r.n,r.ch)}<div class="nm"><b>${esc(r.n)}</b><small>${esc(r.m)}</small></div><div class="rt">${r.t}<span class="chip ${r.tag[0]}">${r.tag[1]}</span></div></button>`).join('')}</div></div>`;
+  <div class="scroll"><div class="inbox stg">${rows.length?'':'<div class="empty-note">No conversations yet.</div>'}${rows.map(r=>`<button class="irow" ${r.req?`data-act="breq" data-id="${r.req}"`:'data-act="toast" data-text="Conversations work as they do today"'}>${avatar(r.n,r.ch)}<div class="nm"><b>${esc(r.n)}</b><small>${esc(r.m)}</small></div><div class="rt">${r.t}<span class="chip ${r.tag[0]}">${r.tag[1]}</span></div></button>`).join('')}</div></div>`;
 };
 SCR['b.stub']=(p)=>`<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· ${esc(p.name)}</span></div></div><div class="stub"><span class="ms">${p.name==='Insights'?'monitoring':p.name==='AI Studio'?'auto_awesome':'settings'}</span><b style="color:var(--tp)">${esc(p.name)} stays as it is</b><span>This prototype covers the new Requests tab. ${p.name==='AI Studio'?'Noor will learn the service list so she can open requests from WhatsApp.':''}</span></div>`;
 
@@ -1099,27 +1198,27 @@ function animateRings(el){$$('[data-ring]',el).forEach(w=>{const c=$('.fg',w);co
 function clientNext(r){
   const c=curStep(r),w=whoOf(r);
   if(w==='done')return{wait:true,title:'All done',text:'This request is complete.'};
-  if(c.st==='rejected')return{wait:true,title:'ANFAL is reviewing the outcome',text:'LMRA did not approve this application. The clearance team will contact you about the next step.'};
+  if(c.st==='rejected')return{wait:true,title:'{{biz}} is reviewing the outcome',text:'{{auth}} did not approve this application. The clearance team will contact you about the next step.'};
   if(w==='client')return{wait:false,title:c.phase==='redo'?`Send ${c.name.toLowerCase()} again`:({form:c.name,quote:'Review and accept your quotation',upload:`Upload ${c.name.toLowerCase()}`,sign:`Sign the ${c.name.toLowerCase()}`})[c.kind],
-    text:c.phase==='redo'?`ANFAL asked for it again: ${c.reason}.`:({form:'A few questions so we know exactly what to prepare.',quote:'Government fees and ANFAL’s service charge are listed separately.',upload:'A clear photo or PDF with all details readable.',sign:'A short letter filled in from your answers. Sign with your finger.'})[c.kind],cta:c.kind==='quote'?'Review':'Continue'};
-  if(w==='gov')return{wait:true,title:'Submitted to LMRA',text:`${r.appNo?'Application '+r.appNo+'. ':''}LMRA makes the decision and sets the timing. We will update you here.`};
-  return{wait:true,title:c.phase==='review'?`ANFAL is checking your ${c.name.toLowerCase()}`:c.kind==='quote'?'ANFAL is preparing your quotation':`ANFAL: ${c.name.toLowerCase()}`,text:'Nothing needed from you right now. We will notify you when it is your turn.'};
+    text:c.phase==='redo'?`{{biz}} asked for it again: ${c.reason}.`:({form:'A few questions so we know exactly what to prepare.',quote:'{{fee}}s and {{biz}}’s service charge are listed separately.',upload:'A clear photo or PDF with all details readable.',sign:'A short letter filled in from your answers. Sign with your finger.'})[c.kind],cta:c.kind==='quote'?'Review':'Continue'};
+  if(w==='gov')return{wait:true,title:'Submitted to {{auth}}',text:`${r.appNo?'Application '+r.appNo+'. ':''}{{auth}} makes the decision and sets the timing. We will update you here.`};
+  return{wait:true,title:c.phase==='review'?`{{biz}} is checking your ${c.name.toLowerCase()}`:c.kind==='quote'?'{{biz}} is preparing your quotation':`{{biz}}: ${c.name.toLowerCase()}`,text:'Nothing needed from you right now. We will notify you when it is your turn.'};
 }
 SCR['c.home']=()=>{
   const act=myReqs().filter(r=>r.status!=='done').sort((a,b)=>(whoOf(a)==='client'?0:1)-(whoOf(b)==='client'?0:1)||b.created-a.created);
-  return `<div class="top"></div><div class="hd"><span class="tav sm">AN</span><div class="t"><h1>ANFAL <span class="scrname">· Home</span></h1></div><button class="ib" data-act="ctab" data-tab="c.updates" aria-label="Updates"><span class="ms">notifications</span>${ST.unread?'<span class="dotb"></span>':''}</button></div>
+  return `<div class="top"></div><div class="hd"><button class="bizbtn" data-act="bizpick" aria-label="Switch business, current {{bizFull}}"><span class="tav sm">{{ini}}</span><span class="bn">{{biz}}</span><span class="ms">expand_more</span></button><div class="t"></div><button class="ib" data-act="ctab" data-tab="c.updates" aria-label="Updates"><span class="ms">notifications</span>${ST.unread?'<span class="dotb"></span>':''}</button></div>
   <div class="pad" style="margin:4px 0 2px"><div class="hello"><small>Good morning</small><b>Yousif</b></div></div>
   <div class="scroll"><div class="stg">
   ${act.length?`<div><div class="sec">${act.length>1?act.length+' active requests':'Your active request'}</div><div class="heros">${act.map(r=>{const n=clientNext(r),pr=progress(r);
-    return `<div class="hero ${n.wait?'wait':''}"><div class="top3"><div class="ring" data-ring="h-${r.id}">${ringSvg(pr.p)}<b>${pr.d}/${pr.t}</b></div><div class="ht"><small>${r.id}</small><b>${esc(svcById(r.svc).name)}</b><span>${esc(r.values.employee||r.company)}</span></div></div>
+    return `<div class="hero ${n.wait?'wait':''}"><div class="top3"><div class="ring" data-ring="h-${r.id}">${ringSvg(pr.p)}<b>${pr.d}/${pr.t}</b></div><div class="ht"><small>${r.id}</small><b>${esc(svcById(r.svc).name)}</b><span>${esc(subj(r))}</span></div></div>
     <button class="next" data-act="creq" data-id="${r.id}" aria-label="${esc(n.title)}. ${n.wait?'Open request':n.cta}">${n.wait?'<span class="ms" style="color:var(--ts)">hourglass_top</span>':''}<div><b>${esc(n.title)}</b><span class="${n.wait?'':'turn'}">${n.wait?'We will notify you':'Your next step'}${n.wait?'<span class="dots"><i></i><i></i><i></i></span>':''}</span></div>${n.wait?'<span class="ms" style="color:var(--ts)">chevron_right</span>':'<span class="go" aria-hidden="true"><span class="ms">arrow_forward</span></span>'}</button></div>`}).join('')}</div></div>`:''}
-  <div><div class="sec">Start a new request</div><div class="sgrid">${ST.services.filter(s=>s.on).map(s=>`<button class="sv" data-act="csvc" data-svc="${s.id}"><span class="ic"><span class="ms">${s.icon}</span></span><b>${esc(s.name)}</b><small>${priceSummary(s)}</small></button>`).join('')}</div></div>
+  ${ST.services.some(s=>s.on)?'':`<div class="onb"><span class="ms">storefront</span><b>{{biz}} has no services yet</b><span>When they add services, you can request them here.</span></div>`}<div><div class="sec">${ST.services.some(s=>s.on)?'Start a new request':''}</div><div class="sgrid">${ST.services.filter(s=>s.on).map(s=>`<button class="sv" data-act="csvc" data-svc="${s.id}"><span class="ic"><span class="ms">${s.icon}</span></span><b>${esc(s.name)}</b><small>${priceSummary(s)}</small></button>`).join('')}</div></div>
   <div class="pw"><img src="${LOGO}" alt="">Powered by Rodood</div></div></div>`;
 };
 MOUNT['c.home']=el=>animateRings(el);
 function previewList(s,values,sid){
   return `<ul class="pv" data-pv="${sid||''}">${s.steps.map(st=>{const a=st.cond?(values&&values[st.cond.f]?values[st.cond.f]===st.cond.eq:null):true;const w=KIND[st.kind].who;
-    return `<li class="pv-it ${a===false?'off':''}" data-sid="${st.id}"><div><div class="pv-row"><span class="ms">${KIND[st.kind].icon}</span><span style="flex:1">${esc(st.name)}</span><span class="chip ${w==='client'?'w-hu':'w-nt'}">${({client:'You',team:'ANFAL',gov:'LMRA'})[w]}</span>${a===null?`<span class="chip w-nt cnd" title="${esc(condText(st))}"><span class="ms">call_split</span>If ${esc(st.cond.eq.toLowerCase())}</span>`:''}</div></div></li>`}).join('')}</ul>`;
+    return `<li class="pv-it ${a===false?'off':''}" data-sid="${st.id}"><div><div class="pv-row"><span class="ms">${KIND[st.kind].icon}</span><span style="flex:1">${esc(st.name)}</span><span class="chip ${w==='client'?'w-hu':'w-nt'}">${({client:'You',team:'{{biz}}',gov:'{{auth}}'})[w]}</span>${a===null?`<span class="chip w-nt cnd" title="${esc(condText(st))}"><span class="ms">call_split</span>If ${esc(st.cond.eq.toLowerCase())}</span>`:''}</div></div></li>`}).join('')}</ul>`;
 }
 SCR['c.service']=(p)=>{
   const s=svcById(p.svc);
@@ -1127,16 +1226,16 @@ SCR['c.service']=(p)=>{
   return `<div class="top"></div><div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"></div></div>
   <div class="scroll"><div class="stg"><div class="shero"><div class="ic"><span class="ms">${s.icon}</span></div><h2>${esc(s.name)}</h2><p>${esc(s.blurb)}</p><div class="facts"><span><span class="ms">schedule</span>${esc(s.eta)}</span><span><span class="ms">description</span>${need.length} document${need.length===1?'':'s'}</span></div></div>
   <div><div class="sec">How it works</div><div class="pad">${previewList(s,null,'svc-'+s.id)}</div></div>
-  <div><div class="sec">Price</div><div class="quote"><div class="qline"><div>ANFAL service charge<small>${s.price.mode==='fixed'?'Fixed price':'ANFAL prices it after reviewing your request'}${s.price.vat?' · plus VAT 10%':''}</small></div><b>${s.price.mode==='fixed'?BHD(s.price.fixed):'After review'}</b></div>${s.price.gov?`<div class="qline"><div>Government fee<small>Set by the authority. Shown in your quotation</small></div><b>In your quote</b></div>`:''}</div></div>
-  <div class="note"><span class="ms">payments</span><span>Government fees are separate from ANFAL’s service charge. You see both, and accept them, before we submit anything. Approval and timing are decided by the authority.</span></div></div></div>
+  <div><div class="sec">Price</div><div class="quote"><div class="qline"><div>{{biz}} service charge<small>${s.price.mode==='fixed'?'Fixed price':'{{biz}} prices it after reviewing your request'}${s.price.vat?' · plus VAT 10%':''}</small></div><b>${s.price.mode==='fixed'?(s.price.fixed>0?BHD(s.price.fixed):'Free'):'After review'}</b></div>${s.price.gov?`<div class="qline"><div>{{fee}}<small>Set by the authority. Shown in your quotation</small></div><b>In your quote</b></div>`:''}</div></div>
+  <div class="note"><span class="ms">payments</span><span>{{fee}}s are separate from {{biz}}’s service charge. You see both, and accept them, before we submit anything. Approval and timing are decided by the authority.</span></div></div></div>
   <div class="sticky"><button class="btn pri" data-act="cstart" data-svc="${s.id}">Start request<span class="ms">arrow_forward</span></button></div>`;
 };
 SCR['c.req']=(p)=>{
   const r=reqById(p.id),s=svcById(r.svc),pr=progress(r),n=clientNext(r),w=whoOf(r);
-  const card=w==='done'?`<div class="donec"><div class="burst"><span class="ms">verified</span></div><h3>${esc(s.name)} complete</h3><p>${r.svc==='cancel'?'LMRA confirmed the cancellation.':'LMRA approved your request.'} Keep the documents below for your records.</p></div>`
-    :`<div class="nextc ${n.wait?'wait':''}"><div class="lbl"><span class="ms">${n.wait?'hourglass_top':'assignment_late'}</span>${n.wait?'In progress<span class="dots"><i></i><i></i><i></i></span>':'Your turn'}</div><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p>${n.wait?(w==='team'?`<button class="demo" data-act="demo-b" data-id="${r.id}"><span class="ms">swap_horiz</span>Demo: continue as ANFAL team</button>`:w==='gov'?`<button class="demo" data-act="demo-b" data-id="${r.id}"><span class="ms">swap_horiz</span>Demo: record LMRA decision as ANFAL</button>`:''):`<button class="btn pri glow" data-act="cstep" data-id="${r.id}">${n.cta}<span class="ms">arrow_forward</span></button>`}</div>`;
+  const card=w==='done'?`<div class="donec"><div class="burst"><span class="ms">verified</span></div><h3>${esc(s.name)} complete</h3><p>${r.svc==='cancel'?'{{auth}} confirmed the cancellation.':'{{auth}} approved your request.'} Keep the documents below for your records.</p></div>`
+    :`<div class="nextc ${n.wait?'wait':''}"><div class="lbl"><span class="ms">${n.wait?'hourglass_top':'assignment_late'}</span>${n.wait?'In progress<span class="dots"><i></i><i></i><i></i></span>':'Your turn'}</div><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p>${n.wait?(w==='team'?`<button class="demo" data-act="demo-b" data-id="${r.id}"><span class="ms">swap_horiz</span>Demo: continue as {{biz}} team</button>`:w==='gov'?`<button class="demo" data-act="demo-b" data-id="${r.id}"><span class="ms">swap_horiz</span>Demo: record {{auth}} decision as {{biz}}</button>`:''):`<button class="btn pri glow" data-act="cstep" data-id="${r.id}">${n.cta}<span class="ms">arrow_forward</span></button>`}</div>`;
   return chrome(p)+`${p.web?'':`<div class="top"></div><div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"></div></div>`}
-  <div class="scroll"><div class="stg"><div class="rqhead"><div class="ring" data-ring="r-${r.id}">${ringSvg(pr.p,54,5)}<b>${Math.round(pr.p*100)}%</b></div><div><h2>${esc(s.name)}</h2><small>${r.id} · ${esc(r.values.employee||r.company)}</small></div></div>
+  <div class="scroll"><div class="stg"><div class="rqhead"><div class="ring" data-ring="r-${r.id}">${ringSvg(pr.p,54,5)}<b>${Math.round(pr.p*100)}%</b></div><div><h2>${esc(s.name)}</h2><small>${r.id} · ${esc(subj(r))}</small></div></div>
   ${card}
   <div><div class="sec">All steps</div><div class="pad">${timeline(r,'c')}</div></div>
   ${r.steps.some(x=>x.file)?`<div><div class="sec">Your documents</div><div class="list">${r.steps.filter(x=>x.file).map(x=>`<div class="lrow"><span class="sv-ic"><span class="ms">description</span></span><div class="nm"><b>${esc(x.name)}</b><small>${x.st==='done'?'Approved':x.phase==='redo'?'Needs a new copy':'Being checked'}</small></div></div>`).join('')}</div></div>`:''}
@@ -1158,18 +1257,18 @@ SCR['c.step']=(p)=>{
       <div><div class="sec" style="margin-left:0">Your steps update as you answer</div>${previewList(s,d,'form-'+r.id)}</div></div>
       <div class="sticky"><button class="btn pri" data-act="formsubmit" data-id="${r.id}">Continue<span class="ms">arrow_forward</span></button></div></div>`;
   }
-  if(c.kind==='quote'){const q=r.quote;return stepHead(p,'Your quotation',sub)+`<div class="scroll"><div class="stg"><div class="quote">${q.gov?`<div class="qline"><div>Government fee<small>Paid to LMRA through the official payment channel</small></div><b>${BHD(q.gov)}</b></div>`:''}<div class="qline"><div>ANFAL service charge<small>${svcById(r.svc).price.mode==='fixed'?'Fixed price':'Priced for your request'} · preparation, submission and follow-up</small></div><b>${BHD(q.fee)}</b></div>${q.vat?`<div class="qline"><div>VAT 10%<small>On the service charge only</small></div><b>${BHD(qVat(q))}</b></div>`:''}<div class="qtotal"><span>Total</span><b>${BHD(qTotal(q))}</b></div></div>
-    <div class="note"><span class="ms">info</span><span>Accepting lets ANFAL start. It does not guarantee approval. LMRA decides and sets the timing.</span></div></div>
-    <div class="sticky"><div class="row2"><button class="btn sec2" data-act="toast" data-text="Your question goes to ANFAL's team" data-icon="chat">Ask a question</button><button class="btn pri" data-act="acceptquote" data-id="${r.id}">Accept</button></div></div></div>`}
+  if(c.kind==='quote'){const q=r.quote;return stepHead(p,'Your quotation',sub)+`<div class="scroll"><div class="stg"><div class="quote">${q.gov?`<div class="qline"><div>{{fee}}<small>Paid to {{auth}} through the official payment channel</small></div><b>${BHD(q.gov)}</b></div>`:''}<div class="qline"><div>{{biz}} service charge<small>${svcById(r.svc).price.mode==='fixed'?'Fixed price':'Priced for your request'} · preparation, submission and follow-up</small></div><b>${BHD(q.fee)}</b></div>${q.vat?`<div class="qline"><div>VAT 10%<small>On the service charge only</small></div><b>${BHD(qVat(q))}</b></div>`:''}<div class="qtotal"><span>Total</span><b>${BHD(qTotal(q))}</b></div></div>
+    <div class="note"><span class="ms">info</span><span>Accepting lets {{biz}} start. It does not guarantee approval. {{auth}} decides and sets the timing.</span></div></div>
+    <div class="sticky"><div class="row2"><button class="btn sec2" data-act="toast" data-text="Your question goes to {{biz}}'s team" data-icon="chat">Ask a question</button><button class="btn pri" data-act="acceptquote" data-id="${r.id}">Accept</button></div></div></div>`}
   if(c.kind==='upload')return stepHead(p,c.name,sub)+`<div class="scroll"><div class="stg">
-    ${c.phase==='redo'?`<div class="note warn" style="margin-top:4px"><span class="ms">undo</span><span><b>ANFAL asked for this again.</b> ${esc(c.reason)}${c.note?'. '+esc(c.note):''}</span></div>`:''}
+    ${c.phase==='redo'?`<div class="note warn" style="margin-top:4px"><span class="ms">undo</span><span><b>{{biz}} asked for this again.</b> ${esc(c.reason)}${c.note?'. '+esc(c.note):''}</span></div>`:''}
     <label class="upz" for="up-${r.id}"><span class="ic"><span class="ms">add_photo_alternate</span></span><b>Choose a photo or PDF</b><small>All four corners visible and details readable</small></label>
     <input type="file" id="up-${r.id}" accept="image/*,.pdf" hidden>
     <button class="linkb" data-act="samplefile" data-id="${r.id}">Use a sample file</button>
     <div id="fslot"></div>
-    <div class="note"><span class="ms">lock</span><span>Only send what this step asks for. ANFAL never asks for passwords or PINs.</span></div></div></div>`;
-  if(c.kind==='sign'){const v=r.values;return stepHead(p,c.name,sub)+`<div class="scroll"><div class="stg"><div class="letter" id="letter"><div class="lh"><span>ANFAL Government Document Clearance</span><span>${fmtD(Date.now())} 2026</span></div><h4>${esc(c.name)}</h4>
-    <p>I, <mark>${esc(r.contact)}</mark>, on behalf of <mark>${esc(r.company)}</mark> (CR <mark>${esc(v.cr||'—')}</mark>), authorise ANFAL Government Document Clearance to prepare, submit and follow up the <mark>${esc(s.name.toLowerCase())}</mark>${v.employee?` for <mark>${esc(v.employee)}</mark>`:''} with the relevant authority. I understand approval and timing are decided by the authority.</p>
+    <div class="note"><span class="ms">lock</span><span>Only send what this step asks for. {{biz}} never asks for passwords or PINs.</span></div></div></div>`;
+  if(c.kind==='sign'){const v=r.values;return stepHead(p,c.name,sub)+`<div class="scroll"><div class="stg"><div class="letter" id="letter"><div class="lh"><span>{{bizFull}}</span><span>${fmtD(Date.now())} 2026</span></div><h4>${esc(c.name)}</h4>
+    <p>I, <mark>${esc(r.contact)}</mark>${r.company!==r.contact?`, on behalf of <mark>${esc(r.company)}</mark>`:''}${v.cr?` (CR <mark>${esc(v.cr)}</mark>)`:''}, authorise {{bizFull}} to prepare, submit and follow up the <mark>${esc(s.name.toLowerCase())}</mark>${subj(r)!==r.company?` for <mark>${esc(subj(r))}</mark>`:''} with the relevant authority. I understand approval and timing are decided by the authority.</p>
     <div class="sigbox" id="sigbox"><canvas id="sig" aria-label="Signature pad"></canvas><div class="base"></div><div class="ph">Sign here with your finger or mouse</div><button class="clr" data-act="clearsig">Clear</button></div><div class="stamp" id="stamp">Signed · ${fmtT(Date.now())}</div></div>
     <label class="chk"><input type="checkbox" id="agree-${r.id}">The details in this letter are correct.</label></div></div>
     <div class="sticky"><button class="btn pri" id="signbtn" data-act="sign" data-id="${r.id}" disabled><span class="ms">draw</span>Sign and send</button></div>`}
@@ -1199,7 +1298,7 @@ function startUpload(el,r,c,file){
   const slot=$('#fslot',el);const url=file&&file.type.startsWith('image/')?URL.createObjectURL(file):null;
   const fobj={name:file?file.name:c.name.replace(/ /g,'_').toLowerCase()+'.jpg',size:file?(file.size/1048576).toFixed(1)+' MB':'1.4 MB',art:artFor(c.name),url};
   $('.upz',el).style.display='none';$('.linkb',el).style.display='none';
-  slot.innerHTML=`<div class="fcard" id="fc"><div class="fr"><div class="th">${thumb(fobj)}<span class="scan"></span></div><div class="fm"><b>${esc(fobj.name)}</b><small id="fst">Uploading · ${esc(fobj.size)}</small></div></div><div class="bar"><i id="fbar"></i></div><div class="okline"><span class="ms f">check_circle</span>Sent to ANFAL for review</div></div>`;
+  slot.innerHTML=tk(`<div class="fcard" id="fc"><div class="fr"><div class="th">${thumb(fobj)}<span class="scan"></span></div><div class="fm"><b>${esc(fobj.name)}</b><small id="fst">Uploading · ${esc(fobj.size)}</small></div></div><div class="bar"><i id="fbar"></i></div><div class="okline"><span class="ms f">check_circle</span>Sent to {{biz}} for review</div></div>`);
   const fc=$('#fc',el),bar=$('#fbar',el),stt=$('#fst',el);
   const fast=RM();
   requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.width='100%'));
@@ -1227,23 +1326,23 @@ function bindSig(el){
   el._sig=()=>cv.toDataURL('image/png');
 }
 
-SCR['c.list']=()=>`<div class="top"></div><div class="hd"><div class="t"><h1>Requests</h1><small>Gulf Star Trading W.L.L.</small></div></div><div class="scroll"><div class="list stg">${myReqs().map(r=>{const pr=progress(r),w=whoOf(r);return `<button class="lrow" data-act="creq" data-id="${r.id}"><span class="sv-ic"><span class="ms">${svcById(r.svc).icon}</span></span><div class="nm"><b>${esc(svcById(r.svc).name)}</b><small>${r.id} · ${w==='done'?'Completed':w==='client'?'Your turn':w==='gov'?'With LMRA':'ANFAL working'}</small><div class="mini"><i style="width:${pr.p*100}%"></i></div></div><span class="ms" style="color:var(--a-ts)">chevron_right</span></button>`}).join('')}</div></div>`;
+SCR['c.list']=()=>`<div class="top"></div><div class="hd"><div class="t"><h1>Requests</h1><small>{{bizFull}} · ${esc(T().client.company)}</small></div></div><div class="scroll"><div class="list stg">${myReqs().length?'':'<div class="empty-note">No requests with {{biz}} yet.</div>'}${myReqs().map(r=>{const pr=progress(r),w=whoOf(r);return `<button class="lrow" data-act="creq" data-id="${r.id}"><span class="sv-ic"><span class="ms">${svcById(r.svc).icon}</span></span><div class="nm"><b>${esc(svcById(r.svc).name)}</b><small>${r.id} · ${w==='done'?'Completed':w==='client'?'Your turn':w==='gov'?'With {{auth}}':'{{biz}} working'}</small><div class="mini"><i style="width:${pr.p*100}%"></i></div></div><span class="ms" style="color:var(--a-ts)">chevron_right</span></button>`}).join('')}</div></div>`;
 SCR['c.updates']=()=>{const items=myReqs().flatMap(r=>r.log.filter(l=>l.by!=='client').map(l=>({...l,req:r.id}))).sort((a,b)=>b.t-a.t).slice(0,14);const unread=ST._seenUnread||0;
-  return `<div class="top"></div><div class="hd"><div class="t"><h1>Updates</h1><small>Everything ANFAL and LMRA did on your requests</small></div></div><div class="scroll"><ul class="updates stg">${items.length?items.map((l,i)=>`<li class="${i<unread?'unread':''}"><span class="ms">${({team:'groups',gov:'account_balance',noor:'auto_awesome'})[l.by]||'info'}</span><div><b style="font-weight:500">${esc(l.ctext||l.text)}</b><time>${l.req} · ${ago(l.t)} ago</time></div></li>`).join(''):'<div class="empty-note">Updates from ANFAL appear here.</div>'}</ul></div>`};
+  return `<div class="top"></div><div class="hd"><div class="t"><h1>Updates</h1><small>Everything {{biz}} and {{auth}} did on your requests</small></div></div><div class="scroll"><ul class="updates stg">${items.length?items.map((l,i)=>`<li class="${i<unread?'unread':''}"><span class="ms">${({team:'groups',gov:'account_balance',noor:'auto_awesome'})[l.by]||'info'}</span><div><b style="font-weight:500">${esc(l.ctext||l.text)}</b><time>${l.req} · ${ago(l.t)} ago</time></div></li>`).join(''):'<div class="empty-note">Updates from {{biz}} appear here.</div>'}</ul></div>`};
 MOUNT['c.updates']=()=>{setTimeout(()=>{ST._seenUnread=0},50)};
-SCR['c.account']=()=>`<div class="top"></div><div class="hd"><div class="t"><h1>Account</h1></div></div><div class="scroll"><div class="stg"><div class="acct"><span class="big">YM</span><b>Yousif Al Mannai</b><small>Gulf Star Trading W.L.L. · CR 128844-1</small></div>
-  <div class="sec">Settings</div><div class="list">${[['language','Language','English · العربية'],['notifications','Notifications','WhatsApp and app'],['business','Companies','1 company'],['shield_lock','Privacy','What ANFAL keeps and why']].map(([i,t,s])=>`<button class="lrow" data-act="toast" data-text="${t} opens here"><span class="sv-ic"><span class="ms">${i}</span></span><div class="nm"><b>${t}</b><small>${s}</small></div><span class="ms" style="color:var(--a-ts)">chevron_right</span></button>`).join('')}</div><div class="pw"><img src="${LOGO}" alt="">Powered by Rodood</div></div></div>`;
+SCR['c.account']=()=>`<div class="top"></div><div class="hd"><div class="t"><h1>Account</h1></div></div><div class="scroll"><div class="stg"><div class="acct"><span class="big">YM</span><b>Yousif Al Mannai</b><small>${T().client.company!==T().client.contact?esc(T().client.company)+' · ':''}Client of ${TENANTS.filter(x=>!x.fresh).length} businesses on Rodood</small></div>
+  <div class="sec">Settings</div><div class="list">${[['language','Language','English · العربية'],['notifications','Notifications','WhatsApp and app'],['storefront','Businesses','{{bizFull}} and '+(TENANTS.filter(x=>!x.fresh).length-1)+' more'],['shield_lock','Privacy','What {{biz}} keeps and why']].map(([i,t,s])=>`<button class="lrow" ${t==='Businesses'?'data-act="bizpick"':`data-act="toast" data-text="${t} opens here"`}><span class="sv-ic"><span class="ms">${i}</span></span><div class="nm"><b>${t}</b><small>${s}</small></div><span class="ms" style="color:var(--a-ts)">chevron_right</span></button>`).join('')}</div><div class="pw"><img src="${LOGO}" alt="">Powered by Rodood</div></div></div>`;
 
 /* ---------- WhatsApp ---------- */
-function waInit(){ST.wa={msgs:[{me:true,text:'Hi',t:Date.now()-2*MIN},{me:false,text:'Hello! 👋 Welcome to ANFAL Government Document Clearance Services.\nHow can we assist you?',t:Date.now()-2*MIN},{type:'menu'}],typing:false,req:null}}
+function waInit(){ST.wa={msgs:[{me:true,text:'Hi',t:Date.now()-2*MIN},{me:false,text:T().greet,t:Date.now()-2*MIN},{type:'menu'}],typing:false,req:null}}
 SCR['w.chat']=()=>{const w=ST.wa;const opts=ST.services.filter(s=>s.on);
   const body=w.msgs.map(m=>{
     if(m.type==='menu')return `<div class="wbtns grid">${opts.map((s,i)=>`<button data-act="wapick" data-svc="${s.id}" ${w.req?'disabled':''}>${i+1}. ${esc(s.name)}</button>`).join('')}</div>`;
     if(m.type==='btns')return `<div class="wbtns">${m.opts.map(o=>`<button data-act="waans" data-f="${m.f}" data-v="${esc(o)}" ${m.done?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;
-    if(m.type==='link'){const r=reqById(m.req);return `<div class="bub in"><span class="from">ANFAL · Noor</span><button class="lnk" data-act="openweb" data-id="${m.req}"><div class="lt"><span class="tav" style="border-radius:10px">AN</span><div><b>${esc(svcById(r.svc).name)} · ${r.id}</b><small>Track and complete your request</small></div></div><u>anfal.rodood.app/r/${r.id}</u></button>${esc(m.text)}<time>${fmtT(m.t)}</time></div>`}
+    if(m.type==='link'){const r=reqById(m.req);return `<div class="bub in"><span class="from">{{biz}} · Noor</span><button class="lnk" data-act="openweb" data-id="${m.req}"><div class="lt"><span class="tav" style="border-radius:10px">{{ini}}</span><div><b>${esc(svcById(r.svc).name)} · ${r.id}</b><small>Track and complete your request</small></div></div><u>anfal.rodood.app/r/${r.id}</u></button>${esc(m.text)}<time>${fmtT(m.t)}</time></div>`}
     if(m.type==='img')return `<div class="bub out"><span class="wimg">${docArt('passport','SAMPLE')}</span>passport.jpg<time>${fmtT(m.t)} ✓✓</time></div>`;
-    return `<div class="bub ${m.me?'out':'in'}">${m.me?'':'<span class="from">ANFAL · Noor</span>'}${esc(m.text)}<time>${fmtT(m.t)}${m.me?' ✓✓':''}</time></div>`}).join('');
-  return `<div class="top" style="background:var(--w-head)"></div><div class="whd">${AMARK}<div style="flex:1"><b>ANFAL Clearance<span class="ms f">verified</span></b><small>Business account · replies instantly</small></div><span class="ms" style="color:var(--w-accent)">call</span></div>
+    return `<div class="bub ${m.me?'out':'in'}">${m.me?'':'<span class="from">{{biz}} · Noor</span>'}${esc(m.text)}<time>${fmtT(m.t)}${m.me?' ✓✓':''}</time></div>`}).join('');
+  return `<div class="top" style="background:var(--w-head)"></div><div class="whd">${AMARK}<div style="flex:1"><b>{{bizFull}}<span class="ms f">verified</span></b><small>Business account · replies instantly</small></div><span class="ms" style="color:var(--w-accent)">call</span></div>
   <div class="wscroll" id="wscroll"><span class="wday">Today</span>${body}${w.typing?'<div class="typing"><span class="dots"><i></i><i></i><i></i></span></div>':''}</div>
   <form class="wbar" id="wform"><div class="wi"><input id="wa-input" placeholder="Message" autocomplete="off"><button type="button" data-act="waattach" ${w.req?'':'disabled'} aria-label="Send passport photo"><span class="ms">attach_file</span></button></div><button class="send" aria-label="Send"><span class="ms">send</span></button></form>`};
 MOUNT['w.chat']=(el)=>{const sc=$('#wscroll',el);sc.scrollTop=sc.scrollHeight;$('#wform',el).addEventListener('submit',e=>{e.preventDefault();const i=$('#wa-input',el);const v=i.value.trim();if(!v)return;ST.wa.msgs.push({me:true,text:v,t:Date.now()});
@@ -1252,6 +1351,11 @@ function waBot(text,extra,delay=900){const w=ST.wa;w.typing=true;refresh('c');se
 
 /* ---------- Actions ---------- */
 const A={};
+A.bizpick=(side)=>{const list=side==='c'?TENANTS.filter(t=>!t.fresh):TENANTS;
+  sheet(side,`<h3>${side==='c'?'Your businesses':'Business accounts'}</h3><p class="sub">${side==='c'?'Every business you deal with on Rodood, in one app.':'Each business on Rodood has its own services, prices and requests.'}</p>
+  <div class="list" style="padding:0">${list.map(t=>{const reqs=(t.id===CUR?ST.requests:ST.store[t.id].requests);const n=side==='c'?reqs.filter(r=>r.mine&&r.status!=='done').length:reqs.filter(r=>whoOf(r)==='team').length;
+    return `<button class="lrow ${t.id===CUR?'cur':''}" data-biz="${t.id}"><span class="tav">${t.ini}</span><span class="nm"><b>${esc(t.name)}</b><small>${esc(t.industry)}${n?` · ${n} ${side==='c'?'active':'need you'}`:''}</small></span>${t.id===CUR?'<span class="ms" style="color:var(--pink-tx)">check_circle</span>':'<span class="ms">chevron_right</span>'}</button>`}).join('')}</div>`,sh=>{
+  sh.onclick=e=>{const b=e.target.closest('[data-biz]');if(!b)return;closeSheet(side);setBiz(b.dataset.biz)}})};
 A.back=(side)=>back(side);
 A.toast=(side,d)=>toast(side,d.text,d.icon||'info');
 A.ctab=(side,d)=>{if(d.tab==='c.updates'){ST._seenUnread=ST.unread;ST.unread=0}tab('c',d.tab)};
@@ -1285,12 +1389,17 @@ function stepEditor(svcId,stepId,kind){
   });
 }
 const ICONS=['description','badge','autorenew','swap_horiz','event_busy','work_history','groups','gpp_maybe','id_card','build','account_balance','receipt_long','home_work','flight','local_shipping','verified','gavel','storefront'];
-A.newsvc=()=>sheet('b',`<h3>New service</h3><p class="sub">Start blank, or copy a service you already offer and change it.</p>
-  <div class="kinds"><button data-tpl=""><span class="ibx"><span class="ms">add</span></span><b>Start blank</b><small>Details form, quotation and a team step</small></button>${ST.services.slice(0,5).map(x=>`<button data-tpl="${x.id}"><span class="ibx"><span class="ms">${x.icon}</span></span><b>${esc(x.name)}</b><small>Copy its ${x.steps.length} steps and price</small></button>`).join('')}</div>`,sh=>{
-  sh.onclick=e=>{const b=e.target.closest('[data-tpl]');if(!b)return;const src=b.dataset.tpl?svcById(b.dataset.tpl):null;const id=uid('svc');
-    const ns=src?{...structuredClone(src),id,name:src.name+' (copy)',on:false,steps:src.steps.map(x=>({...structuredClone(x),id:uid('st')}))}
-      :{id,name:'New service',icon:'description',eta:'Depends on the authority',blurb:'Say in one line what this service does for the client.',on:false,fields:['cr','details'],steps:[S('form','Your details'),S('quote','Quotation'),S('team','Team review')],price:{mode:'quote',fixed:0,gov:true,vat:true}};
-    ST.services.unshift(ns);closeSheet('b');go('b','b.builder',{svc:id});setTimeout(()=>A.editdetails('b',{svc:id}),380)}});
+A.newsvc=()=>{const lib=TENANTS.filter(t=>!t.fresh).sort((a,b)=>(a.id===CUR?-1:0)-(b.id===CUR?-1:0));
+  sheet('b',`<h3>New service</h3><p class="sub">Start blank, or pick a ready-made service and change it to fit your business.</p>
+  <button class="tplrow" data-tpl="blank"><span class="ibx"><span class="ms">add</span></span><span class="nm"><b>Start blank</b><small>A details form, a quotation and a team step</small></span><span class="ms">chevron_right</span></button>
+  ${ST.services.length?`<div class="tplh">Copy one of yours</div><div class="kinds">${ST.services.slice(0,4).map(x=>`<button data-tpl="copy:${x.id}"><span class="ibx"><span class="ms">${x.icon}</span></span><b>${esc(x.name)}</b><small>${x.steps.length} steps · ${priceSummary(x)}</small></button>`).join('')}</div>`:''}
+  <div class="tplh">Template library</div>
+  ${lib.map(t=>`<div class="tplg"><span class="tpli">${esc(t.industry)}</span><div class="kinds">${t.defs().map(x=>`<button data-tpl="lib:${t.id}:${x.id}"><span class="ibx"><span class="ms">${x.icon}</span></span><b>${esc(x.name)}</b><small>${x.steps.length} steps · ${(()=>{const pr=x.price||PRICE[x.id];return pr.mode==='fixed'?(pr.fixed>0?BHD(pr.fixed):'Free'):'Quote'})()}</small></button>`).join('')}</div></div>`).join('')}`,sh=>{
+  sh.onclick=e=>{const b=e.target.closest('[data-tpl]');if(!b)return;const [kind,a,c]=b.dataset.tpl.split(':');const id=uid('svc');let ns;
+    if(kind==='copy'){const src=svcById(a);ns={...structuredClone(src),id,name:src.name+' (copy)',on:false,steps:src.steps.map(x=>({...structuredClone(x),id:uid('st')}))}}
+    else if(kind==='lib'){const t=TENANTS.find(x=>x.id===a);const d=t.defs().find(x=>x.id===c);ns={...d,id,on:false,price:{...(d.price||PRICE[d.id])}}}
+    else ns={id,name:'New service',icon:'description',eta:'Depends on the case',blurb:'Say in one line what this service does for the client.',on:false,fields:['details'],steps:[S('form','Your details'),S('quote','Quotation'),S('team','Team review')],price:{mode:'quote',fixed:0,gov:false,vat:true}};
+    ST.services.unshift(ns);closeSheet('b');const t=top('b');if(t.scr==='b.board')t.params.mode='svc';go('b','b.builder',{svc:id});setTimeout(()=>A.editdetails('b',{svc:id}),380)}})};
 A.editdetails=(side,d)=>{const s=svcById(d.svc);let icon=s.icon;
   sheet('b',`<h3>Service details</h3><p class="sub">This is what clients see in the service list.</p>
   <div class="fld"><label for="sd-name">Name</label><input id="sd-name" value="${esc(s.name)}"></div>
@@ -1303,13 +1412,13 @@ A.editdetails=(side,d)=>{const s=svcById(d.svc);let icon=s.icon;
 A.editprice=(side,d)=>{const s=svcById(d.svc);let mode=s.price.mode;
   sheet('b',`<h3>Price</h3><p class="sub">Every quotation for ${esc(s.name)} starts from this.</p>
   <div class="fld"><label id="pr-l">How is it priced?</label><div class="opts" id="pr-mode" role="radiogroup" aria-labelledby="pr-l"><button role="radio" data-m="fixed" class="${mode==='fixed'?'on':''}">Fixed price</button><button role="radio" data-m="quote" class="${mode==='quote'?'on':''}">Quote each request</button></div></div>
-  <div class="fld" id="pr-fixed" style="${mode==='fixed'?'':'display:none'}"><label for="pr-amt">Service charge</label><div class="money"><span>BHD</span><input id="pr-amt" inputmode="decimal" value="${Number(s.price.fixed||0).toFixed(3)}"></div><div class="hint">Clients see this price before they start.</div></div>
+  <div class="fld" id="pr-fixed" style="${mode==='fixed'?'':'display:none'}"><label for="pr-amt">Service charge</label><div class="money"><span>BHD</span><input id="pr-amt" inputmode="decimal" value="${Number(s.price.fixed||0).toFixed(3)}"></div><div class="hint">Clients see this price before they start. Enter 0 for a free service.</div></div>
   <div class="hint" id="pr-quote" style="margin:-6px 0 18px;${mode==='quote'?'':'display:none'}">Clients see "Priced after review". Your team enters the charge on each request.</div>
-  <label class="chk" style="margin:0 0 6px"><input type="checkbox" id="pr-gov" ${s.price.gov?'checked':''}>A government fee is added on each quotation</label>
+  <label class="chk" style="margin:0 0 6px"><input type="checkbox" id="pr-gov" ${s.price.gov?'checked':''}>A {{feeShort}} is added on each quotation</label>
   <label class="chk" style="margin:0 0 18px"><input type="checkbox" id="pr-vat" ${s.price.vat?'checked':''}>Add VAT (10%) to the service charge</label>
   <button class="btn pri" id="pr-save">Save price</button>`,sh=>{
     $('#pr-mode',sh).addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;mode=b.dataset.m;$$('#pr-mode button',sh).forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-checked',x===b)});$('#pr-fixed',sh).style.display=mode==='fixed'?'':'none';$('#pr-quote',sh).style.display=mode==='quote'?'':'none';if(mode==='fixed')$('#pr-amt',sh).focus()});
-    $('#pr-save',sh).addEventListener('click',()=>{const amt=parseFloat($('#pr-amt',sh).value)||0;if(mode==='fixed'&&!(amt>0)){$('#pr-amt',sh).focus();return}
+    $('#pr-save',sh).addEventListener('click',()=>{const amt=Math.max(0,parseFloat($('#pr-amt',sh).value)||0);
       s.price={mode,fixed:amt,gov:$('#pr-gov',sh).checked,vat:$('#pr-vat',sh).checked};closeSheet('b');toast('b','Price saved · new requests use it','payments');refresh('b');syncClientPreview()})})};
 A.addq=(side,d)=>qEditor(d.svc,null);
 A.editq=(side,d)=>qEditor(d.svc,d.f);
@@ -1329,16 +1438,16 @@ function qEditor(svcId,key){const s=svcById(svcId);const F=key?FL[key]:{label:''
       if(key){const nk=key.startsWith('q')?key:uid('q');FL[nk]=def;if(nk!==key){s.fields=s.fields.map(f=>f===key?nk:f);s.steps.forEach(x=>{if(x.cond?.f===key)x.cond={...x.cond,f:nk}})}}
       else{const nk=uid('q');FL[nk]=def;s.fields.push(nk)}
       closeSheet('b');toast('b',key?'Question saved':'Question added');refresh('b');syncClientPreview()})})}
-A.approve=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='done';c.at=Date.now();markFresh(r,c);log(r,'team',`${c.name} approved`,`ANFAL approved your ${c.name.toLowerCase()}`);advance(r);
+A.approve=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='done';c.at=Date.now();markFresh(r,c);log(r,'team',`${c.name} approved`,`{{biz}} approved your ${c.name.toLowerCase()}`);advance(r);
   toast('b','Approved · client notified');emit('b',{text:`Approved ${c.name.toLowerCase()} for ${r.id}`,ctext:`Your ${c.name.toLowerCase()} was approved.${whoOf(r)==='client'?' Next: '+curStep(r).name.toLowerCase()+'.':''}`,req:r.id});refreshAll()};
 A.askagain=(side,d)=>{const r=reqById(d.id),c=curStep(r);const reasons=['Photo is blurry','Passport has expired','Wrong document','Page is cut off','Details not readable'];
   sheet('b',`<h3>Ask for ${esc(c.name.toLowerCase())} again</h3><p class="sub">The client gets this reason on ${r.channel==='wa'?'WhatsApp':'their app'} and can upload a new copy.</p><div class="fld"><label id="rs-l">Reason</label><div class="opts" id="rs" role="radiogroup" aria-labelledby="rs-l">${reasons.map((x,i)=>`<button class="${i===0?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div><div class="fld"><label for="rs-note">Note for the client (optional)</label><textarea id="rs-note" placeholder="e.g. Please take it in daylight"></textarea></div><button class="btn pri" id="rs-send"><span class="ms">send</span>Send request</button>`,sh=>{
     let reason=reasons[0];$('#rs',sh).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;reason=b.dataset.v;$$('#rs button',sh).forEach(x=>x.classList.toggle('on',x===b))});
-    $('#rs-send',sh).addEventListener('click',()=>{c.phase='redo';c.reason=reason;c.note=$('#rs-note',sh).value.trim();c.file=null;c.since=Date.now();log(r,'team',`Asked again: ${reason}`,`ANFAL asked for your ${c.name.toLowerCase()} again: ${reason}`);closeSheet('b');toast('b','Sent to client','send');emit('b',{text:`Asked again for ${c.name.toLowerCase()}`,ctext:`Please send your ${c.name.toLowerCase()} again: ${reason}.`,req:r.id});refreshAll()})})};
+    $('#rs-send',sh).addEventListener('click',()=>{c.phase='redo';c.reason=reason;c.note=$('#rs-note',sh).value.trim();c.file=null;c.since=Date.now();log(r,'team',`Asked again: ${reason}`,`{{biz}} asked for your ${c.name.toLowerCase()} again: ${reason}`);closeSheet('b');toast('b','Sent to client','send');emit('b',{text:`Asked again for ${c.name.toLowerCase()}`,ctext:`Please send your ${c.name.toLowerCase()} again: ${reason}.`,req:r.id});refreshAll()})})};
 A.quote=(side,d)=>{const r=reqById(d.id),sv=svcById(r.svc),pr=sv.price;const fixed=pr.mode==='fixed';
-  sheet('b',`<h3>Quotation for ${r.id}</h3><p class="sub">${esc(sv.name)}${r.values.employee?' · '+esc(r.values.employee):''}. The government fee and your service charge stay on separate lines.</p>
-  ${pr.gov?`<div class="fld"><label for="q-gov">Government fee (LMRA)</label><div class="money"><span>BHD</span><input id="q-gov" inputmode="decimal" placeholder="0.000"></div><div class="hint">Enter the current official fee for this transaction.</div></div>`:''}
-  <div class="fld"><label for="q-fee">ANFAL service charge</label><div class="money"><span>BHD</span><input id="q-fee" inputmode="decimal" value="${fixed?Number(pr.fixed).toFixed(3):''}" placeholder="0.000" ${fixed?'readonly':''}></div><div class="hint">${fixed?'Fixed price from this service. Change it in Services.':'Quote each request. Enter your charge for this one.'}</div></div>
+  sheet('b',`<h3>Quotation for ${r.id}</h3><p class="sub">${esc(sv.name)}${subj(r)!==r.company?' · '+esc(subj(r)):''}. The {{feeShort}} and your service charge stay on separate lines.</p>
+  ${pr.gov?`<div class="fld"><label for="q-gov">{{fee}} ({{auth}})</label><div class="money"><span>BHD</span><input id="q-gov" inputmode="decimal" placeholder="0.000"></div><div class="hint">Enter the current official fee for this transaction.</div></div>`:''}
+  <div class="fld"><label for="q-fee">{{biz}} service charge</label><div class="money"><span>BHD</span><input id="q-fee" inputmode="decimal" value="${fixed?Number(pr.fixed).toFixed(3):''}" placeholder="0.000" ${fixed?'readonly':''}></div><div class="hint">${fixed?'Fixed price from this service. Change it in Services.':'Quote each request. Enter your charge for this one.'}</div></div>
   <div class="qsum" id="q-sum"></div>
   <button class="btn pri" id="q-send" disabled><span class="ms">send</span>Send to client</button>`,sh=>{
     const val=id=>{const el=$(id,sh);return el?parseFloat(el.value):0};
@@ -1346,18 +1455,18 @@ A.quote=(side,d)=>{const r=reqById(d.id),sv=svcById(r.svc),pr=sv.price;const fix
       $('#q-sum',sh).innerHTML=`${q.vat?`<span>VAT 10% on service charge</span><b>${BHD(qVat(q))}</b>`:''}<span>Client pays in total</span><b>${BHD(qTotal(q))}</b>`;
       $('#q-send',sh).disabled=!(q.fee>0&&(!pr.gov||val('#q-gov')>0));return q};
     upd();sh.oninput=upd;
-    $('#q-send',sh).addEventListener('click',()=>{const c=curStep(r);r.quote=upd();c.phase='client';c.since=Date.now();log(r,'team','Quotation sent','ANFAL sent your quotation');closeSheet('b');toast('b','Quotation sent','send');emit('b',{text:`Quotation sent for ${r.id}`,ctext:`Your quotation is ready: ${BHD(qTotal(r.quote))} in total. Review and accept.`,req:r.id});refreshAll()})})};
-A.teamdone=(side,d)=>{const r=reqById(d.id),c=curStep(r);const sub=/LMRA|Submit|Apply|Raise/.test(c.name);
-  const finish=(appNo)=>{if(appNo)r.appNo=appNo;c.st='done';c.at=Date.now();markFresh(r,c);log(r,'team',`${c.name} done${appNo?' · '+appNo:''}`,sub?`ANFAL submitted your request${appNo?' · application '+appNo:''}`:`ANFAL finished: ${c.name.toLowerCase()}`);advance(r);closeSheet('b');toast('b','Marked as done');emit('b',{text:`${c.name} · ${r.id}`,ctext:sub?`Submitted to LMRA${appNo?' · application '+appNo:''}. LMRA decides; we will update you.`:`ANFAL finished ${c.name.toLowerCase()}.${whoOf(r)==='client'?' Your turn: '+curStep(r).name.toLowerCase()+'.':''}`,req:r.id});refreshAll()};
+    $('#q-send',sh).addEventListener('click',()=>{const c=curStep(r);r.quote=upd();c.phase='client';c.since=Date.now();log(r,'team','Quotation sent','{{biz}} sent your quotation');closeSheet('b');toast('b','Quotation sent','send');emit('b',{text:`Quotation sent for ${r.id}`,ctext:`Your quotation is ready: ${BHD(qTotal(r.quote))} in total. Review and accept.`,req:r.id});refreshAll()})})};
+A.teamdone=(side,d)=>{const r=reqById(d.id),c=curStep(r);const sub=/Submit|Apply|Register|Raise/.test(c.name);
+  const finish=(appNo)=>{if(appNo)r.appNo=appNo;c.st='done';c.at=Date.now();markFresh(r,c);log(r,'team',`${c.name} done${appNo?' · '+appNo:''}`,sub?`{{biz}} submitted your request${appNo?' · application '+appNo:''}`:`{{biz}} finished: ${c.name.toLowerCase()}`);advance(r);closeSheet('b');toast('b','Marked as done');emit('b',{text:`${c.name} · ${r.id}`,ctext:sub?`Submitted to {{auth}}${appNo?' · application '+appNo:''}. {{auth}} decides; we will update you.`:`{{biz}} finished ${c.name.toLowerCase()}.${whoOf(r)==='client'?' Your turn: '+curStep(r).name.toLowerCase()+'.':''}`,req:r.id});refreshAll()};
   if(!sub)return finish();
-  sheet('b',`<h3>${esc(c.name)}</h3><p class="sub">Add the application number so the client can track it.</p><div class="fld"><label for="ap-no">LMRA application number</label><input id="ap-no" value="2026-118734"></div><button class="btn pri" id="ap-ok">Mark as submitted</button>`,sh=>$('#ap-ok',sh).addEventListener('click',()=>finish($('#ap-no',sh).value.trim())))};
-A.gov=(side,d)=>{const r=reqById(d.id),c=curStep(r);sheet('b',`<h3>LMRA decision</h3><p class="sub">${r.appNo?'Application '+esc(r.appNo)+'. ':''}Record what LMRA decided. The client is told right away.</p><div style="display:flex;flex-direction:column;gap:8px"><button class="btn pri" data-g="ok"><span class="ms">verified</span>Approved</button><button class="btn sec2" data-g="more"><span class="ms">note_add</span>LMRA wants more documents</button><button class="btn sec2" data-g="no" style="color:var(--bad)"><span class="ms">block</span>Rejected</button></div>`,sh=>{
+  sheet('b',`<h3>${esc(c.name)}</h3><p class="sub">Add the application number so the client can track it.</p><div class="fld"><label for="ap-no">{{auth}} application number</label><input id="ap-no" value="2026-118734"></div><button class="btn pri" id="ap-ok">Mark as submitted</button>`,sh=>$('#ap-ok',sh).addEventListener('click',()=>finish($('#ap-no',sh).value.trim())))};
+A.gov=(side,d)=>{const r=reqById(d.id),c=curStep(r);sheet('b',`<h3>{{auth}} decision</h3><p class="sub">${r.appNo?'Application '+esc(r.appNo)+'. ':''}Record what {{auth}} decided. The client is told right away.</p><div style="display:flex;flex-direction:column;gap:8px"><button class="btn pri" data-g="ok"><span class="ms">verified</span>Approved</button><button class="btn sec2" data-g="more"><span class="ms">note_add</span>{{auth}} wants more documents</button><button class="btn sec2" data-g="no" style="color:var(--bad)"><span class="ms">block</span>Rejected</button></div>`,sh=>{
   sh.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;const g=b.dataset.g;closeSheet('b');
-    if(g==='ok'){c.st='done';c.at=Date.now();markFresh(r,c);log(r,'gov','LMRA approved',`LMRA approved your ${svcById(r.svc).name.toLowerCase()}`);advance(r);toast('b','Recorded · request complete','verified');emit('b',{text:`LMRA approved ${r.id}`,ctext:`Good news: LMRA approved your ${svcById(r.svc).name.toLowerCase()}.`,req:r.id})}
-    if(g==='more'){const ns={...S('upload','Additional document requested by LMRA'),id:uid('rs'),st:'todo'};const i=r.steps.indexOf(c);r.steps.splice(i,0,ns);c.st='todo';advance(r);ST.fresh.add(ns.id);log(r,'gov','LMRA asked for more documents','LMRA asked for one more document');toast('b','Step added to the journey','note_add');emit('b',{text:`LMRA wants more documents · ${r.id}`,ctext:'LMRA asked for one more document. Upload it to keep things moving.',req:r.id})}
-    if(g==='no'){c.st='rejected';log(r,'gov','LMRA rejected · escalated to clearance team','LMRA did not approve. ANFAL’s team will contact you.');toast('b','Escalated to a person','flag');emit('b',{text:`LMRA rejected ${r.id}`,ctext:'LMRA did not approve this application. Our clearance team will contact you about the next step.',req:r.id})}
+    if(g==='ok'){c.st='done';c.at=Date.now();markFresh(r,c);log(r,'gov','{{auth}} approved',`{{auth}} approved your ${svcById(r.svc).name.toLowerCase()}`);advance(r);toast('b','Recorded · request complete','verified');emit('b',{text:`{{auth}} approved ${r.id}`,ctext:`Good news: {{auth}} approved your ${svcById(r.svc).name.toLowerCase()}.`,req:r.id})}
+    if(g==='more'){const ns={...S('upload','Additional document requested by {{auth}}'),id:uid('rs'),st:'todo'};const i=r.steps.indexOf(c);r.steps.splice(i,0,ns);c.st='todo';advance(r);ST.fresh.add(ns.id);log(r,'gov','{{auth}} asked for more documents','{{auth}} asked for one more document');toast('b','Step added to the journey','note_add');emit('b',{text:`{{auth}} wants more documents · ${r.id}`,ctext:'{{auth}} asked for one more document. Upload it to keep things moving.',req:r.id})}
+    if(g==='no'){c.st='rejected';log(r,'gov','{{auth}} rejected · escalated to clearance team','{{auth}} did not approve. {{biz}}’s team will contact you.');toast('b','Escalated to a person','flag');emit('b',{text:`{{auth}} rejected ${r.id}`,ctext:'{{auth}} did not approve this application. Our clearance team will contact you about the next step.',req:r.id})}
     refreshAll()})})};
-A.reopen=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='active';c.phase='gov';c.since=Date.now();log(r,'team','Resubmitted to LMRA','ANFAL resubmitted your application');emit('b',{text:`Resubmitted ${r.id}`,ctext:'ANFAL resubmitted your application to LMRA.',req:r.id});refreshAll()};
+A.reopen=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='active';c.phase='gov';c.since=Date.now();log(r,'team','Resubmitted to {{auth}}','{{biz}} resubmitted your application');emit('b',{text:`Resubmitted ${r.id}`,ctext:'{{biz}} resubmitted your application to {{auth}}.',req:r.id});refreshAll()};
 A.remind=(side,d)=>{const r=reqById(d.id),c=curStep(r);log(r,'team','Reminder sent',`Reminder: ${c.name.toLowerCase()} is waiting for you`);toast('b',`Reminder sent on ${r.channel==='wa'?'WhatsApp':'the app'}`,'send');emit('b',{text:`Reminder · ${c.name.toLowerCase()}`,ctext:`Reminder: your ${c.name.toLowerCase()} is the next step.`,req:r.id});refreshAll()};
 
 A.csvc=(side,d)=>go('c','c.service',{svc:d.svc});
@@ -1403,22 +1512,33 @@ function bindPhone(side){
   });
 }
 function setEntry(v){ST.entry=v;$('#entry-app').classList.toggle('on',v==='app');$('#entry-wa').classList.toggle('on',v==='wa');
-  $('#clabel').textContent=v==='app'?'ANFAL client app · Yousif, Gulf Star Trading':'WhatsApp + secure link · no app installed';
+  $('#clabel').textContent=v==='app'?'Rodood client app · Yousif Al Mannai':'WhatsApp + secure link · no app installed';
   if(v==='wa'){if(!ST.wa)waInit();P.c.stack=[{scr:'w.chat',params:{}}]}else P.c.stack=[{scr:'c.home',params:{}}];paint('c','fade')}
+function setBiz(id){
+  if(id===CUR){return}
+  useStore(id);
+  $$('[data-biz-set]').forEach(b=>b.classList.toggle('on',b.dataset.bizSet===id));
+  $('#blabel').textContent='Rodood Business · '+T().name;
+  $('#view-b').textContent=T().short+' team';
+  ST.unread=0;ST.feed=[];$('#feed').innerHTML='<li class="empty">Act on either phone. Each step change travels here.</li>';
+  const mode=P.b.stack[0]?.params?.mode;P.b.stack=[{scr:'b.board',params:T().fresh?{mode:'svc'}:{}}];paint('b','fade');
+  setEntry(ST.entry);
+}
 function setView(v){$('#dev-c').dataset.hide=v==='c'?'0':'1';$('#dev-b').dataset.hide=v==='b'?'0':'1';$('#view-c').classList.toggle('on',v==='c');$('#view-b').classList.toggle('on',v==='b')}
 function setTheme(t){const root=document.documentElement;if(t==='system')root.removeAttribute('data-theme');else root.setAttribute('data-theme',t);$$('[data-theme-set]').forEach(b=>b.classList.toggle('on',b.dataset.themeSet===t));try{localStorage.setItem('rsr-theme',t)}catch(e){}}
 $$('[data-theme-set]').forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.themeSet)));
 $$('[data-entry]').forEach(b=>b.addEventListener('click',()=>setEntry(b.dataset.entry)));
 $$('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+$$('[data-biz-set]').forEach(b=>b.addEventListener('click',()=>setBiz(b.dataset.bizSet)));
 $('#reset').addEventListener('click',boot);
 $('#kindlist').innerHTML=Object.values(KIND).map(k=>`<div><span class="ibx"><span class="ms">${k.icon}</span></span><span><b>${k.label}</b>${k.desc}</span></div>`).join('');
 P.c.vp=$('#vp-c');P.b.vp=$('#vp-b');bindPhone('c');bindPhone('b');
 function boot(){
-  const entry=ST?.entry||'app';ST=null;seed();ST.entry=entry;ST.wa=null;ST._seenUnread=0;
-  ST.unread=1;log(reqById('ANF-2036'),'team','Reminder sent','Reminder: your passport copy is the next step');
+  const entry=ST?.entry||'app';const keep=CUR;ST=null;seed();ST.entry=entry;ST._seenUnread=0;ST.unread=1;
+  if(keep!=='anfal'){useStore(keep)}$$('[data-biz-set]').forEach(b=>b.classList.toggle('on',b.dataset.bizSet===CUR));$('#blabel').textContent='Rodood Business · '+T().name;$('#view-b').textContent=T().short+' team';
   $('#feed').innerHTML='<li class="empty">Act on either phone. Each step change travels here.</li>';
   Object.keys(ringMem).forEach(k=>delete ringMem[k]);
-  P.b.stack=[{scr:'b.board',params:{}}];paint('b','fade');setEntry(entry);
+  P.b.stack=[{scr:'b.board',params:T().fresh?{mode:'svc'}:{}}];paint('b','fade');setEntry(entry);
   setView(narrow()?($('#view-b').classList.contains('on')?'b':'c'):'c');if(!narrow()){$('#dev-b').dataset.hide='0'}
 }
 matchMedia('(max-width: 979px)').addEventListener('change',()=>{if(!narrow()){$('#dev-c').dataset.hide='0';$('#dev-b').dataset.hide='0'}else setView('c')});
