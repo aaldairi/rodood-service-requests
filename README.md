@@ -5,3 +5,5 @@ Interactive prototype of service requests in Rodood, a feature every business on
 Live: https://aaldairi.github.io/rodood-service-requests/
 
 All names, prices and documents are sample data.
+
+Business web dashboard: https://aaldairi.github.io/rodood-service-requests/business/
