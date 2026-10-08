@@ -433,16 +433,17 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
 .hero .ht small{display:block;font-size:var(--fs-micro);font-weight:500;color:var(--ts);letter-spacing:.08em;text-transform:uppercase;font-variant-numeric:tabular-nums}
 .hero .ht b{display:block;font-size:var(--fs-body-lg);font-weight:600;margin-top:3px;line-height:1.25}
 .hero .ht span{display:block;font-size:var(--fs-label);font-weight:300;color:var(--ts);margin-top:2px}
-.hero .next{display:flex;align-items:center;gap:12px;margin-top:20px;padding:8px 8px 8px 15px;border-radius:var(--r-pill);background:var(--s1);box-shadow:inset 0 0 0 1px var(--b2);width:100%;text-align:left;color:inherit;position:relative;transition:background .2s}
+.hero .next{display:flex;align-items:center;gap:10px;margin-top:20px;height:60px;padding:8px 8px 8px 20px;border-radius:var(--r-pill);background:var(--s1);box-shadow:inset 0 0 0 1px var(--b2);width:100%;text-align:left;color:inherit;position:relative;transition:background .2s}
 .hero .next:active{background:var(--s3)}
 .hero .next div{flex:1;min-width:0;line-height:1.3}
-.hero .next div b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:var(--fs-body-sm);font-weight:500;line-height:1.3}
+.hero .next div b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:var(--fs-body-sm);font-weight:500;line-height:1.3}
 .hero .next div span{font-size:var(--fs-micro);color:var(--ts)}
+.hero .next div span.turn{color:var(--orange-tx)}
 .hero .go{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--pink);color:var(--on-pink);flex:none;box-shadow:var(--glow);transition:transform .2s var(--e-push)}
 .hero .go .ms{font-size:22px}
 .hero .next:hover .go{transform:translateX(2px)}
 .hero .next:active .go{transform:scale(.92)}
-.hero.wait .next{padding:14px 15px}
+.hero.wait .next{height:auto;min-height:60px;padding:10px 15px}
 .dots{display:inline-flex;gap:3px;margin-left:6px;vertical-align:middle}
 .dots i{width:4px;height:4px;border-radius:50%;background:currentColor;animation:dot 1.2s infinite}
 .dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
@@ -1111,7 +1112,7 @@ SCR['c.home']=()=>{
   <div class="scroll"><div class="stg">
   ${act.length?`<div><div class="sec">${act.length>1?act.length+' active requests':'Your active request'}</div><div class="heros">${act.map(r=>{const n=clientNext(r),pr=progress(r);
     return `<div class="hero ${n.wait?'wait':''}"><div class="top3"><div class="ring" data-ring="h-${r.id}">${ringSvg(pr.p)}<b>${pr.d}/${pr.t}</b></div><div class="ht"><small>${r.id}</small><b>${esc(svcById(r.svc).name)}</b><span>${esc(r.values.employee||r.company)}</span></div></div>
-    <button class="next" data-act="creq" data-id="${r.id}" aria-label="${esc(n.title)}. ${n.wait?'Open request':n.cta}"><span class="ms" style="color:${n.wait?'var(--ts)':'var(--orange-tx)'}">${n.wait?'hourglass_top':'assignment_late'}</span><div><b>${esc(n.title)}</b><span>${n.wait?'We will notify you':'Your next step'}${n.wait?'<span class="dots"><i></i><i></i><i></i></span>':''}</span></div>${n.wait?'<span class="ms" style="color:var(--ts)">chevron_right</span>':'<span class="go" aria-hidden="true"><span class="ms">arrow_forward</span></span>'}</button></div>`}).join('')}</div></div>`:''}
+    <button class="next" data-act="creq" data-id="${r.id}" aria-label="${esc(n.title)}. ${n.wait?'Open request':n.cta}">${n.wait?'<span class="ms" style="color:var(--ts)">hourglass_top</span>':''}<div><b>${esc(n.title)}</b><span class="${n.wait?'':'turn'}">${n.wait?'We will notify you':'Your next step'}${n.wait?'<span class="dots"><i></i><i></i><i></i></span>':''}</span></div>${n.wait?'<span class="ms" style="color:var(--ts)">chevron_right</span>':'<span class="go" aria-hidden="true"><span class="ms">arrow_forward</span></span>'}</button></div>`}).join('')}</div></div>`:''}
   <div><div class="sec">Start a new request</div><div class="sgrid">${ST.services.filter(s=>s.on).map(s=>`<button class="sv" data-act="csvc" data-svc="${s.id}"><span class="ic"><span class="ms">${s.icon}</span></span><b>${esc(s.name)}</b><small>${priceSummary(s)}</small></button>`).join('')}</div></div>
   <div class="pw"><img src="${LOGO}" alt="">Powered by Rodood</div></div></div>`;
 };
