@@ -1,0 +1,1429 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rodood Service Requests</title>
+<meta name="description" content="Interactive prototype: clearance service requests across the client app, WhatsApp and Rodood Business.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0">
+<style>
+/* Rodood design system — dark-first canvas, translucent surfaces, Poppins only,
+   pink for primary action, the signature gradient as the one loud element per screen.
+   Layout: two phones (client app · Rodood Business) joined by a live sync rail; spec notes below. */
+:root{
+  --orange:#F5821F; --pink:#E0328C; --purple:#9B1FE0; --navy:#0A0B2A;
+  --grad:linear-gradient(90deg,#F5821F 0%,#E0328C 50%,#9B1FE0 100%);
+  --grad-v:linear-gradient(180deg,#F5821F 0%,#E0328C 55%,#9B1FE0 100%);
+  --wa:#25D366;
+  --font:'Poppins','Readex Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+
+  /* type scale (px) */
+  --fs-h1:24px; --fs-h2:20px; --fs-body-lg:17px; --fs-body:16px; --fs-body-sm:15px; --fs-label:13px; --fs-micro:11px;
+  --ls-ui:.4px;
+  /* spacing 5px base */
+  --sp1:5px; --sp2:10px; --sp3:15px; --sp4:20px; --sp5:30px; --gutter:15px;
+  /* radius */
+  --r-md:12px; --r-lg:24px; --r-xl:32px; --r-pill:500px;
+  /* elevation */
+  --shadow-float:0 0 30px rgba(0,0,0,.20); --shadow-pop:0 8px 32px rgba(0,0,0,.45); --glow:0 0 24px rgba(224,50,140,.35);
+
+  /* motion tokens (mirror in Flutter: RodoodMotion) */
+  --d-page:260ms; --e-page:ease;
+  --d-sheet:300ms; --e-sheet:cubic-bezier(.2,.8,.2,1);
+  --d-push:400ms; --e-push:cubic-bezier(.2,.9,.3,1.1);
+  --e-out:cubic-bezier(.2,.8,.2,1);
+
+  /* dark (default) */
+  --canvas:#0A0B2A; --elev:#1B1C3E;
+  --s1:rgba(255,255,255,.03); --s2:rgba(255,255,255,.05); --s3:rgba(255,255,255,.10);
+  --ring:inset 0 0 0 1px rgba(255,255,255,.05); --b2:rgba(255,255,255,.10); --b3:rgba(255,255,255,.18);
+  --tp:#FFFFFF; --ts:#8E8DA3; --tpur:#C77DF2; --tt:rgba(255,255,255,.5); --tpur:#C77DF2;
+  --pink-tx:#F04F9E; --orange-tx:#F79A45; --on-pink:#FFFFFF;
+  --tint-pink:rgba(224,50,140,.16); --tint-orange:rgba(245,130,31,.15); --tint-purple:rgba(155,31,224,.18);
+  --bad:#F0565B; --tint-bad:rgba(229,72,77,.16);
+  --phone-edge:#000; --scrim:rgba(3,3,15,.55);
+  --paper:#FFFFFF; --paper-tx:#0A0B2A; --paper-ts:#6E6D7A; --paper-line:rgba(10,11,42,.12);
+  --w-bg:#0B141A; --w-head:#1F2C34; --w-in:#202C33; --w-out:#005C4B; --w-tp:#E9EDEF; --w-ts:#8696A0; --w-accent:#00A884; --w-bar:#1F2C34;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+  --canvas:#F6F6FA; --elev:#FFFFFF;
+  --s1:rgba(10,11,42,.03); --s2:rgba(10,11,42,.045); --s3:rgba(10,11,42,.09);
+  --ring:inset 0 0 0 1px rgba(10,11,42,.07); --b2:rgba(10,11,42,.13); --b3:rgba(10,11,42,.22);
+  --tp:#0A0B2A; --ts:#5F5E6E; --tt:rgba(10,11,42,.55); --tpur:#8617C6;
+  --pink-tx:#C21873; --orange-tx:#B85B06;
+  --tint-pink:rgba(224,50,140,.10); --tint-orange:rgba(245,130,31,.13); --tint-purple:rgba(155,31,224,.10);
+  --bad:#D93C42; --tint-bad:rgba(217,60,66,.10);
+  --phone-edge:#05060F; --scrim:rgba(5,6,15,.45);
+  --shadow-pop:0 8px 32px rgba(10,11,42,.18); --shadow-float:0 0 30px rgba(10,11,42,.10);
+  --w-bg:#EFEAE2; --w-head:#F7F7F7; --w-in:#FFFFFF; --w-out:#D9FDD3; --w-tp:#111B21; --w-ts:#667781; --w-accent:#008069; --w-bar:#F0F2F5;
+  color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --canvas:#F6F6FA; --elev:#FFFFFF;
+  --s1:rgba(10,11,42,.03); --s2:rgba(10,11,42,.045); --s3:rgba(10,11,42,.09);
+  --ring:inset 0 0 0 1px rgba(10,11,42,.07); --b2:rgba(10,11,42,.13); --b3:rgba(10,11,42,.22);
+  --tp:#0A0B2A; --ts:#5F5E6E; --tt:rgba(10,11,42,.55); --tpur:#8617C6;
+  --pink-tx:#C21873; --orange-tx:#B85B06;
+  --tint-pink:rgba(224,50,140,.10); --tint-orange:rgba(245,130,31,.13); --tint-purple:rgba(155,31,224,.10);
+  --bad:#D93C42; --tint-bad:rgba(217,60,66,.10);
+  --phone-edge:#05060F; --scrim:rgba(5,6,15,.45);
+  --shadow-pop:0 8px 32px rgba(10,11,42,.18); --shadow-float:0 0 30px rgba(10,11,42,.10);
+  --w-bg:#EFEAE2; --w-head:#F7F7F7; --w-in:#FFFFFF; --w-out:#D9FDD3; --w-tp:#111B21; --w-ts:#667781; --w-accent:#008069; --w-bar:#F0F2F5;
+  color-scheme:light;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:15px}
+body{font-family:var(--font);background:var(--canvas);color:var(--tp);-webkit-font-smoothing:antialiased;letter-spacing:var(--ls-ui);padding-inline:16px;transition:background .25s}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;letter-spacing:inherit;touch-action:manipulation}
+input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+.ms{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;display:inline-block;font-size:22px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;user-select:none;letter-spacing:0;white-space:nowrap;direction:ltr}
+.ms.f{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24}
+
+/* ---------- Deck ---------- */
+.deck{max-width:1000px;margin:0 auto;padding-block:34px 6px;text-align:center}
+.deck .eyebrow{font-size:var(--fs-label);letter-spacing:var(--ls-ui);text-transform:uppercase;color:var(--ts)}
+.lockup{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px}
+.lockup img{height:36px;width:36px}
+.lockup b{font-size:30px;font-weight:200;letter-spacing:-.2px}
+.deck p{font-weight:300;color:var(--ts);max-width:60ch;margin:12px auto 0;line-height:1.45;font-size:var(--fs-body-sm);text-wrap:pretty}
+.ctrls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.seg{display:flex;gap:4px;background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-pill);padding:4px}
+.seg button{display:flex;align-items:center;gap:6px;height:36px;padding:0 15px;border-radius:var(--r-pill);font-size:var(--fs-label);color:var(--ts);transition:background .2s,color .2s}
+.seg button .ms{font-size:18px}
+.seg button.on{background:var(--pink);color:var(--on-pink)}
+.ghost{display:flex;align-items:center;gap:6px;height:44px;padding:0 18px;border-radius:var(--r-pill);font-size:var(--fs-label);color:var(--ts);box-shadow:inset 0 0 0 1px var(--b2)}
+.ghost .ms{font-size:18px}
+.viewseg{display:none}
+
+/* ---------- Stage ---------- */
+.stage{display:flex;justify-content:center;align-items:flex-start;padding-block:28px 30px;max-width:1040px;margin:0 auto}
+.dev{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.devlabel{display:flex;align-items:center;gap:8px;font-size:var(--fs-label);color:var(--ts)}
+.devlabel .chipdot{width:8px;height:8px;border-radius:50%}
+.phone{width:380px;max-width:100%;border:10px solid var(--phone-edge);border-radius:48px;box-shadow:var(--shadow-pop),0 0 0 1px var(--b2);overflow:hidden;position:relative;transition:box-shadow .4s}
+.phone.nudge{box-shadow:var(--shadow-pop),0 0 0 3px var(--pink),var(--glow)}
+.notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:100px;height:26px;border-radius:var(--r-pill);background:var(--phone-edge);z-index:80}
+
+/* sync rail */
+.rail{width:190px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:150px;gap:15px}
+.rail h3{font-size:var(--fs-micro);letter-spacing:var(--ls-ui);text-transform:uppercase;color:var(--ts);font-weight:400}
+.track{position:relative;width:150px;height:30px}
+.track::before{content:'';position:absolute;left:0;right:0;top:14px;height:2px;background:repeating-linear-gradient(90deg,var(--b3) 0 6px,transparent 6px 11px)}
+.track .end{position:absolute;top:8px;width:14px;height:14px;border-radius:50%;background:var(--canvas);box-shadow:inset 0 0 0 2px var(--b3)}
+.track .end.l{left:-7px}.track .end.r{right:-7px}
+.packet{position:absolute;top:9px;left:0;width:12px;height:12px;border-radius:50%;background:var(--grad);box-shadow:var(--glow);opacity:0}
+.packet.go-r{animation:pk-r .9s var(--e-out) forwards}
+.packet.go-l{animation:pk-l .9s var(--e-out) forwards}
+@keyframes pk-r{0%{transform:translateX(-6px) scale(.4);opacity:0}15%{opacity:1;transform:translateX(10px) scale(1)}85%{opacity:1}100%{transform:translateX(144px) scale(.5);opacity:0}}
+@keyframes pk-l{0%{transform:translateX(144px) scale(.4);opacity:0}15%{opacity:1;transform:translateX(128px) scale(1)}85%{opacity:1}100%{transform:translateX(-6px) scale(.5);opacity:0}}
+.feed{list-style:none;display:flex;flex-direction:column;gap:10px;width:100%}
+.feed li{font-size:var(--fs-micro);line-height:1.45;color:var(--ts);background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-md);padding:10px 12px;animation:feedin .45s var(--e-push)}
+.feed li b{display:flex;align-items:center;gap:4px;font-weight:500;color:var(--tp);margin-bottom:2px}
+.feed li b .ms{font-size:14px}
+.feed .empty{background:none;box-shadow:none;text-align:center;animation:none}
+@keyframes feedin{from{opacity:0;transform:translateY(-8px) scale(.97)}}
+
+/* ---------- Phone viewport ---------- */
+.vp{position:relative;height:760px;overflow:hidden;background:var(--canvas);color:var(--tp);font-size:var(--fs-body-sm)}
+.sbar{position:absolute;top:0;left:0;right:0;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 28px 0 32px;font-size:14px;font-weight:600;z-index:70;pointer-events:none;letter-spacing:0}
+.sbar .ic{display:flex;gap:4px}.sbar .ms{font-size:16px}
+.screens{position:absolute;inset:0}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--canvas)}
+.scr .top{height:46px;flex:none}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:30px}
+.scroll::-webkit-scrollbar{display:none}
+.vp.has-nav .scroll{padding-bottom:100px}
+.a-push{animation:pg-in var(--d-page) var(--e-page)}
+.a-pop{animation:pg-back var(--d-page) var(--e-page)}
+.a-fade{animation:fade .22s ease}
+@keyframes pg-in{from{opacity:0;transform:translateX(14px)}}
+@keyframes pg-back{from{opacity:0;transform:translateX(-14px)}}
+@keyframes fade{from{opacity:0}}
+.a-push .stg>*,.a-fade .stg>*,.a-pop .stg>*{animation:rise .44s var(--e-out) both;animation-delay:calc(var(--i,0) * 38ms + 50ms)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+
+/* bottom nav */
+.bnav{position:absolute;left:0;right:0;bottom:0;display:flex;padding:6px 5px 22px;background:color-mix(in srgb,var(--canvas) 84%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 -1px 0 var(--b2);z-index:30;transition:transform .32s var(--e-out)}
+.vp:not(.has-nav) .bnav{transform:translateY(110%)}
+.bnav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;font-size:var(--fs-micro);color:var(--ts);position:relative}
+.bnav button .ms{font-size:24px;transition:transform .25s var(--e-push)}
+.bnav button.on{color:var(--pink-tx)}
+.bnav button.on .ms{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24;transform:translateY(-1px) scale(1.06)}
+.bnav .bdg{position:absolute;top:2px;left:calc(50% + 7px);min-width:18px;height:18px;padding:0 5px;border-radius:var(--r-pill);background:var(--orange);color:var(--navy);font-size:var(--fs-micro);font-weight:600;display:grid;place-items:center;letter-spacing:0}
+.bdg.bump{animation:bump .5s var(--e-push)}
+@keyframes bump{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+
+/* sheet */
+.scrim{position:absolute;inset:0;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity var(--d-sheet);z-index:50}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:88%;overflow-y:auto;scrollbar-width:none;border-radius:var(--r-xl) var(--r-xl) 0 0;background:var(--elev);transform:translateY(102%);transition:transform var(--d-sheet) var(--e-sheet);padding:10px 20px 30px;z-index:51;box-shadow:var(--shadow-pop)}
+.sheet .grab{width:40px;height:5px;border-radius:5px;background:var(--b3);margin:0 auto 18px}
+.vp.sheet-on .scrim{opacity:1;pointer-events:auto}
+.vp.sheet-on .sheet{transform:none}
+.sheet h3{font-size:var(--fs-h2);font-weight:600;margin-bottom:5px;letter-spacing:0}
+.sheet .sub{font-size:var(--fs-label);color:var(--ts);line-height:1.45;margin-bottom:20px}
+
+/* push banner */
+.push{position:absolute;top:8px;left:10px;right:10px;z-index:75;display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:var(--r-lg);background:color-mix(in srgb,var(--elev) 90%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--shadow-pop),var(--ring);transform:translateY(-140%);opacity:0;transition:transform var(--d-push) var(--e-push),opacity .25s;cursor:pointer;text-align:left}
+.push.show{transform:none;opacity:1}
+.push .pi{width:38px;height:38px;flex:none;display:grid;place-items:center}
+.push .pi img{width:38px;height:38px}
+.push .pt{min-width:0;flex:1}
+.push .pt b{display:flex;justify-content:space-between;font-size:var(--fs-label);font-weight:600}
+.push .pt b i{font-style:normal;font-weight:400;color:var(--ts)}
+.push .pt span{display:block;font-size:var(--fs-label);line-height:1.4;margin-top:2px;color:var(--ts)}
+
+/* toast */
+.toast{position:absolute;left:50%;bottom:110px;transform:translate(-50%,20px);opacity:0;transition:transform .35s var(--e-push),opacity .25s;z-index:72;background:var(--elev);color:var(--tp);box-shadow:var(--shadow-pop),var(--ring);font-size:var(--fs-label);padding:11px 16px;border-radius:var(--r-pill);white-space:nowrap;display:flex;gap:8px;align-items:center;pointer-events:none;max-width:92%}
+.toast .ms{font-size:18px;color:var(--pink-tx)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.vp:not(.has-nav) .toast{bottom:40px}
+
+/* ---------- Core components ---------- */
+.hd{display:flex;align-items:center;gap:12px;padding:6px var(--gutter) 12px;flex:none}
+.hd .t{flex:1;min-width:0}
+.hd .t h1{font-size:var(--fs-h2);font-weight:600;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
+.hd .t h1 .scrname{color:var(--ts);font-weight:400;font-size:var(--fs-body)}
+.hd .t small{font-weight:300;display:block;font-size:var(--fs-label);color:var(--ts);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:44px;height:44px;border-radius:50%;background:var(--s2);box-shadow:var(--ring);display:grid;place-items:center;flex:none;color:var(--tp);position:relative;transition:background .2s,transform .15s}
+.ib:active{transform:scale(.94);background:var(--s3)}
+.ib .ms{font-size:22px}
+.ib .dotb{position:absolute;top:9px;right:10px;width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 2px var(--canvas)}
+.pad{padding:0 var(--gutter)}
+.sec{font-size:var(--fs-micro);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ts);margin:24px var(--gutter) 10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;border-radius:var(--r-pill);font-size:var(--fs-body);font-weight:500;transition:transform .15s,opacity .2s,background .2s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn .ms{font-size:20px}
+.btn.pri{background:var(--pink);color:var(--on-pink)}
+.btn.pri.glow{box-shadow:var(--glow)}
+.btn.sec2{background:var(--s2);box-shadow:inset 0 0 0 1px var(--b2);color:var(--tp)}
+.btn.outline{box-shadow:inset 0 0 0 1px var(--b3);color:var(--tp)}
+.btn.sm{height:44px;font-size:var(--fs-body-sm)}
+.btn.danger{color:var(--bad)}
+.row2{display:flex;gap:10px}
+.row2>*{flex:1}
+/* badges (24px pills) */
+.chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:var(--r-pill);font-size:var(--fs-micro);font-weight:500;white-space:nowrap;background:var(--s3);color:var(--tp)}
+.chip .ms{font-size:14px}
+/* semantics (Rodood): orange = a person is needed, purple = Noor/AI, neutral = waiting / informational. Pink is never a status. */
+.w-hu{background:var(--tint-orange);color:var(--orange-tx)}
+.w-ai{background:var(--tint-purple);color:var(--tpur)}
+.w-nt{background:var(--s3);color:var(--tp)}
+.w-bad{background:var(--tint-bad);color:var(--bad)}
+.card{background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-lg);padding:20px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:10px 15px;font-size:var(--fs-label)}
+.kv dt{color:var(--ts)} .kv dd{text-align:right;min-width:0;overflow-wrap:anywhere}
+.empty-note{font-size:var(--fs-body-sm);color:var(--ts);text-align:center;padding:30px 15px}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:var(--fs-label);font-weight:500;flex:none;color:var(--tp);background:var(--s3);position:relative;letter-spacing:0}
+.av.ai::before,.tav.ai::before{content:'';position:absolute;inset:-3px;border-radius:50%;padding:2px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.av .chn{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 0 2px var(--canvas);color:#fff;background:var(--s3)}
+.av .chn.wa{background:var(--wa)}
+.av .chn.app{background:var(--pink)}
+.av .chn .ms{font-size:11px}
+.tav{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--s3);color:var(--tp);font-size:var(--fs-label);font-weight:600;position:relative;letter-spacing:0}
+.tav.sm{width:38px;height:38px}
+
+/* ---------- Timeline ---------- */
+.tl{list-style:none;display:flex;flex-direction:column}
+.tn{display:grid;grid-template-columns:32px 1fr;column-gap:15px;position:relative;padding-bottom:20px}
+.tn:last-child{padding-bottom:0}
+.tn .node{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;position:relative;z-index:1;background:var(--canvas);box-shadow:inset 0 0 0 1.5px var(--b2);color:var(--ts)}
+.tn .node .ms{font-size:17px}
+.tn .node svg{width:15px;height:15px}
+.tn .node svg path{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:0}
+.tn .ln{position:absolute;left:15px;top:35px;bottom:3px;width:2px;background:var(--b2);border-radius:2px;overflow:hidden}
+.tn .ln::after{content:'';position:absolute;inset:0;background:var(--pink);transform-origin:top;transform:scaleY(0)}
+.tn:last-child .ln{display:none}
+.tn.done .ln::after,.tn.skip .ln::after{transform:scaleY(1)}
+.tn.skip .ln::after{opacity:.35}
+.tn.done .node{background:var(--pink);color:var(--on-pink);box-shadow:none}
+.tn.fresh .node{animation:pop .5s var(--e-push)}
+.tn.fresh .node svg path{animation:draw .4s .12s ease-out both}
+.tn.fresh .ln::after{animation:fill .6s .3s var(--e-out) both}
+@keyframes draw{from{stroke-dashoffset:24}}
+@keyframes pop{0%{transform:scale(.55)}100%{transform:scale(1)}}
+@keyframes fill{from{transform:scaleY(0)}}
+.tn.cur .node{--nc:var(--ts);color:var(--tp);background:var(--s2);box-shadow:inset 0 0 0 2px var(--nc)}
+.tn.cur .node::before{content:'';position:absolute;inset:-1px;border-radius:50%;border:2px solid var(--nc);animation:ring 1.8s ease-out infinite}
+/* business view: the team's turn needs a person */
+.tn.cur.who-team .node{--nc:var(--orange);background:var(--tint-orange);color:var(--orange-tx)}
+/* client view: the client's turn needs a person */
+.anfal .tn.cur.who-team .node{--nc:var(--ts);background:var(--s2);color:var(--tp)}
+.anfal .tn.cur.who-client .node{--nc:var(--orange);background:var(--tint-orange);color:var(--orange-tx)}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.55);opacity:0}}
+.tn.skip{opacity:.5}
+.tn.skip .tb b{text-decoration:line-through;text-decoration-thickness:1px}
+.tn.cond .node{box-shadow:none;border:1.5px dashed var(--b3)}
+.tn.rej .node{background:var(--bad);color:#fff;box-shadow:none}
+.tn.redo .node{--nc:var(--orange) !important;background:var(--tint-orange) !important;color:var(--orange-tx) !important}
+.tb{min-width:0;padding-top:5px}
+.tb b{display:block;font-size:var(--fs-body-sm);font-weight:400;line-height:1.3}
+.tb small{font-weight:300;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:var(--fs-label);color:var(--ts);margin-top:3px;line-height:1.35}
+.tn.cur .tb b{font-weight:500}
+
+/* ---------- Business (Rodood) ---------- */
+.brand{display:flex;align-items:center;gap:9px}
+.brand img{width:28px;height:28px}
+.brand b{font-size:var(--fs-h2);font-weight:600;letter-spacing:-.2px}
+.brand span{color:var(--ts);font-size:var(--fs-body-sm)}
+.tabs2{display:flex;gap:4px;margin:0 var(--gutter);background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-pill);padding:4px;position:relative}
+.tabs2 button{flex:1;height:38px;border-radius:var(--r-pill);font-size:var(--fs-body-sm);color:var(--ts);position:relative;z-index:1;transition:color .25s}
+.tabs2 button.on{color:var(--on-pink)}
+.tabs2 .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 6px);border-radius:var(--r-pill);background:var(--pink);transition:transform .32s var(--e-push)}
+.tabs2.right .thumb{transform:translateX(calc(100% + 4px))}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px var(--gutter) 0}
+.sum button{text-align:left;border-radius:20px;padding:13px 13px 12px;background:var(--s2);box-shadow:var(--ring);transition:box-shadow .2s,background .2s}
+.sum button.on{box-shadow:inset 0 0 0 1.5px var(--pink);background:var(--tint-pink)}
+.sum b{display:block;font-size:28px;font-weight:300;font-variant-numeric:tabular-nums;letter-spacing:-.2px;line-height:1.1}
+.sum span{display:flex;align-items:center;gap:5px;font-size:var(--fs-micro);color:var(--ts);margin-top:4px;white-space:nowrap}
+.sum i{width:7px;height:7px;border-radius:50%;flex:none}
+.pills{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:15px var(--gutter) 2px}
+.pills::-webkit-scrollbar{display:none}
+.pills button{flex:none;height:36px;padding:0 15px;border-radius:var(--r-pill);font-size:var(--fs-label);color:var(--tp);background:var(--s2);box-shadow:var(--ring);transition:background .2s,color .2s}
+.pills button.on{background:var(--pink);color:var(--on-pink);box-shadow:none}
+.rq{display:flex;flex-direction:column;gap:10px;padding:15px var(--gutter) 0}
+.rc{display:block;width:100%;text-align:left;border-radius:var(--r-lg);padding:15px;background:var(--s2);box-shadow:var(--ring);transition:transform .15s,box-shadow .3s,background .2s}
+.rc:active{transform:scale(.985);background:var(--s3)}
+.rc.new{animation:newcard 1.4s var(--e-out)}
+@keyframes newcard{0%{box-shadow:inset 0 0 0 2px var(--pink),var(--glow);transform:translateY(-6px)}100%{box-shadow:var(--ring)}}
+.rc .r1{display:flex;align-items:center;gap:12px}
+.rc .nm{flex:1;min-width:0}
+.rc .nm b{display:block;font-size:var(--fs-body-sm);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc .nm small{display:block;font-size:var(--fs-label);color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.rc .id{font-size:var(--fs-micro);color:var(--ts);font-variant-numeric:tabular-nums;align-self:flex-start;margin-top:3px}
+.segbar{display:flex;gap:4px;margin:13px 0 11px}
+.segbar i{flex:1;height:4px;border-radius:4px;background:var(--s3);position:relative;overflow:hidden}
+.segbar i.d{background:var(--pink)}
+.segbar i.c{background:var(--s3)}
+.segbar i.c::after{content:'';position:absolute;inset:0;background:var(--ts);animation:seg 1.6s ease-in-out infinite alternate}
+.segbar i.c.team::after{background:var(--orange)}
+@keyframes seg{from{opacity:.35}to{opacity:1}}
+.segbar i.x{background:var(--bad)}
+.rc .r3{display:flex;align-items:center;gap:8px}
+.rc .r3 .nx{flex:1;min-width:0;font-size:var(--fs-label);color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc .r3 time{font-size:var(--fs-micro);color:var(--ts)}
+
+.act{margin:0 var(--gutter);border-radius:var(--r-lg);padding:20px;position:relative;overflow:hidden;background:var(--s2);box-shadow:var(--ring)}
+.act.team{background:var(--tint-orange);box-shadow:inset 0 0 0 1px rgba(245,130,31,.3)}
+.act .ah{display:flex;align-items:center;gap:6px;font-size:var(--fs-micro);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ts)}
+.act.team .ah{color:var(--orange-tx)}
+.act .ah .ms{font-size:18px}
+.act h2{font-size:var(--fs-h2);font-weight:600;margin:8px 0 5px;letter-spacing:0;line-height:1.2}
+.act p{font-size:var(--fs-label);font-weight:300;color:var(--ts);line-height:1.5}
+.act .row2{margin-top:15px}
+.docprev{display:flex;gap:12px;align-items:center;margin-top:15px;padding:10px;border-radius:var(--r-md);background:var(--s1);box-shadow:var(--ring)}
+.docprev .th{width:64px;height:46px;border-radius:8px;overflow:hidden;flex:none;background:var(--s3)}
+.docprev .th img,.docprev .th svg{width:100%;height:100%;object-fit:cover;display:block}
+.docprev .dm{flex:1;min-width:0;font-size:var(--fs-label)}
+.docprev .dm b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.docprev .dm small{color:var(--ts);font-size:var(--fs-micro)}
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 var(--gutter)}
+.docs figure{border-radius:var(--r-md);overflow:hidden;background:var(--s2);box-shadow:var(--ring)}
+.docs figure .th{aspect-ratio:4/3;max-width:100%}
+.docs figure .th img,.docs figure .th svg{width:100%;height:100%;object-fit:cover;display:block}
+.docs figcaption{font-size:var(--fs-micro);padding:6px 8px;color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log{list-style:none;padding:0 var(--gutter);display:flex;flex-direction:column;gap:12px}
+.log li{display:flex;gap:10px;font-size:var(--fs-label);line-height:1.45}
+.log li .ms{font-size:18px;color:var(--ts)}
+.log li time{margin-left:auto;color:var(--ts);font-size:var(--fs-micro);white-space:nowrap;padding-left:6px}
+.inbox{display:flex;flex-direction:column;gap:10px;padding:10px var(--gutter) 0}
+.irow{display:flex;gap:12px;align-items:center;padding:10px;border-radius:var(--r-md);text-align:left;width:100%;background:var(--s2);transition:background .2s}
+.irow:active{background:var(--s3)}
+.irow .nm{flex:1;min-width:0}
+.irow .nm b{display:block;font-size:var(--fs-body-sm);font-weight:500}
+.irow .nm small{display:block;font-size:var(--fs-label);color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.irow .rt{display:flex;flex-direction:column;align-items:flex-end;gap:5px;font-size:var(--fs-micro);color:var(--ts)}
+.aipill{display:inline-flex;align-items:center;gap:8px;background:var(--s2);box-shadow:var(--ring);font-size:var(--fs-label);padding:9px 15px;border-radius:var(--r-pill);margin:0 var(--gutter)}
+.aipill b{font-weight:600}
+.gdot{width:8px;height:8px;border-radius:50%;background:var(--grad);animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+.stub{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;flex:1;padding:30px;color:var(--ts);font-size:var(--fs-body-sm);line-height:1.45}
+.stub .ms{font-size:44px;color:var(--ts)}
+.stub b{color:var(--tp);font-size:var(--fs-h2);font-weight:600}
+
+/* builder */
+.svl{display:flex;flex-direction:column;gap:10px;padding:15px var(--gutter) 0}
+.svr{display:flex;align-items:center;gap:12px;padding:12px 15px 12px 12px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);text-align:left;width:100%}
+.ibx{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--s3);flex:none;color:var(--tp)}
+.ibx .ms{font-size:22px}
+.svr .nm{flex:1;min-width:0;min-height:44px;display:flex;flex-direction:column;justify-content:center}
+.svr .nm b{display:block;font-size:var(--fs-body-sm);font-weight:500}
+.svr .nm small{display:block;font-size:var(--fs-label);color:var(--ts);margin-top:1px}
+.tgl{width:50px;height:30px;border-radius:var(--r-pill);background:var(--s3);box-shadow:inset 0 0 0 1px var(--b2);position:relative;flex:none;transition:background .2s}
+.tgl::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s var(--e-out)}
+.tgl.on{background:var(--pink);box-shadow:none}
+.tgl.on::after{transform:translateX(20px)}
+.info{display:flex;gap:10px;margin:0 var(--gutter);padding:12px 15px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--ring);color:var(--ts);font-size:var(--fs-label);line-height:1.45}
+.info .ms{font-size:18px;color:var(--ts)}
+.fields{display:flex;flex-wrap:wrap;gap:8px;padding:0 var(--gutter)}
+.fields button{font-size:var(--fs-label);min-height:36px;display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:var(--r-pill);background:var(--s2);box-shadow:var(--ring);color:var(--tp);text-align:left;transition:background .2s}
+.fields button:active{background:var(--s3)}
+.fields .addq{background:none;box-shadow:none;border:1.5px dashed var(--b3);color:var(--ts)}
+.fields .addq .ms{font-size:18px}
+.pcard{display:block;width:100%;text-align:left;padding:5px 20px 15px;transition:background .2s}
+.pcard:active{background:var(--s3)}
+.prow{display:flex;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid var(--b2)}
+.prow>span:first-child{flex:1;min-width:0}
+.prow b{display:block;font-size:var(--fs-body-sm);font-weight:500}
+.prow small{display:block;font-size:var(--fs-micro);font-weight:300;color:var(--ts);margin-top:2px;line-height:1.4}
+.prow .pv2{font-size:var(--fs-body-sm);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pedit{display:flex;align-items:center;gap:6px;margin-top:13px;font-size:var(--fs-label);color:var(--pink-tx)}
+.pedit .ms{font-size:18px}
+.icons{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.icons button{height:44px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--ring);display:grid;place-items:center;transition:background .2s,color .2s}
+.icons button.on{background:var(--pink);color:var(--on-pink);box-shadow:none}
+.qsum{display:grid;grid-template-columns:1fr auto;gap:8px 15px;padding:15px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--ring);font-size:var(--fs-label);margin-bottom:20px}
+.qsum span{color:var(--ts)}
+.qsum b{font-weight:500;font-variant-numeric:tabular-nums;text-align:right}
+.fld input[readonly]{color:var(--ts)}
+.bsl{list-style:none;display:flex;flex-direction:column;gap:10px;padding:0 var(--gutter)}
+.bs-row{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 4px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);transition:transform .2s var(--e-out),box-shadow .2s;position:relative;touch-action:none}
+.bs-row.dragging{transition:none;z-index:5;background:var(--elev);box-shadow:var(--shadow-pop),inset 0 0 0 1.5px var(--pink)}
+.bs-row.fresh{animation:grow .5s var(--e-push)}
+@keyframes grow{from{opacity:0;transform:scale(.92)}}
+.handle{width:32px;height:44px;display:grid;place-items:center;color:var(--ts);cursor:grab;flex:none;border-radius:var(--r-md)}
+.bs-row .ibx{width:38px;height:38px}
+.bs-row .ibx .ms{font-size:19px}
+.bs-row .nm{flex:1;min-width:0;text-align:left;min-height:44px;display:flex;flex-direction:column;justify-content:center}
+.bs-row .nm b{display:block;font-size:var(--fs-body-sm);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bs-row .nm small{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.bs-row .num{font-size:var(--fs-micro);color:var(--ts);width:14px;text-align:center;font-variant-numeric:tabular-nums}
+.addstep{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px var(--gutter) 0;height:50px;border-radius:var(--r-pill);border:1.5px dashed var(--b3);font-size:var(--fs-body-sm);color:var(--tp);width:calc(100% - 30px)}
+.kinds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kinds button{text-align:left;padding:15px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);display:flex;flex-direction:column;gap:8px;transition:background .2s}
+.kinds button:active{background:var(--s3)}
+.kinds button b{font-size:var(--fs-body-sm);font-weight:500}
+.kinds button small{font-size:var(--fs-micro);color:var(--ts);line-height:1.45}
+.fld{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.fld label{font-size:var(--fs-label);color:var(--ts)}
+.fld input,.fld textarea{height:50px;border-radius:var(--r-md);border:none;background:var(--s2);box-shadow:var(--ring);padding:0 15px;font-size:var(--fs-body);outline:none;transition:box-shadow .2s}
+.fld textarea{height:80px;padding:12px 15px;resize:none}
+.fld input::placeholder,.fld textarea::placeholder{color:var(--tt)}
+.fld input:focus,.fld textarea:focus{box-shadow:inset 0 0 0 1.5px var(--pink)}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opts button{height:40px;padding:0 16px;border-radius:var(--r-pill);font-size:var(--fs-body-sm);background:var(--s2);box-shadow:var(--ring);transition:background .2s,color .2s,box-shadow .2s,transform .15s}
+.opts button:active{transform:scale(.96)}
+.opts button.on{background:var(--pink);color:var(--on-pink);box-shadow:none}
+.opts button[disabled]{opacity:.38;pointer-events:none}
+.fld .hint{font-size:var(--fs-micro);color:var(--ts);line-height:1.45}
+.money{display:flex;align-items:center;gap:10px}
+.money span{font-size:var(--fs-label);color:var(--ts)}
+.money input{flex:1;font-variant-numeric:tabular-nums}
+
+/* ---------- Client app (Rodood system, ANFAL as tenant) ---------- */
+.hello{flex:1;min-width:0}
+.hello small{display:block;font-size:var(--fs-label);color:var(--ts)}
+.hello b{display:block;font-size:var(--fs-h1);font-weight:600;line-height:1.2;letter-spacing:0}
+.hero{margin:0 var(--gutter);border-radius:var(--r-lg);padding:20px;background:var(--s2);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg);padding:1.5px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.hero .top3{display:flex;align-items:center;gap:15px;position:relative}
+.ring{width:64px;height:64px;flex:none;position:relative}
+.ring svg{width:64px;height:64px;transform:rotate(-90deg)}
+.ring circle{fill:none}
+.ring .bg{stroke:var(--s3)}
+.ring .fg{stroke:var(--pink);stroke-linecap:round;transition:stroke-dashoffset 1s var(--e-out)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:var(--fs-label);font-weight:500;font-variant-numeric:tabular-nums}
+.hero .ht{flex:1;min-width:0}
+.hero .ht small{display:block;font-size:var(--fs-micro);font-weight:500;color:var(--ts);letter-spacing:.08em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.hero .ht b{display:block;font-size:var(--fs-body-lg);font-weight:600;margin-top:3px;line-height:1.25}
+.hero .ht span{display:block;font-size:var(--fs-label);font-weight:300;color:var(--ts);margin-top:2px}
+.hero .next{display:flex;align-items:center;gap:12px;margin-top:20px;padding:8px 8px 8px 15px;border-radius:var(--r-pill);background:var(--s1);box-shadow:inset 0 0 0 1px var(--b2);width:100%;text-align:left;color:inherit;position:relative;transition:background .2s}
+.hero .next:active{background:var(--s3)}
+.hero .next div{flex:1;min-width:0;line-height:1.3}
+.hero .next div b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:var(--fs-body-sm);font-weight:500;line-height:1.3}
+.hero .next div span{font-size:var(--fs-micro);color:var(--ts)}
+.hero .go{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--pink);color:var(--on-pink);flex:none;box-shadow:var(--glow);transition:transform .2s var(--e-push)}
+.hero .go .ms{font-size:22px}
+.hero .next:hover .go{transform:translateX(2px)}
+.hero .next:active .go{transform:scale(.92)}
+.hero.wait .next{padding:14px 15px}
+.dots{display:inline-flex;gap:3px;margin-left:6px;vertical-align:middle}
+.dots i{width:4px;height:4px;border-radius:50%;background:currentColor;animation:dot 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
+.heros{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 var(--gutter)}
+.heros::-webkit-scrollbar{display:none}
+.heros .hero{margin:0;flex:0 0 100%;scroll-snap-align:center}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 var(--gutter)}
+.sv{text-align:left;padding:15px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);display:flex;flex-direction:column;gap:12px;min-height:124px;transition:transform .15s,background .2s}
+.sv:active{transform:scale(.97);background:var(--s3)}
+.sv .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--s3)}
+.sv b{font-size:var(--fs-body-sm);font-weight:500;line-height:1.3}
+.sv small{font-size:var(--fs-micro);color:var(--ts);margin-top:-8px}
+.pw{display:flex;align-items:center;justify-content:center;gap:6px;font-size:var(--fs-micro);color:var(--ts);padding:30px 0 5px}
+.pw img{width:16px;height:16px}
+.shero{margin:0 var(--gutter);padding:20px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring)}
+.shero .ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--s3);margin-bottom:15px;position:relative}
+.shero .ic .ms{font-size:28px}
+.shero h2{font-size:var(--fs-h1);font-weight:600;line-height:1.2;text-wrap:balance;letter-spacing:0}
+.shero p{font-size:var(--fs-body-sm);font-weight:300;color:var(--ts);line-height:1.5;margin-top:8px}
+.facts{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.facts span{display:inline-flex;align-items:center;gap:6px;height:32px;font-size:var(--fs-label);padding:0 12px;border-radius:var(--r-pill);background:var(--s1);box-shadow:inset 0 0 0 1px var(--b2);color:var(--ts)}
+.facts .ms{font-size:16px}
+.note{display:flex;gap:10px;margin:15px var(--gutter) 0;padding:15px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--ring);font-size:var(--fs-label);font-weight:300;line-height:1.5;color:var(--ts)}
+.note b{color:var(--tp);font-weight:500}
+.note .ms{font-size:20px;color:var(--ts)}
+.note.warn{background:var(--tint-orange);box-shadow:none;color:var(--tp)}
+.note.warn .ms{color:var(--orange-tx)}
+.sticky{position:sticky;bottom:0;padding:15px var(--gutter) 20px;background:linear-gradient(to top,var(--canvas) 70%,transparent);margin-top:auto}
+.rqhead{margin:0 var(--gutter);display:flex;align-items:center;gap:15px}
+.rqhead .ring{width:56px;height:56px}
+.rqhead .ring svg{width:56px;height:56px}
+.rqhead h2{font-size:var(--fs-h1);font-weight:600;line-height:1.2;letter-spacing:0}
+.rqhead small{display:block;font-size:var(--fs-label);color:var(--ts);margin-top:3px}
+.nextc{margin:20px var(--gutter) 0;padding:20px;border-radius:var(--r-lg);background:var(--tint-orange);box-shadow:inset 0 0 0 1px rgba(245,130,31,.3);position:relative;overflow:hidden}
+.nextc.wait{background:var(--s2);box-shadow:var(--ring)}
+.nextc .lbl{display:flex;align-items:center;gap:6px;font-size:var(--fs-micro);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--orange-tx)}
+.nextc.wait .lbl{color:var(--ts)}
+.nextc .lbl .ms{font-size:18px}
+.nextc h3{font-size:var(--fs-h2);font-weight:600;margin:8px 0 5px;line-height:1.2;letter-spacing:0}
+.nextc p{font-size:var(--fs-label);font-weight:300;color:var(--ts);line-height:1.5}
+.nextc .btn{margin-top:20px}
+.demo{display:inline-flex;align-items:center;gap:6px;margin-top:15px;height:36px;padding:0 14px;font-size:var(--fs-label);color:var(--tp);border-radius:var(--r-pill);background:var(--s1);box-shadow:inset 0 0 0 1px var(--b2)}
+.demo .ms{font-size:16px;color:var(--ts)}
+.donec{margin:20px var(--gutter) 0;padding:30px 20px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);text-align:center;position:relative;overflow:hidden}
+.burst{width:80px;height:80px;margin:0 auto 15px;border-radius:50%;background:var(--grad);display:grid;place-items:center;position:relative;color:#fff;box-shadow:var(--glow)}
+.burst .ms{font-size:40px}
+.burst::before,.burst::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid var(--pink);animation:burst 2.2s var(--e-out) infinite}
+.burst::after{animation-delay:.7s}
+@keyframes burst{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+.donec h3{font-size:var(--fs-h2);font-weight:600;letter-spacing:0}
+.donec p{font-size:var(--fs-label);color:var(--ts);margin-top:6px;line-height:1.45}
+.pv{list-style:none;display:flex;flex-direction:column}
+.pv-it{display:grid;grid-template-rows:1fr;transition:grid-template-rows .35s var(--e-out),opacity .3s}
+.pv-it>div{overflow:hidden}
+.pv-it.off{grid-template-rows:0fr;opacity:0}
+.pv-row{display:flex;align-items:center;gap:12px;padding:6px 0;font-size:var(--fs-body-sm)}
+.pv-row>.ms{font-size:19px;width:38px;height:38px;border-radius:50%;background:var(--s3);display:grid;place-items:center;flex:none}
+.pv-row.newin{animation:rise .4s var(--e-push)}
+.quote{margin:0 var(--gutter);padding:20px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring)}
+.qline{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding:15px 0;border-bottom:1px solid var(--b2);font-size:var(--fs-body-sm)}
+.qline:first-child{padding-top:0}
+.qline small{display:block;font-size:var(--fs-micro);color:var(--ts);margin-top:3px;max-width:24ch;line-height:1.45}
+.qline b{font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.qtotal{display:flex;justify-content:space-between;align-items:baseline;padding-top:15px;font-size:var(--fs-body-sm)}
+.qtotal b{font-size:28px;font-weight:300;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.upz{margin:0 var(--gutter);border-radius:var(--r-lg);border:1.5px dashed var(--b3);background:var(--s1);padding:30px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:background .2s,border-color .2s}
+.upz:hover{background:var(--s2);border-color:var(--pink)}
+.upz .ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--tint-pink);color:var(--pink-tx);margin-bottom:5px;animation:float 2.4s ease-in-out infinite}
+.upz .ic .ms{font-size:28px}
+@keyframes float{50%{transform:translateY(-4px)}}
+.upz b{font-size:var(--fs-body);font-weight:500}
+.upz small{font-size:var(--fs-label);color:var(--ts)}
+.linkb{display:flex;align-items:center;justify-content:center;height:44px;margin:5px auto 0;padding:0 15px;font-size:var(--fs-body-sm);color:var(--pink-tx)}
+.fcard{margin:0 var(--gutter);padding:15px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);position:relative;overflow:hidden}
+.fcard .fr{display:flex;gap:15px;align-items:center}
+.fcard .th{width:76px;height:56px;border-radius:var(--r-md);overflow:hidden;flex:none;position:relative;background:var(--s3)}
+.fcard .th img,.fcard .th svg{width:100%;height:100%;object-fit:cover;display:block}
+.fcard .th .scan{position:absolute;left:0;right:0;height:18px;top:-18px;background:linear-gradient(to bottom,transparent,rgba(224,50,140,.7),transparent);opacity:0}
+.fcard.scanning .th .scan{opacity:1;animation:scan .9s ease-in-out infinite}
+@keyframes scan{to{top:56px}}
+.fcard .fm{flex:1;min-width:0}
+.fcard .fm b{display:block;font-size:var(--fs-body-sm);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard .fm small{display:block;font-size:var(--fs-label);color:var(--ts);margin-top:3px}
+.bar{height:5px;border-radius:5px;background:var(--s3);margin-top:15px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--pink);border-radius:5px;transition:width 1.3s cubic-bezier(.4,.1,.2,1)}
+.okline{display:flex;align-items:center;gap:6px;font-size:var(--fs-label);color:var(--pink-tx);margin-top:15px;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s var(--e-push)}
+.okline .ms{font-size:20px}
+.fcard.ok .okline{opacity:1;transform:none}
+.fcard.ok .bar{display:none}
+.letter{margin:0 var(--gutter);padding:20px 18px 15px;border-radius:var(--r-lg);background:var(--paper);color:var(--paper-tx);box-shadow:var(--shadow-float);font-size:var(--fs-label);line-height:1.6;position:relative}
+.letter h4{font-size:var(--fs-body-sm);font-weight:600;margin-bottom:8px}
+.letter .lh{display:flex;justify-content:space-between;font-size:var(--fs-micro);color:var(--paper-ts);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--paper-line)}
+.letter mark{background:rgba(224,50,140,.12);color:inherit;padding:0 3px;border-radius:4px}
+.sigbox{position:relative;margin-top:15px;height:120px;border-radius:var(--r-md);background:rgba(10,11,42,.03);box-shadow:inset 0 0 0 1px var(--paper-line)}
+.sigbox canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.sigbox .base{position:absolute;left:15px;right:15px;bottom:30px;border-bottom:1px dashed rgba(10,11,42,.3);pointer-events:none}
+.sigbox .ph{position:absolute;left:15px;bottom:9px;font-size:var(--fs-micro);color:var(--paper-ts);pointer-events:none;transition:opacity .2s}
+.sigbox.inked .ph{opacity:0}
+.sigbox .clr{position:absolute;top:6px;right:6px;height:32px;padding:0 12px;font-size:var(--fs-micro);font-weight:500;color:var(--paper-tx);border-radius:var(--r-pill);background:rgba(10,11,42,.06)}
+.stamp{position:absolute;right:20px;bottom:36px;padding:7px 12px;border:2px solid var(--pink);color:#C21873;border-radius:var(--r-pill);font-size:var(--fs-micro);font-weight:600;letter-spacing:var(--ls-ui);text-transform:uppercase;transform:rotate(-8deg) scale(1.8);opacity:0;pointer-events:none;background:rgba(255,255,255,.9)}
+.stamp.on{animation:stamp .5s var(--e-push) forwards}
+@keyframes stamp{to{opacity:1;transform:rotate(-8deg) scale(1)}}
+.chk{display:flex;gap:12px;align-items:center;margin:15px var(--gutter) 0;min-height:44px;font-size:var(--fs-label);line-height:1.45;color:var(--ts);cursor:pointer}
+.chk input{appearance:none;width:24px;height:24px;border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--b3);flex:none;display:grid;place-items:center;transition:background .2s;cursor:pointer}
+.chk input:checked{background:var(--pink);box-shadow:none}
+.chk input:checked::after{content:'';width:10px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.updates{list-style:none;padding:0 var(--gutter);display:flex;flex-direction:column;gap:10px}
+.updates li{display:flex;gap:12px;padding:15px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);font-size:var(--fs-body-sm);line-height:1.45}
+.updates li>.ms{font-size:20px;width:40px;height:40px;border-radius:50%;background:var(--s3);display:grid;place-items:center;flex:none}
+.updates li b{font-weight:300}
+.updates li time{display:block;font-size:var(--fs-micro);color:var(--ts);margin-top:3px}
+.updates li.unread{box-shadow:inset 0 0 0 1px rgba(245,130,31,.4)}
+.updates li.unread>.ms{background:var(--tint-orange);color:var(--orange-tx)}
+.lrow{display:flex;align-items:center;gap:12px;padding:12px 15px 12px 12px;border-radius:var(--r-lg);background:var(--s2);box-shadow:var(--ring);width:100%;text-align:left;transition:background .2s}
+.lrow:active{background:var(--s3)}
+.lrow .sv-ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--s3);flex:none}
+.lrow .nm{flex:1;min-width:0}
+.lrow .nm b{display:block;font-size:var(--fs-body-sm);font-weight:500}
+.lrow .nm small{display:block;font-size:var(--fs-label);color:var(--ts);margin-top:2px}
+.lrow>.ms{color:var(--ts)}
+.list{display:flex;flex-direction:column;gap:10px;padding:0 var(--gutter)}
+.mini{height:4px;border-radius:4px;background:var(--s3);overflow:hidden;margin-top:8px}
+.mini i{display:block;height:100%;background:var(--pink);border-radius:4px;transition:width .8s var(--e-out)}
+.acct{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px var(--gutter) 5px;text-align:center}
+.acct .big{width:72px;height:72px;border-radius:50%;background:var(--s3);display:grid;place-items:center;font-size:var(--fs-h2);font-weight:500;margin-bottom:5px}
+.acct b{font-size:var(--fs-h2);font-weight:600}
+.acct small{font-size:var(--fs-label);color:var(--ts)}
+
+/* web link chrome */
+.chrome{display:flex;align-items:center;gap:8px;padding:2px 12px 10px;flex:none}
+.chrome .url{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;height:38px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--ring);font-size:var(--fs-label);color:var(--ts);min-width:0}
+.chrome .url .ms{font-size:15px}
+.chrome .url span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chrome button{font-size:var(--fs-body-sm);color:var(--pink-tx);height:44px;padding:0 6px}
+.chrome>.ms{color:var(--ts);width:44px;text-align:center}
+
+/* ---------- WhatsApp (the real WhatsApp, not Rodood chrome) ---------- */
+.vp.wa-mode .sbar{color:var(--w-tp)}
+.wa{background:var(--w-bg) !important;color:var(--w-tp);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:0}
+.wa .whd{display:flex;align-items:center;gap:10px;padding:4px 12px 10px;background:var(--w-head);box-shadow:0 1px 0 rgba(0,0,0,.08);flex:none}
+.wa .whd b{display:flex;align-items:center;gap:4px;font-size:16px;font-weight:600}
+.wa .whd b .ms{font-size:16px;color:var(--w-accent)}
+.wa .whd small{display:block;font-size:12px;color:var(--w-ts)}
+.wa .tav{background:#2A3942;color:#E9EDEF}
+.wa .wscroll{flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 10px 10px;display:flex;flex-direction:column;gap:6px}
+.wa .wscroll::-webkit-scrollbar{display:none}
+.wday{align-self:center;font-size:12px;padding:4px 10px;border-radius:8px;background:var(--w-head);color:var(--w-ts);margin:2px 0 4px}
+.bub{max-width:84%;padding:7px 9px 5px;border-radius:10px;font-size:15px;line-height:1.38;position:relative;box-shadow:0 1px .5px rgba(0,0,0,.13);animation:bub .32s var(--e-push);white-space:pre-line}
+@keyframes bub{from{opacity:0;transform:translateY(8px) scale(.96)}}
+.bub.in{align-self:flex-start;background:var(--w-in);border-top-left-radius:3px}
+.bub.out{align-self:flex-end;background:var(--w-out);border-top-right-radius:3px}
+.bub time{display:block;text-align:right;font-size:11px;color:var(--w-ts);margin-top:2px}
+.bub .from{display:block;font-size:12px;font-weight:600;color:var(--w-accent);margin-bottom:2px}
+.wbtns{display:flex;flex-direction:column;gap:5px;align-self:flex-start;width:84%;animation:bub .32s var(--e-push)}
+.wbtns button{background:var(--w-in);color:var(--w-accent);font-size:14px;font-weight:500;min-height:44px;padding:8px;border-radius:10px;box-shadow:0 1px .5px rgba(0,0,0,.13);display:flex;align-items:center;justify-content:center;gap:6px}
+.wbtns button[disabled]{opacity:.55}
+.wbtns.grid{display:grid;grid-template-columns:1fr 1fr}
+.wbtns.grid button{font-size:13px;padding:6px}
+.lnk{display:block;margin:-2px -4px 4px;border-radius:8px;overflow:hidden;background:color-mix(in srgb,var(--w-tp) 7%,transparent);text-align:left;width:calc(100% + 8px)}
+.lnk .lt{display:flex;gap:10px;align-items:center;padding:10px}
+.lnk .lt img{width:40px;height:40px;border-radius:10px}
+.lnk .lt b{display:block;font-size:14px;font-weight:600}
+.lnk .lt small{display:block;font-size:12px;color:var(--w-ts);margin-top:1px}
+.lnk u{display:block;font-size:12px;color:#53BDEB;padding:0 10px 8px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wimg{display:block;width:190px;height:132px;border-radius:7px;overflow:hidden;margin:-3px -5px 3px}
+.wimg svg{width:100%;height:100%;display:block}
+.typing{align-self:flex-start;background:var(--w-in);padding:10px 12px;border-radius:10px;border-top-left-radius:3px;color:var(--w-ts);animation:bub .25s var(--e-out)}
+.wbar{display:flex;align-items:center;gap:8px;padding:8px 10px 24px;background:var(--w-bar);flex:none}
+.wbar .wi{flex:1;display:flex;align-items:center;gap:6px;height:44px;border-radius:22px;background:var(--w-in);padding:0 6px 0 14px;min-width:0}
+.wbar .wi input{flex:1;border:none;background:none;outline:none;font-size:15px;min-width:0;color:var(--w-tp)}
+.wbar .wi button{width:36px;height:36px;color:var(--w-ts);display:grid;place-items:center}
+.wbar .wi button[disabled]{opacity:.35}
+.wbar .send{width:44px;height:44px;border-radius:50%;background:var(--w-accent);color:#fff;display:grid;place-items:center;flex:none}
+
+/* ---------- Spec notes ---------- */
+.spec{max-width:1000px;margin:0 auto;padding-block:10px 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.spec section{background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-lg);padding:24px;min-width:0}
+.spec h2{font-size:var(--fs-h2);font-weight:600;margin-bottom:15px;text-wrap:balance;letter-spacing:0}
+.spec p,.spec li{font-size:var(--fs-label);color:var(--ts);line-height:1.6}
+.spec ul{padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.spec .tw{overflow-x:auto}
+.spec table{width:100%;border-collapse:collapse;font-size:var(--fs-label)}
+.spec th{text-align:left;font-weight:400;color:var(--ts);padding:6px 8px 6px 0;border-bottom:1px solid var(--b2);white-space:nowrap;text-transform:uppercase;font-size:var(--fs-micro);letter-spacing:var(--ls-ui)}
+.spec td{padding:8px 8px 8px 0;border-bottom:1px solid var(--b2);vertical-align:top;color:var(--ts)}
+.spec td:first-child{color:var(--tp);white-space:nowrap}
+.spec code{font-size:var(--fs-micro);background:var(--s3);padding:2px 6px;border-radius:6px;white-space:nowrap}
+.kindlist{display:grid;gap:12px}
+.kindlist div{display:flex;gap:12px;align-items:flex-start;font-size:var(--fs-label);color:var(--ts);line-height:1.45}
+.kindlist .ibx{width:38px;height:38px}
+.kindlist .ibx .ms{font-size:19px}
+.kindlist b{color:var(--tp);font-weight:500;display:block}
+
+@media (max-width:979px){
+  .rail{display:none}
+  .viewseg{display:flex}
+  .dev[data-hide="1"]{display:none}
+}
+@media (max-width:420px){
+  body{padding-inline:8px}
+  .phone{border-width:6px;border-radius:40px}
+  .vp{height:720px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;animation-delay:0ms !important}
+}
+
+</style>
+
+<header class="deck">
+  <div class="eyebrow">Rodood · New feature · Service requests</div>
+  <div class="lockup"><img src="data:image/png;base64,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" alt=""><b>Service requests</b></div>
+  <p>A client picks a clearance service, then completes it step by step: answers, quotation, documents, signature. ANFAL's team reviews in Rodood Business while government steps are tracked. Both phones share one live state, so try acting on either side. All names, numbers and documents are sample data.</p>
+  <div class="ctrls">
+    <div class="seg" role="group" aria-label="Client entry point">
+      <button id="entry-app" class="on" data-entry="app"><span class="ms">smartphone</span>Client app</button>
+      <button id="entry-wa" data-entry="wa"><span class="ms">chat</span>WhatsApp + link</button>
+    </div>
+    <div class="seg" role="group" aria-label="Theme">
+      <button data-theme-set="light"><span class="ms">light_mode</span>Light</button>
+      <button data-theme-set="dark"><span class="ms">dark_mode</span>Dark</button>
+      <button data-theme-set="system" class="on"><span class="ms">contrast</span>System</button>
+    </div>
+    <button class="ghost" id="reset"><span class="ms">restart_alt</span>Reset demo</button>
+  </div>
+  <div class="ctrls viewseg">
+    <div class="seg" role="group" aria-label="Which phone">
+      <button id="view-c" class="on" data-view="c">Client</button>
+      <button id="view-b" data-view="b">ANFAL team</button>
+    </div>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="dev" id="dev-c">
+    <div class="devlabel"><i class="chipdot" style="background:var(--orange)"></i><span id="clabel">ANFAL client app · Yousif, Gulf Star Trading</span></div>
+    <div class="phone" id="ph-c"><div class="notch"></div>
+      <div class="vp anfal" id="vp-c">
+        <div class="sbar"><span>9:41</span><span class="ic"><span class="ms">signal_cellular_alt</span><span class="ms">wifi</span><span class="ms">battery_full</span></span></div>
+        <div class="screens"></div>
+        <nav class="bnav" aria-label="Client app">
+          <button data-tab="c.home" class="on"><span class="ms">home</span>Home</button>
+          <button data-tab="c.list"><span class="ms">assignment</span>Requests</button>
+          <button data-tab="c.updates"><span class="ms">notifications</span>Updates<span class="bdg" id="c-unread" hidden></span></button>
+          <button data-tab="c.account"><span class="ms">person</span>Account</button>
+        </nav>
+        <div class="push" role="status"></div><div class="toast" role="status"></div>
+        <div class="scrim"></div><div class="sheet" role="dialog" aria-modal="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="rail" aria-label="Live sync">
+    <h3>Live sync</h3>
+    <div class="track"><span class="end l"></span><span class="end r"></span><span class="packet" id="packet"></span></div>
+    <ul class="feed" id="feed"><li class="empty">Act on either phone. Each step change travels here.</li></ul>
+  </aside>
+
+  <div class="dev" id="dev-b" data-hide="1">
+    <div class="devlabel"><i class="chipdot" style="background:var(--pink)"></i>Rodood Business · ANFAL team</div>
+    <div class="phone" id="ph-b"><div class="notch"></div>
+      <div class="vp" id="vp-b">
+        <div class="sbar"><span>9:41</span><span class="ic"><span class="ms">signal_cellular_alt</span><span class="ms">wifi</span><span class="ms">battery_full</span></span></div>
+        <div class="screens"></div>
+        <nav class="bnav" aria-label="Rodood Business">
+          <button data-tab="b.inbox"><span class="ms">chat_bubble</span>Inbox</button>
+          <button data-tab="b.board" class="on"><span class="ms">assignment</span>Requests<span class="bdg" id="b-need" hidden></span></button>
+          <button data-tab="b.stub" data-name="Insights"><span class="ms">monitoring</span>Insights</button>
+          <button data-tab="b.stub" data-name="AI Studio"><span class="ms">auto_awesome</span>AI Studio</button>
+          <button data-tab="b.stub" data-name="Settings"><span class="ms">settings</span>Settings</button>
+        </nav>
+        <div class="push" role="status"></div><div class="toast" role="status"></div>
+        <div class="scrim"></div><div class="sheet" role="dialog" aria-modal="true"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="spec">
+  <section>
+    <h2>Six step types build every service</h2>
+    <div class="kindlist" id="kindlist"></div>
+  </section>
+  <section>
+    <h2>Motion tokens</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Moment</th><th>Timing</th><th>Flutter</th></tr></thead>
+      <tbody>
+        <tr><td>Page push</td><td>260 ms, fade + 14 px slide</td><td><code>RodoodPageRoute</code></td></tr>
+        <tr><td>Bottom sheet</td><td>300 ms, cubic(.2,.8,.2,1)</td><td><code>showRodoodSheet</code></td></tr>
+        <tr><td>Push banner</td><td>400 ms, cubic(.2,.9,.3,1.1)</td><td><code>Cubic(0.2,0.9,0.3,1.1)</code></td></tr>
+        <tr><td>Step completes</td><td>node pop 500 ms, check draw 400 ms, line fill 600 ms</td><td><code>TweenSequence</code></td></tr>
+        <tr><td>Current step</td><td>ring pulse, 1.8 s loop</td><td><code>RepeatingAnimation</code></td></tr>
+        <tr><td>Lists</td><td>rise 440 ms, 38 ms stagger</td><td><code>Interval</code> per index</td></tr>
+        <tr><td>Conditional step</td><td>height + fade 350 ms</td><td><code>AnimatedSize</code></td></tr>
+        <tr><td>Signature</td><td>stamp 500 ms overshoot</td><td><code>ScaleTransition</code></td></tr>
+        <tr><td>Reduced motion</td><td>all instant</td><td><code>disableAnimationsOf</code></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section>
+    <h2>Rules carried from the ANFAL playbook</h2>
+    <ul>
+      <li>Government fees and ANFAL's service charge are always shown as separate lines.</li>
+      <li>No screen promises approval or a processing time. Government steps say the decision belongs to LMRA.</li>
+      <li>The app never asks for passwords or PINs, and only collects the documents a step needs.</li>
+      <li>Violations, rejections, absence cases and blocked transfers are flagged for a person on the team.</li>
+      <li>Answers decide which steps apply: a 6-month permit is only offered inside Bahrain, and medical reports only for workers abroad.</li>
+      <li>Each service has a fixed price or is quoted per request. Fixed prices with no government fee go to the client automatically.</li>
+      <li>Editing a service changes new requests only. Open requests keep the steps and price they started with.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(()=>{
+'use strict';
+const LOGO='data:image/png;base64,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';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const narrow=()=>matchMedia('(max-width: 979px)').matches;
+let N=0;const uid=p=>(p||'s')+(++N);
+const MIN=60000;
+const fmtT=t=>new Date(t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+const fmtD=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+const ago=t=>{const m=Math.max(0,Math.round((Date.now()-t)/MIN));return m<1?'now':m<60?m+'m':m<1440?Math.round(m/60)+'h':Math.round(m/1440)+'d'};
+const BHD=n=>'BHD '+Number(n||0).toFixed(3);
+const CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+
+/* ---------- Step kinds & fields ---------- */
+const KIND={
+  form:{icon:'edit_note',label:'Fill in details',who:'client',desc:'The client answers questions. Answers can switch later steps on or off.'},
+  quote:{icon:'request_quote',label:'Quotation',who:'team',desc:'Your team prices it, the client accepts. Government fees stay separate from your charge.'},
+  upload:{icon:'upload_file',label:'Upload document',who:'client',desc:'The client sends a file. Your team approves it or asks for it again.'},
+  sign:{icon:'draw',label:'Sign document',who:'client',desc:'The client signs a letter filled in from their answers.'},
+  team:{icon:'task_alt',label:'Team action',who:'team',desc:'Internal work, like submitting to LMRA. The client is told when it is done.'},
+  gov:{icon:'account_balance',label:'Government decision',who:'gov',desc:'Waiting on the authority. Record approved, more documents, or rejected.'},
+};
+const FL={
+  cr:{label:'Company CR number',type:'text',ph:'e.g. 128844-1'},
+  employee:{label:'Employee full name',type:'text',ph:'As written in the passport'},
+  cpr:{label:'Employee CPR',type:'text',ph:'9 digits'},
+  nationality:{label:'Nationality',type:'choice',opts:['India','Philippines','Bangladesh','Pakistan','Egypt','Other']},
+  occupation:{label:'Job title',type:'text',ph:'e.g. Electrician'},
+  newOcc:{label:'New job title',type:'text',ph:'e.g. Site supervisor'},
+  location:{label:'Where is the employee now?',type:'choice',opts:['Inside Bahrain','Outside Bahrain']},
+  duration:{label:'Permit duration',type:'choice',opts:['6 months','12 months','24 months'],optCond:{'6 months':{f:'location',eq:'Inside Bahrain'}},hint:'The 6-month permit is only for workers already living in Bahrain.'},
+  currentEmployer:{label:'Current employer CR',type:'text',ph:'e.g. 99120-3'},
+  noc:{label:'Has the current employer agreed?',type:'choice',opts:['Yes','No']},
+  reason:{label:'Reason for cancellation',type:'choice',opts:['End of contract','Resigned','Left Bahrain','Absent from work']},
+  extra:{label:'Additional workers needed',type:'text',ph:'e.g. 6'},
+  violation:{label:'Violation code',type:'text',ph:'As shown on LMRA'},
+  appNo:{label:'LMRA application number',type:'text',ph:'If you have one'},
+  authority:{label:'Which authority?',type:'choice',opts:['MOIC / Sijilat','SIO','NBR','Other']},
+  details:{label:'What do you need?',type:'text',ph:'One line is enough'},
+  cert:{label:'Does the new job need a certificate?',type:'choice',opts:['Yes','No']},
+};
+const SAMPLE={cr:'128844-1',employee:'Ramesh Kumar',cpr:'880512347',nationality:'India',occupation:'Electrician',newOcc:'Site supervisor',location:'Outside Bahrain',duration:'24 months',currentEmployer:'99120-3',noc:'Yes',reason:'End of contract',extra:'6',violation:'V-2207',appNo:'',authority:'MOIC / Sijilat',details:'Add an activity to our CR',cert:'No'};
+const S=(kind,name,o={})=>({id:uid('st'),kind,name,...o});
+const IN={f:'location',eq:'Inside Bahrain'},OUT={f:'location',eq:'Outside Bahrain'};
+// Pricing: two options per service. 'fixed' = set price shown up front; 'quote' = the team prices each request.
+// gov: a government fee is added on each quotation (always its own line). vat: 10% on the service charge only.
+const PRICE={nwp:{mode:'fixed',fixed:40,gov:true,vat:true},renew:{mode:'fixed',fixed:25,gov:true,vat:true},transfer:{mode:'fixed',fixed:45,gov:true,vat:true},
+  cancel:{mode:'fixed',fixed:15,gov:true,vat:true},occ:{mode:'fixed',fixed:30,gov:true,vat:true},ceiling:{mode:'quote',fixed:0,gov:true,vat:true},
+  violation:{mode:'quote',fixed:0,gov:true,vat:true},rwp:{mode:'fixed',fixed:35,gov:true,vat:true},tech:{mode:'fixed',fixed:10,gov:false,vat:true},other:{mode:'quote',fixed:0,gov:true,vat:true}};
+const VAT=0.10;
+const qVat=q=>q.vat?Math.round(q.fee*VAT*1000)/1000:0;
+const qTotal=q=>(q.gov||0)+(q.fee||0)+qVat(q);
+function priceSummary(svc){const p=svc.price;return p.mode==='fixed'?BHD(p.fixed)+(p.gov?' + gov. fee':''):'Priced after review'}
+function makeServices(){return SVC_DEFS().map(s=>({...s,on:true,price:{...PRICE[s.id]}}))}
+function SVC_DEFS(){return[
+  {id:'nwp',name:'New Work Permit',icon:'badge',eta:'Usually 5–10 working days',blurb:'Hire an expatriate employee, whether they are already in Bahrain or still abroad.',fields:['cr','employee','nationality','occupation','location','duration'],
+   steps:[S('form','Company and employee details'),S('quote','Quotation'),S('upload','Passport copy'),S('upload','CPR copy',{cond:IN}),S('upload','Medical examination report',{cond:OUT}),S('sign','Authorization letter'),S('team','Submit to LMRA'),S('gov','LMRA decision')]},
+  {id:'renew',name:'Work Permit Renewal',icon:'autorenew',eta:'Usually 3–7 working days',blurb:'Renew an employee’s permit before it expires, including employees who are abroad.',fields:['cr','employee','cpr','location','duration'],
+   steps:[S('form','Permit details'),S('quote','Quotation'),S('upload','Passport copy'),S('upload','Current permit screenshot'),S('team','Submit renewal to LMRA'),S('gov','LMRA decision')]},
+  {id:'transfer',name:'Employee Transfer',icon:'swap_horiz',eta:'Depends on LMRA review',blurb:'Move an employee from their current employer to your company.',fields:['cr','currentEmployer','employee','cpr','noc'],
+   steps:[S('form','Both employers and employee'),S('upload','Passport copy'),S('upload','NOC from current employer',{cond:{f:'noc',eq:'Yes'}}),S('team','Check transfer eligibility',{cond:{f:'noc',eq:'No'}}),S('sign','Transfer request letter'),S('quote','Quotation'),S('team','Submit transfer to LMRA'),S('gov','LMRA decision')]},
+  {id:'cancel',name:'Work Permit Cancellation',icon:'event_busy',eta:'Usually 1–3 working days',blurb:'Cancel an employee’s permit at the end of their employment.',fields:['cr','employee','cpr','reason'],
+   steps:[S('form','Employee and reason'),S('team','Absence case review',{cond:{f:'reason',eq:'Absent from work'},flag:true}),S('upload','Passport copy'),S('sign','Cancellation request'),S('team','Submit cancellation'),S('gov','LMRA confirmation')]},
+  {id:'occ',name:'Change of Occupation',icon:'work_history',eta:'Depends on the occupation',blurb:'Change an employee’s registered job title.',fields:['cr','employee','cpr','occupation','newOcc','cert'],
+   steps:[S('form','Current and new job'),S('upload','Qualification certificate',{cond:{f:'cert',eq:'Yes'}}),S('quote','Quotation'),S('sign','Occupation change request'),S('team','Submit to LMRA'),S('gov','LMRA decision')]},
+  {id:'ceiling',name:'LMRA Ceiling / Workload',icon:'groups',eta:'Subject to LMRA assessment',blurb:'Ask LMRA to allow more expatriate workers for your company.',fields:['cr','extra','details'],
+   steps:[S('form','Company and workers needed'),S('upload','Current employee list'),S('upload','Contracts, invoices or work orders'),S('quote','Quotation'),S('sign','Ceiling increase request'),S('team','Submit to LMRA'),S('gov','LMRA assessment')]},
+  {id:'violation',name:'LMRA Violation',icon:'gpp_maybe',eta:'Subject to LMRA review',blurb:'Review a violation and request its removal where there are grounds.',fields:['cr','violation'],
+   steps:[S('form','Violation details'),S('upload','Violation screenshot'),S('team','Clearance team review',{flag:true}),S('quote','Quotation'),S('sign','Removal request letter'),S('team','Submit removal request'),S('gov','LMRA decision')]},
+  {id:'rwp',name:'Registered Worker Permit',icon:'id_card',eta:'Via a Labour Registration Centre',blurb:'For eligible workers applying through an approved Labour Registration Centre.',fields:['employee','cpr','nationality'],
+   steps:[S('form','Worker details'),S('upload','Passport copy'),S('upload','CPR copy'),S('quote','Quotation'),S('team','Apply via Labour Registration Centre'),S('gov','LMRA decision')]},
+  {id:'tech',name:'Application or System Issue',icon:'build',eta:'Depends on the issue',blurb:'A pending, rejected or stuck LMRA application, or an error message.',fields:['cr','appNo'],
+   steps:[S('form','Application details'),S('upload','Error or status screenshot'),S('team','Clearance team review',{flag:true}),S('team','Raise case with LMRA')]},
+  {id:'other',name:'Other Government Service',icon:'account_balance',eta:'Depends on the authority',blurb:'MOIC / Sijilat, SIO, NBR and other government procedures.',fields:['authority','cr','details'],
+   steps:[S('form','What you need'),S('upload','Supporting documents'),S('team','Clearance team review'),S('quote','Quotation'),S('team','Submit to the authority')]},
+];}
+
+/* ---------- Sample documents (drawn, not real) ---------- */
+function docArt(kind,label){
+  const pal={passport:['#1F3A5F','#E7C27A'],cpr:['#0E5A4A','#E7EDE9'],medical:['#F1F3F5','#D93C42'],shot:['#F4F6FA','#5B8CFF'],noc:['#FFFDF8','#0E5A4A'],list:['#FFFFFF','#0E5A4A']}[kind]||['#FFFFFF','#0E5A4A'];
+  const [bg,ac]=pal;const t=esc(label||'SAMPLE');
+  if(kind==='passport')return `<svg viewBox="0 0 160 112" preserveAspectRatio="xMidYMid slice"><rect width="160" height="112" fill="${bg}"/><rect x="12" y="20" width="38" height="48" rx="4" fill="#ffffff22" stroke="${ac}" stroke-width="1.5"/><circle cx="31" cy="38" r="9" fill="${ac}" opacity=".7"/><rect x="21" y="50" width="20" height="12" rx="6" fill="${ac}" opacity=".7"/><rect x="60" y="22" width="80" height="6" rx="3" fill="${ac}"/><rect x="60" y="36" width="64" height="5" rx="2.5" fill="#ffffff55"/><rect x="60" y="48" width="72" height="5" rx="2.5" fill="#ffffff55"/><rect x="60" y="60" width="50" height="5" rx="2.5" fill="#ffffff55"/><rect x="12" y="80" width="136" height="5" rx="2.5" fill="#ffffff40"/><rect x="12" y="92" width="136" height="5" rx="2.5" fill="#ffffff40"/><text x="148" y="14" text-anchor="end" font-size="8" font-family="sans-serif" fill="${ac}" letter-spacing="1">${t}</text></svg>`;
+  return `<svg viewBox="0 0 160 112" preserveAspectRatio="xMidYMid slice"><rect width="160" height="112" fill="${bg}"/><rect x="14" y="14" width="56" height="7" rx="3.5" fill="${ac}"/>${[30,42,54,66,78].map((y,i)=>`<rect x="14" y="${y}" width="${[132,118,126,96,110][i]}" height="5" rx="2.5" fill="${ac}" opacity=".22"/>`).join('')}<rect x="14" y="92" width="40" height="8" rx="4" fill="${ac}" opacity=".5"/><text x="146" y="20" text-anchor="end" font-size="8" font-family="sans-serif" fill="${ac}" letter-spacing="1">${t}</text></svg>`;
+}
+function artFor(stepName){const n=stepName.toLowerCase();return n.includes('passport')?'passport':n.includes('cpr')?'cpr':n.includes('medical')?'medical':n.includes('screenshot')?'shot':n.includes('noc')?'noc':'list'}
+function thumb(file){return file?.url?`<img src="${file.url}" alt="">`:docArt(file?.art||'list','SAMPLE')}
+
+/* ---------- State ---------- */
+let ST;
+const CLIENT_CO='Gulf Star Trading W.L.L.';
+function svcById(id){return ST.services.find(s=>s.id===id)}
+function reqById(id){return ST.requests.find(r=>r.id===id)}
+function applies(s,r){if(!s.cond)return true;const v=r.values[s.cond.f];if(v==null||v==='')return null;return v===s.cond.eq}
+function startPhase(kind){return({form:'client',quote:'team',upload:'client',sign:'client',team:'team',gov:'gov'})[kind]}
+function curStep(r){return r.steps.find(s=>s.st==='active'||s.st==='rejected')}
+function whoOf(r){if(r.status==='done')return'done';const c=curStep(r);if(!c)return'done';if(c.st==='rejected')return'team';return({client:'client',redo:'client',review:'team',team:'team',gov:'gov'})[c.phase]}
+function progress(r){const ap=r.steps.filter(s=>applies(s,r)!==false&&s.st!=='skipped');const d=ap.filter(s=>s.st==='done').length;return{d,t:ap.length,p:ap.length?d/ap.length:0}}
+function log(r,by,text,ctext){r.log.unshift({t:Date.now(),by,text,ctext})}
+function advance(r){
+  for(const s of r.steps){
+    if(s.st==='done'||s.st==='skipped')continue;
+    if(s.st==='rejected')return;
+    if(applies(s,r)===false){s.st='skipped';continue}
+    if(s.st!=='active'){s.st='active';s.phase=startPhase(s.kind);s.since=Date.now();
+      if(s.kind==='upload'&&s.file&&s.phase==='client')s.phase='review';
+      if(s.kind==='quote'){const pr=svcById(r.svc).price;if(pr.mode==='fixed'&&!pr.gov){r.quote={gov:0,fee:pr.fixed,vat:pr.vat};s.phase='client';s.auto=true;log(r,'team','Fixed price sent automatically','Your price is ready to accept')}}}
+    return;
+  }
+  r.status='done';r.doneAt=Date.now();
+}
+function newRequest(svcId,meta){
+  const svc=svcById(svcId);
+  const r={id:meta.id||('ANF-'+(++ST.seq)),svc:svcId,company:meta.company||CLIENT_CO,contact:meta.contact||'Yousif Al Mannai',channel:meta.channel||'app',mine:meta.mine!==false,
+    values:{...(meta.values||{})},steps:svc.steps.map(s=>({...s,id:uid('rs'),st:'todo'})),log:[],created:meta.created||Date.now(),status:'open',quote:null,appNo:null};
+  log(r,meta.channel==='wa'?'noor':'client',meta.channel==='wa'?'Noor opened this request on WhatsApp':'Request opened in the client app','You opened this request');
+  advance(r);return r;
+}
+function fastForward(r,n,final){
+  // complete n applicable steps with sample data (seed helper)
+  for(let i=0;i<n;i++){const c=curStep(r);if(!c)break;completeSample(r,c);c.st='done';c.at=r.created+(i+1)*37*MIN;advance(r)}
+  const c=curStep(r);if(c){c.since=Math.min(Date.now()-4*MIN,r.created+(n+1)*37*MIN);if(final)Object.assign(c,final)}
+}
+function completeSample(r,c){
+  if(c.kind==='form'){const svc=svcById(r.svc);svc.fields.forEach(f=>{if(r.values[f]==null)r.values[f]=SAMPLE[f]})}
+  if(c.kind==='upload')c.file={name:c.name.replace(/ /g,'_').toLowerCase()+'.jpg',art:artFor(c.name),size:'1.2 MB'};
+  if(c.kind==='quote'){const pr=svcById(r.svc).price;r.quote={gov:pr.gov?172:0,fee:pr.mode==='fixed'?pr.fixed:120,vat:pr.vat}}
+  if(c.kind==='sign')c.sig=true;
+  if(c.kind==='team'&&/LMRA|Submit|Apply/.test(c.name))r.appNo=r.appNo||'2026-1'+String(18000+Math.floor(Math.random()*900));
+}
+function seed(){
+  N=0;
+  ST={services:makeServices(),requests:[],seq:2041,unread:1,feed:[],wa:null,entry:ST?.entry||'app',fresh:new Set(),drafts:{},newCards:new Set()};
+  const T=Date.now();
+  const mk=(svc,meta,n,final)=>{const r=newRequest(svc,{...meta,created:T-meta.age*MIN});fastForward(r,n,final);r.log=r.log.slice(-1);
+    // light log history
+    r.steps.filter(s=>s.st==='done').forEach(s=>r.log.unshift({t:s.at,by:KIND[s.kind].who==='client'?'client':'team',text:`${s.name} completed`,ctext:`${s.name} completed`}));r.log[r.log.length-1].t=r.created;
+    ST.requests.push(r);return r};
+  mk('renew',{id:'ANF-2036',values:{location:'Inside Bahrain',duration:'12 months'},age:200},2);
+  mk('transfer',{id:'ANF-2038',company:'Bahrain Bay Contracting',contact:'Fatima Hassan',mine:false,channel:'wa',age:95},1,{phase:'review',file:{name:'passport_scan.jpg',art:'passport',size:'1.6 MB'}});
+  mk('ceiling',{id:'ANF-2040',company:'Delmon Foods Co.',contact:'Ali Mansoor',mine:false,age:48},3);
+  mk('violation',{id:'ANF-2033',company:'Riffa Auto Parts',contact:'Sara Janahi',mine:false,channel:'wa',age:300},2);
+  mk('occ',{id:'ANF-2035',company:'Al Noor Bakery',contact:'Khalid Mahmood',mine:false,age:160,values:{cert:'No'}},2);
+  mk('nwp',{id:'ANF-2031',company:'Seef Tech Solutions',contact:'Omar Al Sayed',mine:false,age:2900,values:{location:'Inside Bahrain',duration:'12 months'}},6);
+  mk('cancel',{id:'ANF-2029',company:CLIENT_CO,contact:'Yousif Al Mannai',age:8000,values:{reason:'End of contract',employee:'Joseph Mathew'}},6);
+  const r36=reqById('ANF-2036');log(r36,'team','Quotation accepted by client','ANFAL started on your passport copy check list');
+  ST.requests.sort((a,b)=>b.created-a.created);
+}
+
+/* ---------- Phones ---------- */
+const P={c:{stack:[],vp:null},b:{stack:[],vp:null}};
+function top(side){const s=P[side].stack;return s[s.length-1]}
+function go(side,scr,params={}){P[side].stack.push({scr,params});paint(side,'push')}
+function back(side){if(P[side].stack.length>1){P[side].stack.pop();paint(side,'pop')}}
+function tab(side,scr,params={}){P[side].stack=[{scr,params}];paint(side,'fade')}
+function paint(side,anim){
+  const p=P[side],t=top(side),host=$('.screens',p.vp);
+  const old=host.firstElementChild;const keepScroll=!anim&&old?$('.scroll',old)?.scrollTop:0;
+  const el=document.createElement('div');el.className='scr'+(anim?' a-'+anim:'');
+  el.innerHTML=SCR[t.scr](t.params,side);
+  if(t.scr==='w.chat')el.classList.add('wa');
+  host.replaceChildren(el);
+  $$('.stg',el).forEach(g=>[...g.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,12))));
+  const sc=$('.scroll',el);if(sc&&keepScroll)sc.scrollTop=keepScroll;
+  const isRoot=p.stack.length===1&&!t.params.web&&t.scr!=='w.chat';
+  p.vp.classList.toggle('has-nav',isRoot&&!(side==='c'&&ST.entry==='wa'));
+  p.vp.classList.toggle('wa-mode',t.scr==='w.chat');
+  $$('.bnav button',p.vp).forEach(b=>{const on=b.dataset.tab===P[side].stack[0].scr&&(!b.dataset.name||b.dataset.name===P[side].stack[0].params.name);b.classList.toggle('on',on)});
+  MOUNT[t.scr]?.(el,t.params,side,anim);
+  badges();
+}
+function refresh(side){paint(side,null)}
+function refreshAll(){refresh('c');refresh('b')}
+function badges(){
+  const need=ST.requests.filter(r=>whoOf(r)==='team').length;
+  const b=$('#b-need');b.hidden=!need;if(b.textContent!==String(need)){b.textContent=need;b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}
+  const u=$('#c-unread');u.hidden=!ST.unread;if(u.textContent!==String(ST.unread)){u.textContent=ST.unread;u.classList.remove('bump');void u.offsetWidth;u.classList.add('bump')}
+}
+
+/* sheets, toasts, push */
+function sheet(side,html,mount){const vp=P[side].vp,sh=$('.sheet',vp);sh.innerHTML='<div class="grab"></div>'+html;sh.scrollTop=0;vp.classList.add('sheet-on');mount?.(sh);setTimeout(()=>$('input,textarea',sh)?.focus({preventScroll:true}),320)}
+function closeSheet(side){P[side].vp.classList.remove('sheet-on')}
+function toast(side,text,icon='check_circle'){const el=$('.toast',P[side].vp);el.innerHTML=`<span class="ms">${icon}</span>${esc(text)}`;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2200)}
+function push(side,{title,text,req}){
+  const el=$('.push',P[side].vp);
+  const icon=side==='b'?`<span class="pi"><img src="${LOGO}" alt=""></span>`:`<span class="pi">${AMARK}</span>`;
+  el.innerHTML=`${icon}<span class="pt"><b>${esc(title)}<i>now</i></b><span>${esc(text)}</span></span>`;
+  el.dataset.req=req||'';el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3600);
+}
+function emit(from,{text,ctext,req,title}){
+  const to=from==='c'?'b':'c';
+  if(to==='b')push('b',{title:title||'ANFAL · Requests',text,req});
+  else{ST.unread++;const r=reqById(req);push('c',{title:ST.entry==='wa'?'WhatsApp · ANFAL Clearance':'ANFAL',text:ctext||text,req});
+    if(ST.wa&&r&&r.channel==='wa')ST.wa.msgs.push({me:false,text:ctext||text,t:Date.now()})}
+  const pk=$('#packet');pk.className='packet';void pk.offsetWidth;pk.classList.add(from==='c'?'go-r':'go-l');
+  ST.feed.unshift({from,text:from==='c'?text:(ctext||text),req});ST.feed=ST.feed.slice(0,5);
+  $('#feed').innerHTML=ST.feed.map(f=>`<li><b><span class="ms">${f.from==='c'?'east':'west'}</span>${f.from==='c'?'Client → ANFAL':'ANFAL → Client'} · ${esc(f.req)}</b>${esc(f.text)}</li>`).join('');
+}
+function markFresh(r,s){const k=s.id;ST.fresh.add(k);setTimeout(()=>ST.fresh.delete(k),1600)}
+function nudge(side){
+  if(narrow()){setView(side);return}
+  const ph=$('#ph-'+side);ph.classList.add('nudge');setTimeout(()=>ph.classList.remove('nudge'),1400);
+}
+
+/* ---------- Timeline ---------- */
+function stepMeta(r,s,view){
+  const a=applies(s,r);
+  if(s.st==='done')return{cls:'done',sub:(s.at?`${view==='c'?'Done':'Completed'} · ${fmtT(s.at)}`:'Done')};
+  if(s.st==='skipped')return{cls:'skip',sub:'Not needed for this request'};
+  if(s.st==='rejected')return{cls:'rej',sub:'Rejected by LMRA · team reviewing'};
+  if(s.st==='active'){
+    const w=({client:'client',redo:'client',review:'team',team:'team',gov:'gov'})[s.phase];
+    let sub='';
+    if(view==='c')sub=({client:'Your turn',redo:'Please send it again',review:'ANFAL is checking it',team:s.kind==='quote'?'ANFAL is preparing your quote':'ANFAL is working on it',gov:'Waiting for LMRA'})[s.phase];
+    else sub=({client:`Waiting on client · ${ago(s.since)}`,redo:'Asked again · waiting on client',review:'Needs your review',team:s.kind==='quote'?'Prepare quotation':'Your team',gov:'With LMRA'})[s.phase];
+    return{cls:'cur who-'+w+(s.phase==='redo'?' redo':''),sub};
+  }
+  if(a===false)return{cls:'skip',sub:'Not needed for this request'};
+  if(a===null)return{cls:'cond',sub:condText(s)};
+  return{cls:'',sub:view==='c'?({client:'You',team:'ANFAL',gov:'LMRA'})[KIND[s.kind].who]:({client:'Client',team:'Team',gov:'LMRA'})[KIND[s.kind].who]};
+}
+function condText(s){if(!s.cond)return'';return`Only if ${FL[s.cond.f].label.toLowerCase().replace(/\?$/,'')}: ${s.cond.eq}`}
+function timeline(r,view){
+  return `<ol class="tl">${r.steps.map(s=>{const m=stepMeta(r,s,view);const fresh=ST.fresh.has(s.id)?' fresh':'';
+    const icon=s.st==='done'?CHECK:s.st==='rejected'?'<span class="ms">close</span>':s.st==='skipped'?'<span class="ms">remove</span>':`<span class="ms">${KIND[s.kind].icon}</span>`;
+    const flag=view==='b'&&s.flag&&s.st==='active'?' <span class="chip w-hu"><span class="ms">flag</span>Needs a person</span>':'';
+    return `<li class="tn ${m.cls}${fresh}"><span class="node">${icon}</span><span class="ln"></span><div class="tb"><b>${esc(s.name)}</b><small>${esc(m.sub)}${flag}</small></div></li>`}).join('')}</ol>`;
+}
+
+/* ---------- Business screens ---------- */
+const AVC=['#E0328C','#9B1FE0','#F5821F','#2F9E75','#5B8CFF','#C2410C'];
+function avatar(name,ch){const i=name.split(/\s+/).filter(w=>/^[A-Z]/.test(w)).slice(0,2).map(w=>w[0]).join('');
+  return `<span class="av">${i}<span class="chn ${ch==='wa'?'wa':'app'}" aria-label="${ch==='wa'?'WhatsApp':'Client app'}"><span class="ms">${ch==='wa'?'chat':'smartphone'}</span></span></span>`}
+function segbar(r){return `<div class="segbar">${r.steps.filter(s=>s.st!=='skipped'&&applies(s,r)!==false).map(s=>{const w=whoOf(r);return `<i class="${s.st==='done'?'d':s.st==='rejected'?'x':s.st==='active'?'c '+w:''}"></i>`}).join('')}</div>`}
+function nextText(r){const w=whoOf(r),c=curStep(r);if(w==='done')return'Completed';
+  if(c.st==='rejected')return`Rejected by LMRA · decide next step`;
+  return({client:`Waiting on client · ${c.name}`,team:c.phase==='review'?`Review ${c.name.toLowerCase()}`:c.kind==='quote'?'Prepare quotation':c.name,gov:`With LMRA${r.appNo?' · '+r.appNo:''}`})[w]}
+const AMARK='<span class="tav sm">AN</span>';
+const WHOCHIP={team:['w-hu','Needs you'],client:['w-nt','On client'],gov:['w-nt','With LMRA'],done:['w-nt','Done']};
+const FILTERS=[['all','All'],['team','Needs you'],['client','Waiting on client'],['gov','With LMRA'],['done','Completed']];
+const SCR={};const MOUNT={};
+SCR['b.board']=(p)=>{
+  const f=p.filter||'all';const mode=p.mode||'req';
+  const cnt=k=>ST.requests.filter(r=>whoOf(r)===k).length;
+  const list=ST.requests.filter(r=>f==='all'||whoOf(r)===f).sort((a,b)=>({team:0,client:1,gov:2,done:3}[whoOf(a)]-{team:0,client:1,gov:2,done:3}[whoOf(b)])||b.created-a.created);
+  const head=`<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· Requests</span></div><div class="t"></div><button class="ib" data-act="toast" data-text="Search is unchanged in this feature" aria-label="Search"><span class="ms">search</span></button></div>
+  <div class="tabs2 ${mode==='svc'?'right':''}"><span class="thumb"></span><button class="${mode==='req'?'on':''}" data-act="bmode" data-mode="req">Requests</button><button class="${mode==='svc'?'on':''}" data-act="bmode" data-mode="svc">Services</button></div>`;
+  if(mode==='svc'){
+    return head+`<div class="scroll"><div class="pad" style="margin-top:15px"><button class="btn pri" data-act="newsvc"><span class="ms">add</span>New service</button></div><div class="sec">${ST.services.filter(s=>s.on).length} of ${ST.services.length} offered to clients</div><div class="svl stg">${ST.services.map(s=>{const open=ST.requests.filter(r=>r.svc===s.id&&r.status!=='done').length;
+      return `<div class="svr"><button class="ibx" data-act="builder" data-svc="${s.id}" aria-label="Edit ${esc(s.name)}"><span class="ms">${s.icon}</span></button><button class="nm" style="text-align:left" data-act="builder" data-svc="${s.id}"><b>${esc(s.name)}</b><small>${s.on?'':'Draft · '}${priceSummary(s)} · ${open} open</small></button><button class="tgl ${s.on?'on':''}" data-act="svctoggle" data-svc="${s.id}" role="switch" aria-checked="${s.on}" aria-label="Offer ${esc(s.name)}"></button></div>`}).join('')}</div></div>`;
+  }
+  return head+`<div class="scroll"><div class="sum">
+    <button class="${f==='team'?'on':''}" data-act="bfilter" data-f="team"><b data-count="${cnt('team')}">${cnt('team')}</b><span><i style="background:var(--orange)"></i>Needs you</span></button>
+    <button class="${f==='client'?'on':''}" data-act="bfilter" data-f="client"><b data-count="${cnt('client')}">${cnt('client')}</b><span><i style="background:var(--tp)"></i>On client</span></button>
+    <button class="${f==='gov'?'on':''}" data-act="bfilter" data-f="gov"><b data-count="${cnt('gov')}">${cnt('gov')}</b><span><i style="background:var(--ts)"></i>With LMRA</span></button></div>
+    <div class="pills">${FILTERS.map(([k,l])=>`<button class="${f===k?'on':''}" data-act="bfilter" data-f="${k}">${l}</button>`).join('')}</div>
+    <div class="rq stg">${list.length?list.map(r=>{const w=whoOf(r);const svc=svcById(r.svc);const flag=curStep(r)?.flag||curStep(r)?.st==='rejected';
+      return `<button class="rc ${ST.newCards.has(r.id)?'new':''}" data-act="breq" data-id="${r.id}"><div class="r1">${avatar(r.company,r.channel)}<div class="nm"><b>${esc(r.company)}</b><small>${esc(svc.name)}${r.values.employee?' · '+esc(r.values.employee):''}</small></div><div class="id">${r.id}</div></div>${segbar(r)}<div class="r3"><span class="chip ${WHOCHIP[w][0]}">${WHOCHIP[w][1]}</span>${flag?'<span class="chip w-hu"><span class="ms">flag</span>Person</span>':''}<span class="nx">${esc(nextText(r))}</span><time>${ago(curStep(r)?.since||r.doneAt||r.created)}</time></div></button>`}).join(''):'<div class="empty-note">Nothing here right now.</div>'}</div></div>`;
+};
+MOUNT['b.board']=(el,p,side,anim)=>{
+  if(anim&&!RM())$$('[data-count]',el).forEach(b=>{const n=+b.dataset.count;let s=null;const step=t=>{s??=t;const k=Math.min(1,(t-s)/650);b.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+  setTimeout(()=>ST.newCards.clear(),1500);
+};
+SCR['b.req']=(p)=>{
+  const r=reqById(p.id),svc=svcById(r.svc),c=curStep(r),w=whoOf(r);
+  let act='';
+  if(w==='team'&&c.st==='rejected'){act=`<div class="act team"><div class="ah"><span class="ms">flag</span>Needs a person</div><h2>LMRA rejected the application</h2><p>Check the reason with the client before resubmitting. The client sees that the team is reviewing.</p><div class="row2"><button class="btn sm sec2" data-act="toast" data-text="Opens the WhatsApp conversation">Message client</button><button class="btn sm pri" data-act="reopen" data-id="${r.id}">Resubmit</button></div></div>`}
+  else if(w==='team'&&c.phase==='review'){act=`<div class="act team"><div class="ah"><span class="ms">visibility</span>Needs your review</div><h2>${esc(c.name)}</h2><p>Check it is clear, valid and matches the request.</p><div class="docprev"><div class="th">${thumb(c.file)}</div><div class="dm"><b>${esc(c.file?.name||'document')}</b><small>${esc(c.file?.size||'')} · ${c.file?.via==='wa'?'sent on WhatsApp':'uploaded in app'}</small></div></div><div class="row2"><button class="btn sm sec2" data-act="askagain" data-id="${r.id}"><span class="ms">undo</span>Ask again</button><button class="btn sm pri" data-act="approve" data-id="${r.id}"><span class="ms">check</span>Approve</button></div></div>`}
+  else if(w==='team'&&c.kind==='quote'){act=`<div class="act team"><div class="ah"><span class="ms">request_quote</span>Your turn</div><h2>Prepare the quotation</h2><p>Enter the government fee and ANFAL's service charge separately. The client accepts before work continues.</p><div class="row2"><button class="btn sm pri" data-act="quote" data-id="${r.id}">Prepare quotation</button></div></div>`}
+  else if(w==='team'){act=`<div class="act team"><div class="ah"><span class="ms">task_alt</span>Your turn${c.flag?' · needs a person':''}</div><h2>${esc(c.name)}</h2><p>${c.flag?'This case type always gets a person from the clearance team. Review it, then mark it done.':'Mark it done when the team has finished. The client gets an update.'}</p><div class="row2"><button class="btn sm pri" data-act="teamdone" data-id="${r.id}">Mark as done</button></div></div>`}
+  else if(w==='client'){act=`<div class="act"><div class="ah"><span class="ms">hourglass_top</span>Waiting on client · ${ago(c.since)}</div><h2>${esc(c.name)}</h2><p>${c.phase==='redo'?`You asked for it again: ${esc(c.reason)}.`:`${esc(r.contact)} has been asked to complete this in the ${r.channel==='wa'?'WhatsApp link':'client app'}.`}</p><div class="row2"><button class="btn sm sec2" data-act="remind" data-id="${r.id}"><span class="ms">notifications_active</span>Send reminder</button></div></div>`}
+  else if(w==='gov'){act=`<div class="act"><div class="ah"><span class="ms">account_balance</span>With LMRA${r.appNo?' · '+r.appNo:''}</div><h2>${esc(c.name)}</h2><p>Record the outcome when LMRA decides.</p><div class="row2"><button class="btn sm pri" data-act="gov" data-id="${r.id}">Record decision</button></div></div>`}
+  else act=`<div class="act"><div class="ah" style="color:var(--ok-tx)"><span class="ms">verified</span>Completed ${r.doneAt?fmtD(r.doneAt):''}</div><h2>${esc(svc.name)} done</h2><p>All steps are complete and the client has been told.</p></div>`;
+  const files=r.steps.filter(s=>s.file);
+  const kv=svc.fields.filter(f=>r.values[f]).map(f=>`<dt>${esc(FL[f].label)}</dt><dd>${esc(r.values[f])}</dd>`).join('');
+  return `<div class="top"></div><div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"><h1>${esc(r.company)}</h1><small>${r.id} · ${esc(svc.name)} · via ${r.channel==='wa'?'WhatsApp':'client app'}</small></div><button class="ib" data-act="toast" data-text="Opens the conversation in Inbox" aria-label="Chat"><span class="ms">chat_bubble</span></button></div>
+  <div class="scroll"><div class="stg">${act}
+  <div><div class="sec">Journey · ${progress(r).d} of ${progress(r).t}</div><div class="pad">${timeline(r,'b')}</div></div>
+  ${files.length?`<div><div class="sec">Documents</div><div class="docs">${files.map(s=>`<figure><div class="th">${thumb(s.file)}</div><figcaption>${esc(s.name)}</figcaption></figure>`).join('')}</div></div>`:''}
+  ${kv?`<div><div class="sec">Answers</div><div class="pad"><div class="card"><dl class="kv">${kv}${r.quote?`<dt>Government fee</dt><dd>${BHD(r.quote.gov)}</dd><dt>Service charge</dt><dd>${BHD(r.quote.fee)}</dd>${r.quote.vat?`<dt>VAT 10%</dt><dd>${BHD(qVat(r.quote))}</dd>`:''}<dt>Total</dt><dd>${BHD(qTotal(r.quote))}</dd>`:''}</dl></div></div></div>`:''}
+  <div><div class="sec">Activity</div><ul class="log">${r.log.slice(0,8).map(l=>`<li><span class="ms">${({client:'person',team:'groups',gov:'account_balance',noor:'auto_awesome'})[l.by]}</span><span>${esc(l.text)}</span><time>${fmtT(l.t)}</time></li>`).join('')}</ul></div>
+  </div></div>`;
+};
+SCR['b.builder']=(p)=>{
+  const s=svcById(p.svc);const open=ST.requests.filter(r=>r.svc===s.id&&r.status!=='done').length;const pr=s.price;
+  return `<div class="top"></div><div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"><h1>${esc(s.name)}</h1><small>${s.on?'Offered to clients':'Draft · hidden from clients'}</small></div><button class="tgl ${s.on?'on':''}" data-act="svctoggle" data-svc="${s.id}" role="switch" aria-checked="${s.on}" aria-label="Offer to clients"></button></div>
+  <div class="scroll"><div class="stg">
+  ${open?`<div class="info"><span class="ms">info</span><span>Changes apply to new requests. ${open} open request${open===1?' keeps its':'s keep their'} current steps and price.</span></div>`:`<div class="info"><span class="ms">info</span><span>${s.on?'Clients can request this service now.':'Turn on the switch above when it is ready for clients.'}</span></div>`}
+  <div><div class="sec">Details</div><div class="pad"><button class="svr" data-act="editdetails" data-svc="${s.id}"><span class="ibx"><span class="ms">${s.icon}</span></span><span class="nm"><b>${esc(s.name)}</b><small>${esc(s.eta)}</small></span><span class="ms" style="color:var(--ts)">edit</span></button></div></div>
+  <div><div class="sec">Price</div><div class="pad"><button class="card pcard" data-act="editprice" data-svc="${s.id}">
+    <span class="prow"><span><b>${pr.mode==='fixed'?'Fixed price':'Quote each request'}</b><small>${pr.mode==='fixed'?'Clients see the price before they start':'Your team prices it after reviewing the request'}</small></span><span class="pv2">${pr.mode==='fixed'?BHD(pr.fixed):'—'}</span></span>
+    <span class="prow"><span><b>Government fee</b><small>${pr.gov?'Added on each quotation, on its own line':'No government fee for this service'}</small></span><span class="pv2">${pr.gov?'Per request':'None'}</span></span>
+    <span class="prow"><span><b>VAT</b><small>On the service charge only</small></span><span class="pv2">${pr.vat?'10%':'Off'}</span></span>
+    <span class="pedit"><span class="ms">edit</span>Edit price</span></button></div></div>
+  <div><div class="sec">Questions for the client</div><div class="fields">${s.fields.map(f=>`<button data-act="editq" data-svc="${s.id}" data-f="${f}">${esc(FL[f].label)}</button>`).join('')}<button class="addq" data-act="addq" data-svc="${s.id}"><span class="ms">add</span>Add question</button></div></div>
+  <div><div class="sec">Journey · drag to reorder</div>
+  <ol class="bsl" id="bsl">${s.steps.map((st,i)=>{const k=KIND[st.kind];const w=k.who;return `<li class="bs-row ${ST.fresh.has(st.id)?'fresh':''}" data-id="${st.id}"><button class="handle" aria-label="Move ${esc(st.name)}, use arrow keys" data-i="${i}"><span class="ms">drag_indicator</span></button><span class="num">${i+1}</span><span class="ibx"><span class="ms">${k.icon}</span></span><button class="nm" data-act="editstep" data-svc="${s.id}" data-id="${st.id}"><b>${esc(st.name)}</b><small><span class="chip w-nt"><span class="ms">${({client:'person',team:'groups',gov:'account_balance'})[w]}</span>${({client:'Client',team:'Team',gov:'LMRA'})[w]}</span>${st.cond?`<span class="chip w-nt"><span class="ms">call_split</span>${esc(st.cond.eq)}</span>`:''}${st.flag?'<span class="chip w-hu"><span class="ms">flag</span>Person</span>':''}</small></button><span class="ms" style="color:var(--ts);font-size:18px">chevron_right</span></li>`}).join('')}</ol>
+  <button class="addstep" data-act="addstep" data-svc="${s.id}"><span class="ms">add</span>Add a step</button></div>
+  <div class="pad" style="margin-top:20px"><button class="btn sec2" data-act="preview" data-svc="${s.id}"><span class="ms">smartphone</span>Preview in the client app</button></div>
+  </div></div>`;
+};
+MOUNT['b.builder']=(el,p)=>{
+  const list=$('#bsl',el);if(!list)return;
+  const commit=(from,to)=>{if(from===to)return;const s=svcById(p.svc);const [m]=s.steps.splice(from,1);s.steps.splice(to,0,m);refresh('b');syncClientPreview(p.svc);const h=$(`#bsl .handle[data-i="${to}"]`,P.b.vp);h?.focus({preventScroll:true})};
+  list.addEventListener('keydown',e=>{const h=e.target.closest('.handle');if(!h)return;const i=+h.dataset.i;if(e.key==='ArrowUp'&&i>0){e.preventDefault();commit(i,i-1)}if(e.key==='ArrowDown'&&i<list.children.length-1){e.preventDefault();commit(i,i+1)}});
+  list.addEventListener('pointerdown',e=>{
+    const h=e.target.closest('.handle');if(!h)return;e.preventDefault();
+    const rows=[...list.children],row=h.closest('.bs-row'),idx=rows.indexOf(row);
+    const rects=rows.map(r=>r.getBoundingClientRect());const step=rows.length>1?rects[1].top-rects[0].top:rects[0].height+8;
+    const y0=e.clientY;let to=idx;row.classList.add('dragging');h.setPointerCapture(e.pointerId);
+    const move=ev=>{const dy=ev.clientY-y0;row.style.transform=`translateY(${dy}px) scale(1.02)`;
+      to=Math.max(0,Math.min(rows.length-1,idx+Math.round(dy/step)));
+      rows.forEach((r,i)=>{if(r===row)return;let sh=0;if(idx<to&&i>idx&&i<=to)sh=-step;if(idx>to&&i<idx&&i>=to)sh=step;r.style.transform=sh?`translateY(${sh}px)`:''})};
+    const up=()=>{h.removeEventListener('pointermove',move);rows.forEach(r=>r.style.transform='');row.classList.remove('dragging');commit(idx,to)};
+    h.addEventListener('pointermove',move);h.addEventListener('pointerup',up,{once:true});h.addEventListener('pointercancel',up,{once:true});
+  });
+};
+SCR['b.inbox']=()=>{
+  const waReq=ST.requests.filter(r=>r.channel==='wa'&&r.mine);
+  const rows=[...waReq.map(r=>({n:CLIENT_CO,m:`Noor opened ${r.id} · ${svcById(r.svc).name}`,t:ago(r.created),ch:'wa',tag:['w-ai','Noor'],req:r.id})),
+    {n:'Bahrain Bay Contracting',m:'Sent the passport scan for ANF-2038',t:'1h',ch:'wa',tag:['w-hu','You'],req:'ANF-2038'},
+    {n:'Riffa Auto Parts',m:'We got a violation notice, can you help?',t:'5h',ch:'wa',tag:['w-hu','You'],req:'ANF-2033'},
+    {n:'Hussain Ebrahim',m:'شكراً، متى يصل التصريح؟',t:'1d',ch:'wa',tag:['w-ai','Noor']}];
+  return `<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· Inbox</span></div><div class="t"></div></div>
+  <div><span class="aipill"><span class="gdot"></span><b>Noor is live.</b> Opening requests from WhatsApp.</span></div>
+  <div class="scroll"><div class="inbox stg">${rows.map(r=>`<button class="irow" ${r.req?`data-act="breq" data-id="${r.req}"`:'data-act="toast" data-text="Conversations work as they do today"'}>${avatar(r.n,r.ch)}<div class="nm"><b>${esc(r.n)}</b><small>${esc(r.m)}</small></div><div class="rt">${r.t}<span class="chip ${r.tag[0]}">${r.tag[1]}</span></div></button>`).join('')}</div></div>`;
+};
+SCR['b.stub']=(p)=>`<div class="top"></div><div class="hd"><div class="brand"><img src="${LOGO}" alt=""><b>rodood</b><span>· ${esc(p.name)}</span></div></div><div class="stub"><span class="ms">${p.name==='Insights'?'monitoring':p.name==='AI Studio'?'auto_awesome':'settings'}</span><b style="color:var(--tp)">${esc(p.name)} stays as it is</b><span>This prototype covers the new Requests tab. ${p.name==='AI Studio'?'Noor will learn the service list so she can open requests from WhatsApp.':''}</span></div>`;
+
+/* ---------- Client screens ---------- */
+function myReqs(){return ST.requests.filter(r=>r.mine)}
+function ringSvg(p,size=62,stroke=6){const R=(size-stroke)/2,C=2*Math.PI*R;return `<svg viewBox="0 0 ${size} ${size}"><circle class="bg" cx="${size/2}" cy="${size/2}" r="${R}" stroke-width="${stroke}"/><circle class="fg" cx="${size/2}" cy="${size/2}" r="${R}" stroke-width="${stroke}" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${C*(1-p)}" data-c="${C}"/></svg>`}
+const ringMem={};
+function animateRings(el){$$('[data-ring]',el).forEach(w=>{const c=$('.fg',w);const k=w.dataset.ring;const C=+c.dataset.c;const prev=ringMem[k]??C;c.style.transition='none';c.style.strokeDashoffset=prev;void c.getBoundingClientRect();c.style.transition='';requestAnimationFrame(()=>{c.style.strokeDashoffset=c.dataset.off;ringMem[k]=+c.dataset.off})})}
+function clientNext(r){
+  const c=curStep(r),w=whoOf(r);
+  if(w==='done')return{wait:true,title:'All done',text:'This request is complete.'};
+  if(c.st==='rejected')return{wait:true,title:'ANFAL is reviewing the outcome',text:'LMRA did not approve this application. The clearance team will contact you about the next step.'};
+  if(w==='client')return{wait:false,title:c.phase==='redo'?`Send ${c.name.toLowerCase()} again`:({form:c.name,quote:'Review and accept your quotation',upload:`Upload ${c.name.toLowerCase()}`,sign:`Sign the ${c.name.toLowerCase()}`})[c.kind],
+    text:c.phase==='redo'?`ANFAL asked for it again: ${c.reason}.`:({form:'A few questions so we know exactly what to prepare.',quote:'Government fees and ANFAL’s service charge are listed separately.',upload:'A clear photo or PDF with all details readable.',sign:'A short letter filled in from your answers. Sign with your finger.'})[c.kind],cta:c.kind==='quote'?'Review':'Continue'};
+  if(w==='gov')return{wait:true,title:'Submitted to LMRA',text:`${r.appNo?'Application '+r.appNo+'. ':''}LMRA makes the decision and sets the timing. We will update you here.`};
+  return{wait:true,title:c.phase==='review'?`ANFAL is checking your ${c.name.toLowerCase()}`:c.kind==='quote'?'ANFAL is preparing your quotation':`ANFAL: ${c.name.toLowerCase()}`,text:'Nothing needed from you right now. We will notify you when it is your turn.'};
+}
+SCR['c.home']=()=>{
+  const act=myReqs().filter(r=>r.status!=='done').sort((a,b)=>(whoOf(a)==='client'?0:1)-(whoOf(b)==='client'?0:1)||b.created-a.created);
+  return `<div class="top"></div><div class="hd"><span class="tav sm">AN</span><div class="t"><h1>ANFAL <span class="scrname">· Home</span></h1></div><button class="ib" data-act="ctab" data-tab="c.updates" aria-label="Updates"><span class="ms">notifications</span>${ST.unread?'<span class="dotb"></span>':''}</button></div>
+  <div class="pad" style="margin:4px 0 2px"><div class="hello"><small>Good morning</small><b>Yousif</b></div></div>
+  <div class="scroll"><div class="stg">
+  ${act.length?`<div><div class="sec">${act.length>1?act.length+' active requests':'Your active request'}</div><div class="heros">${act.map(r=>{const n=clientNext(r),pr=progress(r);
+    return `<div class="hero ${n.wait?'wait':''}"><div class="top3"><div class="ring" data-ring="h-${r.id}">${ringSvg(pr.p)}<b>${pr.d}/${pr.t}</b></div><div class="ht"><small>${r.id}</small><b>${esc(svcById(r.svc).name)}</b><span>${esc(r.values.employee||r.company)}</span></div></div>
+    <button class="next" data-act="creq" data-id="${r.id}" aria-label="${esc(n.title)}. ${n.wait?'Open request':n.cta}"><span class="ms" style="color:${n.wait?'var(--ts)':'var(--orange-tx)'}">${n.wait?'hourglass_top':'assignment_late'}</span><div><b>${esc(n.title)}</b><span>${n.wait?'We will notify you':'Your next step'}${n.wait?'<span class="dots"><i></i><i></i><i></i></span>':''}</span></div>${n.wait?'<span class="ms" style="color:var(--ts)">chevron_right</span>':'<span class="go" aria-hidden="true"><span class="ms">arrow_forward</span></span>'}</button></div>`}).join('')}</div></div>`:''}
+  <div><div class="sec">Start a new request</div><div class="sgrid">${ST.services.filter(s=>s.on).map(s=>`<button class="sv" data-act="csvc" data-svc="${s.id}"><span class="ic"><span class="ms">${s.icon}</span></span><b>${esc(s.name)}</b><small>${priceSummary(s)}</small></button>`).join('')}</div></div>
+  <div class="pw"><img src="${LOGO}" alt="">Powered by Rodood</div></div></div>`;
+};
+MOUNT['c.home']=el=>animateRings(el);
+function previewList(s,values,sid){
+  return `<ul class="pv" data-pv="${sid||''}">${s.steps.map(st=>{const a=st.cond?(values&&values[st.cond.f]?values[st.cond.f]===st.cond.eq:null):true;const w=KIND[st.kind].who;
+    return `<li class="pv-it ${a===false?'off':''}" data-sid="${st.id}"><div><div class="pv-row"><span class="ms">${KIND[st.kind].icon}</span><span style="flex:1">${esc(st.name)}</span><span class="chip ${w==='client'?'w-hu':'w-nt'}">${({client:'You',team:'ANFAL',gov:'LMRA'})[w]}</span>${a===null?`<span class="chip w-nt cnd" title="${esc(condText(st))}"><span class="ms">call_split</span>If ${esc(st.cond.eq.toLowerCase())}</span>`:''}</div></div></li>`}).join('')}</ul>`;
+}
+SCR['c.service']=(p)=>{
+  const s=svcById(p.svc);
+  const need=s.steps.filter(x=>x.kind==='upload'||x.kind==='sign');
+  return `<div class="top"></div><div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"></div></div>
+  <div class="scroll"><div class="stg"><div class="shero"><div class="ic"><span class="ms">${s.icon}</span></div><h2>${esc(s.name)}</h2><p>${esc(s.blurb)}</p><div class="facts"><span><span class="ms">schedule</span>${esc(s.eta)}</span><span><span class="ms">description</span>${need.length} document${need.length===1?'':'s'}</span></div></div>
+  <div><div class="sec">How it works</div><div class="pad">${previewList(s,null,'svc-'+s.id)}</div></div>
+  <div><div class="sec">Price</div><div class="quote"><div class="qline"><div>ANFAL service charge<small>${s.price.mode==='fixed'?'Fixed price':'ANFAL prices it after reviewing your request'}${s.price.vat?' · plus VAT 10%':''}</small></div><b>${s.price.mode==='fixed'?BHD(s.price.fixed):'After review'}</b></div>${s.price.gov?`<div class="qline"><div>Government fee<small>Set by the authority. Shown in your quotation</small></div><b>In your quote</b></div>`:''}</div></div>
+  <div class="note"><span class="ms">payments</span><span>Government fees are separate from ANFAL’s service charge. You see both, and accept them, before we submit anything. Approval and timing are decided by the authority.</span></div></div></div>
+  <div class="sticky"><button class="btn pri" data-act="cstart" data-svc="${s.id}">Start request<span class="ms">arrow_forward</span></button></div>`;
+};
+SCR['c.req']=(p)=>{
+  const r=reqById(p.id),s=svcById(r.svc),pr=progress(r),n=clientNext(r),w=whoOf(r);
+  const card=w==='done'?`<div class="donec"><div class="burst"><span class="ms">verified</span></div><h3>${esc(s.name)} complete</h3><p>${r.svc==='cancel'?'LMRA confirmed the cancellation.':'LMRA approved your request.'} Keep the documents below for your records.</p></div>`
+    :`<div class="nextc ${n.wait?'wait':''}"><div class="lbl"><span class="ms">${n.wait?'hourglass_top':'assignment_late'}</span>${n.wait?'In progress<span class="dots"><i></i><i></i><i></i></span>':'Your turn'}</div><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p>${n.wait?(w==='team'?`<button class="demo" data-act="demo-b" data-id="${r.id}"><span class="ms">swap_horiz</span>Demo: continue as ANFAL team</button>`:w==='gov'?`<button class="demo" data-act="demo-b" data-id="${r.id}"><span class="ms">swap_horiz</span>Demo: record LMRA decision as ANFAL</button>`:''):`<button class="btn pri glow" data-act="cstep" data-id="${r.id}">${n.cta}<span class="ms">arrow_forward</span></button>`}</div>`;
+  return chrome(p)+`${p.web?'':`<div class="top"></div><div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"></div></div>`}
+  <div class="scroll"><div class="stg"><div class="rqhead"><div class="ring" data-ring="r-${r.id}">${ringSvg(pr.p,54,5)}<b>${Math.round(pr.p*100)}%</b></div><div><h2>${esc(s.name)}</h2><small>${r.id} · ${esc(r.values.employee||r.company)}</small></div></div>
+  ${card}
+  <div><div class="sec">All steps</div><div class="pad">${timeline(r,'c')}</div></div>
+  ${r.steps.some(x=>x.file)?`<div><div class="sec">Your documents</div><div class="list">${r.steps.filter(x=>x.file).map(x=>`<div class="lrow"><span class="sv-ic"><span class="ms">description</span></span><div class="nm"><b>${esc(x.name)}</b><small>${x.st==='done'?'Approved':x.phase==='redo'?'Needs a new copy':'Being checked'}</small></div></div>`).join('')}</div></div>`:''}
+  </div></div>`;
+};
+MOUNT['c.req']=el=>animateRings(el);
+function chrome(p){return p.web?`<div class="top"></div><div class="chrome"><button data-act="closeweb">Done</button><div class="url"><span class="ms">lock</span><span>anfal.rodood.app/r/${esc(p.id)}</span></div><span class="ms" style="color:var(--a-ts)">ios_share</span></div>`:''}
+function stepHead(p,title,sub){return chrome(p)+`${p.web?'':`<div class="top"></div>`}<div class="hd"><button class="ib" data-act="back" aria-label="Back"><span class="ms">arrow_back</span></button><div class="t"><h1>${esc(title)}</h1><small>${esc(sub)}</small></div></div>`}
+SCR['c.step']=(p)=>{
+  const r=reqById(p.id),c=curStep(r),s=svcById(r.svc);
+  if(!c||whoOf(r)!=='client')return stepHead(p,'Step','')+`<div class="empty-note">This step is no longer waiting on you.</div>`;
+  const idx=r.steps.filter(x=>x.st!=='skipped').indexOf(c)+1,tot=progress(r).t;
+  const sub=`Step ${idx} of ${tot} · ${s.name}`;
+  if(c.kind==='form'){
+    const d=ST.drafts[r.id]||(ST.drafts[r.id]={...Object.fromEntries(s.fields.map(f=>[f,r.values[f]??SAMPLE[f]]))});
+    return stepHead(p,c.name,sub)+`<div class="scroll"><div class="pad stg" style="padding-top:6px">${s.fields.map(f=>{const F=FL[f];
+      if(F.type==='choice')return `<div class="fld"><label id="lbl-${f}">${esc(F.label)}</label><div class="opts" role="radiogroup" aria-labelledby="lbl-${f}">${F.opts.map(o=>`<button role="radio" aria-checked="${d[f]===o}" class="${d[f]===o?'on':''}" data-act="pick" data-f="${f}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>${F.hint?`<div class="hint">${esc(F.hint)}</div>`:''}</div>`;
+      return `<div class="fld"><label for="f-${r.id}-${f}">${esc(F.label)}</label><input id="f-${r.id}-${f}" data-f="${f}" value="${esc(d[f]||'')}" placeholder="${esc(F.ph||'')}" autocomplete="off"></div>`}).join('')}
+      <div><div class="sec" style="margin-left:0">Your steps update as you answer</div>${previewList(s,d,'form-'+r.id)}</div></div>
+      <div class="sticky"><button class="btn pri" data-act="formsubmit" data-id="${r.id}">Continue<span class="ms">arrow_forward</span></button></div></div>`;
+  }
+  if(c.kind==='quote'){const q=r.quote;return stepHead(p,'Your quotation',sub)+`<div class="scroll"><div class="stg"><div class="quote">${q.gov?`<div class="qline"><div>Government fee<small>Paid to LMRA through the official payment channel</small></div><b>${BHD(q.gov)}</b></div>`:''}<div class="qline"><div>ANFAL service charge<small>${svcById(r.svc).price.mode==='fixed'?'Fixed price':'Priced for your request'} · preparation, submission and follow-up</small></div><b>${BHD(q.fee)}</b></div>${q.vat?`<div class="qline"><div>VAT 10%<small>On the service charge only</small></div><b>${BHD(qVat(q))}</b></div>`:''}<div class="qtotal"><span>Total</span><b>${BHD(qTotal(q))}</b></div></div>
+    <div class="note"><span class="ms">info</span><span>Accepting lets ANFAL start. It does not guarantee approval. LMRA decides and sets the timing.</span></div></div>
+    <div class="sticky"><div class="row2"><button class="btn sec2" data-act="toast" data-text="Your question goes to ANFAL's team" data-icon="chat">Ask a question</button><button class="btn pri" data-act="acceptquote" data-id="${r.id}">Accept</button></div></div></div>`}
+  if(c.kind==='upload')return stepHead(p,c.name,sub)+`<div class="scroll"><div class="stg">
+    ${c.phase==='redo'?`<div class="note warn" style="margin-top:4px"><span class="ms">undo</span><span><b>ANFAL asked for this again.</b> ${esc(c.reason)}${c.note?'. '+esc(c.note):''}</span></div>`:''}
+    <label class="upz" for="up-${r.id}"><span class="ic"><span class="ms">add_photo_alternate</span></span><b>Choose a photo or PDF</b><small>All four corners visible and details readable</small></label>
+    <input type="file" id="up-${r.id}" accept="image/*,.pdf" hidden>
+    <button class="linkb" data-act="samplefile" data-id="${r.id}">Use a sample file</button>
+    <div id="fslot"></div>
+    <div class="note"><span class="ms">lock</span><span>Only send what this step asks for. ANFAL never asks for passwords or PINs.</span></div></div></div>`;
+  if(c.kind==='sign'){const v=r.values;return stepHead(p,c.name,sub)+`<div class="scroll"><div class="stg"><div class="letter" id="letter"><div class="lh"><span>ANFAL Government Document Clearance</span><span>${fmtD(Date.now())} 2026</span></div><h4>${esc(c.name)}</h4>
+    <p>I, <mark>${esc(r.contact)}</mark>, on behalf of <mark>${esc(r.company)}</mark> (CR <mark>${esc(v.cr||'—')}</mark>), authorise ANFAL Government Document Clearance to prepare, submit and follow up the <mark>${esc(s.name.toLowerCase())}</mark>${v.employee?` for <mark>${esc(v.employee)}</mark>`:''} with the relevant authority. I understand approval and timing are decided by the authority.</p>
+    <div class="sigbox" id="sigbox"><canvas id="sig" aria-label="Signature pad"></canvas><div class="base"></div><div class="ph">Sign here with your finger or mouse</div><button class="clr" data-act="clearsig">Clear</button></div><div class="stamp" id="stamp">Signed · ${fmtT(Date.now())}</div></div>
+    <label class="chk"><input type="checkbox" id="agree-${r.id}">The details in this letter are correct.</label></div></div>
+    <div class="sticky"><button class="btn pri" id="signbtn" data-act="sign" data-id="${r.id}" disabled><span class="ms">draw</span>Sign and send</button></div>`}
+  return '';
+};
+MOUNT['c.step']=(el,p)=>{
+  const r=reqById(p.id),c=curStep(r);if(!c)return;
+  if(c.kind==='form'){
+    $$('input[data-f]',el).forEach(i=>i.addEventListener('input',()=>{ST.drafts[r.id][i.dataset.f]=i.value}));
+    syncForm(el,r);
+  }
+  if(c.kind==='upload'){$('input[type=file]',el).addEventListener('change',e=>{const f=e.target.files[0];if(f)startUpload(el,r,c,f)})}
+  if(c.kind==='sign')bindSig(el);
+};
+function syncForm(el,r){
+  const s=svcById(r.svc),d=ST.drafts[r.id];
+  // option-level conditions
+  s.fields.forEach(f=>{const oc=FL[f].optCond;const btns=$$(`[data-f="${f}"][data-v]`,el);
+    if(oc)btns.forEach(b=>{const c=oc[b.dataset.v];const ok=!c||d[c.f]===c.eq;b.disabled=!ok;if(!ok&&d[f]===b.dataset.v){d[f]=FL[f].opts.find(o=>!oc[o]||d[oc[o].f]===oc[o].eq)}});
+    btns.forEach(b=>{b.classList.toggle('on',d[f]===b.dataset.v);b.setAttribute('aria-checked',d[f]===b.dataset.v)})});
+  s.steps.forEach(st=>{const it=$(`.pv-it[data-sid="${st.id}"]`,el);if(!it)return;const a=st.cond?d[st.cond.f]===st.cond.eq:true;
+    const was=!it.classList.contains('off');it.classList.toggle('off',!a);if(a&&!was){const row=$('.pv-row',it);row.classList.remove('newin');void row.offsetWidth;row.classList.add('newin')}
+    const cc=$('.cnd',it);if(cc)cc.remove()});
+}
+function syncClientPreview(){if(top('c').scr==='c.service'||top('c').scr==='c.home')refresh('c')}
+function startUpload(el,r,c,file){
+  const slot=$('#fslot',el);const url=file&&file.type.startsWith('image/')?URL.createObjectURL(file):null;
+  const fobj={name:file?file.name:c.name.replace(/ /g,'_').toLowerCase()+'.jpg',size:file?(file.size/1048576).toFixed(1)+' MB':'1.4 MB',art:artFor(c.name),url};
+  $('.upz',el).style.display='none';$('.linkb',el).style.display='none';
+  slot.innerHTML=`<div class="fcard" id="fc"><div class="fr"><div class="th">${thumb(fobj)}<span class="scan"></span></div><div class="fm"><b>${esc(fobj.name)}</b><small id="fst">Uploading · ${esc(fobj.size)}</small></div></div><div class="bar"><i id="fbar"></i></div><div class="okline"><span class="ms f">check_circle</span>Sent to ANFAL for review</div></div>`;
+  const fc=$('#fc',el),bar=$('#fbar',el),stt=$('#fst',el);
+  const fast=RM();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.width='100%'));
+  setTimeout(()=>{fc.classList.add('scanning');stt.textContent='Checking it is readable'},fast?10:1300);
+  setTimeout(()=>{fc.classList.remove('scanning');fc.classList.add('ok');stt.textContent='Readable · '+fobj.size;
+    c.file=fobj;c.phase='review';c.since=Date.now();
+    log(r,'client',`${c.name} uploaded`,`You uploaded ${c.name.toLowerCase()}`);
+    emit('c',{text:`${r.contact.split(' ')[0]} uploaded ${c.name.toLowerCase()} · review it`,req:r.id});
+    refresh('b');
+  },fast?20:2300);
+  setTimeout(()=>{if(top('c').scr==='c.step'&&top('c').params.id===r.id)back('c')},fast?40:3300);
+}
+function bindSig(el){
+  const cv=$('#sig',el),box=$('#sigbox',el),btn=$('#signbtn',el),agree=$('input[type=checkbox]',el);
+  const dpr=window.devicePixelRatio||1;const rc=cv.getBoundingClientRect();cv.width=rc.width*dpr;cv.height=rc.height*dpr;
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=2.4;ctx.strokeStyle='#14263F';
+  let draw=false,last=null,ink=0;
+  const pt=e=>{const b=cv.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top}};
+  const upd=()=>{btn.disabled=!(ink>12&&agree.checked)};
+  cv.addEventListener('pointerdown',e=>{draw=true;last=pt(e);cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener('pointermove',e=>{if(!draw)return;const p=pt(e);const mid={x:(last.x+p.x)/2,y:(last.y+p.y)/2};ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.quadraticCurveTo(last.x,last.y,mid.x,mid.y);ctx.lineTo(p.x,p.y);ctx.stroke();ink++;last=p;box.classList.add('inked');upd()});
+  const end=()=>{draw=false};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  agree.addEventListener('change',upd);
+  el._clear=()=>{ctx.clearRect(0,0,cv.width,cv.height);ink=0;box.classList.remove('inked');upd()};
+  el._sig=()=>cv.toDataURL('image/png');
+}
+
+SCR['c.list']=()=>`<div class="top"></div><div class="hd"><div class="t"><h1>Requests</h1><small>Gulf Star Trading W.L.L.</small></div></div><div class="scroll"><div class="list stg">${myReqs().map(r=>{const pr=progress(r),w=whoOf(r);return `<button class="lrow" data-act="creq" data-id="${r.id}"><span class="sv-ic"><span class="ms">${svcById(r.svc).icon}</span></span><div class="nm"><b>${esc(svcById(r.svc).name)}</b><small>${r.id} · ${w==='done'?'Completed':w==='client'?'Your turn':w==='gov'?'With LMRA':'ANFAL working'}</small><div class="mini"><i style="width:${pr.p*100}%"></i></div></div><span class="ms" style="color:var(--a-ts)">chevron_right</span></button>`}).join('')}</div></div>`;
+SCR['c.updates']=()=>{const items=myReqs().flatMap(r=>r.log.filter(l=>l.by!=='client').map(l=>({...l,req:r.id}))).sort((a,b)=>b.t-a.t).slice(0,14);const unread=ST._seenUnread||0;
+  return `<div class="top"></div><div class="hd"><div class="t"><h1>Updates</h1><small>Everything ANFAL and LMRA did on your requests</small></div></div><div class="scroll"><ul class="updates stg">${items.length?items.map((l,i)=>`<li class="${i<unread?'unread':''}"><span class="ms">${({team:'groups',gov:'account_balance',noor:'auto_awesome'})[l.by]||'info'}</span><div><b style="font-weight:500">${esc(l.ctext||l.text)}</b><time>${l.req} · ${ago(l.t)} ago</time></div></li>`).join(''):'<div class="empty-note">Updates from ANFAL appear here.</div>'}</ul></div>`};
+MOUNT['c.updates']=()=>{setTimeout(()=>{ST._seenUnread=0},50)};
+SCR['c.account']=()=>`<div class="top"></div><div class="hd"><div class="t"><h1>Account</h1></div></div><div class="scroll"><div class="stg"><div class="acct"><span class="big">YM</span><b>Yousif Al Mannai</b><small>Gulf Star Trading W.L.L. · CR 128844-1</small></div>
+  <div class="sec">Settings</div><div class="list">${[['language','Language','English · العربية'],['notifications','Notifications','WhatsApp and app'],['business','Companies','1 company'],['shield_lock','Privacy','What ANFAL keeps and why']].map(([i,t,s])=>`<button class="lrow" data-act="toast" data-text="${t} opens here"><span class="sv-ic"><span class="ms">${i}</span></span><div class="nm"><b>${t}</b><small>${s}</small></div><span class="ms" style="color:var(--a-ts)">chevron_right</span></button>`).join('')}</div><div class="pw"><img src="${LOGO}" alt="">Powered by Rodood</div></div></div>`;
+
+/* ---------- WhatsApp ---------- */
+function waInit(){ST.wa={msgs:[{me:true,text:'Hi',t:Date.now()-2*MIN},{me:false,text:'Hello! 👋 Welcome to ANFAL Government Document Clearance Services.\nHow can we assist you?',t:Date.now()-2*MIN},{type:'menu'}],typing:false,req:null}}
+SCR['w.chat']=()=>{const w=ST.wa;const opts=ST.services.filter(s=>s.on);
+  const body=w.msgs.map(m=>{
+    if(m.type==='menu')return `<div class="wbtns grid">${opts.map((s,i)=>`<button data-act="wapick" data-svc="${s.id}" ${w.req?'disabled':''}>${i+1}. ${esc(s.name)}</button>`).join('')}</div>`;
+    if(m.type==='btns')return `<div class="wbtns">${m.opts.map(o=>`<button data-act="waans" data-f="${m.f}" data-v="${esc(o)}" ${m.done?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;
+    if(m.type==='link'){const r=reqById(m.req);return `<div class="bub in"><span class="from">ANFAL · Noor</span><button class="lnk" data-act="openweb" data-id="${m.req}"><div class="lt"><span class="tav" style="border-radius:10px">AN</span><div><b>${esc(svcById(r.svc).name)} · ${r.id}</b><small>Track and complete your request</small></div></div><u>anfal.rodood.app/r/${r.id}</u></button>${esc(m.text)}<time>${fmtT(m.t)}</time></div>`}
+    if(m.type==='img')return `<div class="bub out"><span class="wimg">${docArt('passport','SAMPLE')}</span>passport.jpg<time>${fmtT(m.t)} ✓✓</time></div>`;
+    return `<div class="bub ${m.me?'out':'in'}">${m.me?'':'<span class="from">ANFAL · Noor</span>'}${esc(m.text)}<time>${fmtT(m.t)}${m.me?' ✓✓':''}</time></div>`}).join('');
+  return `<div class="top" style="background:var(--w-head)"></div><div class="whd">${AMARK}<div style="flex:1"><b>ANFAL Clearance<span class="ms f">verified</span></b><small>Business account · replies instantly</small></div><span class="ms" style="color:var(--w-accent)">call</span></div>
+  <div class="wscroll" id="wscroll"><span class="wday">Today</span>${body}${w.typing?'<div class="typing"><span class="dots"><i></i><i></i><i></i></span></div>':''}</div>
+  <form class="wbar" id="wform"><div class="wi"><input id="wa-input" placeholder="Message" autocomplete="off"><button type="button" data-act="waattach" ${w.req?'':'disabled'} aria-label="Send passport photo"><span class="ms">attach_file</span></button></div><button class="send" aria-label="Send"><span class="ms">send</span></button></form>`};
+MOUNT['w.chat']=(el)=>{const sc=$('#wscroll',el);sc.scrollTop=sc.scrollHeight;$('#wform',el).addEventListener('submit',e=>{e.preventDefault();const i=$('#wa-input',el);const v=i.value.trim();if(!v)return;ST.wa.msgs.push({me:true,text:v,t:Date.now()});
+  waBot(ST.wa.req?`Thanks. I've added your note to ${ST.wa.req}. Our clearance team will see it.`:'Please choose a service from the menu above, or tell us the transaction you need.');})};
+function waBot(text,extra,delay=900){const w=ST.wa;w.typing=true;refresh('c');setTimeout(()=>{w.typing=false;w.msgs.push({me:false,text,t:Date.now(),...(extra||{})});if(extra?.then)extra.then();refresh('c')},RM()?10:delay)}
+
+/* ---------- Actions ---------- */
+const A={};
+A.back=(side)=>back(side);
+A.toast=(side,d)=>toast(side,d.text,d.icon||'info');
+A.ctab=(side,d)=>{if(d.tab==='c.updates'){ST._seenUnread=ST.unread;ST.unread=0}tab('c',d.tab)};
+A.bmode=(side,d)=>{const t=top('b');t.params.mode=d.mode;const tb=$('.tabs2',P.b.vp);tb.classList.toggle('right',d.mode==='svc');$$('button',tb).forEach(b=>b.classList.toggle('on',b.dataset.mode===d.mode));setTimeout(()=>paint('b','fade'),RM()?0:180)};
+A.bfilter=(side,d)=>{const t=top('b');t.params.filter=t.params.filter===d.f&&d.f!=='all'?'all':d.f;paint('b','fade')};
+A.breq=(side,d)=>{if(side==='b')go('b','b.req',{id:d.id})};
+A.builder=(side,d)=>go('b','b.builder',{svc:d.svc});
+A.svctoggle=(side,d)=>{const s=svcById(d.svc);s.on=!s.on;toast('b',s.on?`${s.name} is offered to clients`:`${s.name} is hidden from clients`,s.on?'visibility':'visibility_off');refresh('b');syncClientPreview();if(ST.entry==='wa'&&top('c').scr==='w.chat')refresh('c')};
+A.preview=(side,d)=>{if(ST.entry!=='app')setEntry('app');tab('c','c.home');go('c','c.service',{svc:d.svc});nudge('c')};
+A.addstep=(side,d)=>sheet('b',`<h3>Add a step</h3><p class="sub">Pick what happens next in this service.</p><div class="kinds">${Object.entries(KIND).map(([k,v])=>`<button data-act="pickkind" data-svc="${d.svc}" data-kind="${k}"><span class="ibx"><span class="ms">${v.icon}</span></span><b>${v.label}</b><small>${v.desc}</small></button>`).join('')}</div>`);
+A.pickkind=(side,d)=>stepEditor(d.svc,null,d.kind);
+A.editstep=(side,d)=>stepEditor(d.svc,d.id);
+function stepEditor(svcId,stepId,kind){
+  const s=svcById(svcId);const st=stepId?s.steps.find(x=>x.id===stepId):{kind,name:({form:'More details',quote:'Quotation',upload:'Supporting document',sign:'Declaration letter',team:'Team check',gov:'Authority decision'})[kind]};
+  const choices=s.fields.filter(f=>FL[f].type==='choice');const cf=st.cond?.f||choices[0];const ce=st.cond?.eq||(cf?FL[cf].opts[0]:'');
+  sheet('b',`<h3>${stepId?'Edit step':'New step'} · ${KIND[st.kind].label}</h3><p class="sub">${KIND[st.kind].desc}</p>
+  <div class="fld"><label for="se-name">Step name the client sees</label><input id="se-name" value="${esc(st.name)}"></div>
+  ${choices.length?`<div class="fld"><label style="display:flex;align-items:center;justify-content:space-between">Only include it when…<button class="tgl ${st.cond?'on':''}" id="se-ctgl" role="switch" aria-checked="${!!st.cond}" aria-label="Use a condition"></button></label>
+   <div id="se-cond" style="${st.cond?'':'display:none'}"><div class="opts" id="se-f" style="margin-bottom:8px">${choices.map(f=>`<button class="${f===cf?'on':''}" data-f="${f}">${esc(FL[f].label.replace(/\?$/,''))}</button>`).join('')}</div><div class="opts" id="se-v"></div></div><div class="hint">Conditions use the client's answers, so steps appear only when they apply.</div></div>`:''}
+  <div class="row2" style="margin-top:6px">${stepId?`<button class="btn sm sec2" id="se-del"><span class="ms">delete</span>Remove</button>`:''}<button class="btn sm pri" id="se-save">${stepId?'Save':'Add step'}</button></div>`,sh=>{
+    let useC=!!st.cond,f=cf,v=ce;
+    const drawV=()=>{const box=$('#se-v',sh);if(!box)return;box.innerHTML=FL[f].opts.map(o=>`<button class="${o===v?'on':''}" data-v="${esc(o)}">${esc(o)}</button>`).join('')};drawV();
+    $('#se-ctgl',sh)?.addEventListener('click',e=>{useC=!useC;e.currentTarget.classList.toggle('on',useC);e.currentTarget.setAttribute('aria-checked',useC);$('#se-cond',sh).style.display=useC?'':'none'});
+    $('#se-f',sh)?.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;f=b.dataset.f;v=FL[f].opts[0];$$('#se-f button',sh).forEach(x=>x.classList.toggle('on',x===b));drawV()});
+    $('#se-v',sh)?.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;v=b.dataset.v;$$('#se-v button',sh).forEach(x=>x.classList.toggle('on',x===b))});
+    $('#se-del',sh)?.addEventListener('click',()=>{s.steps=s.steps.filter(x=>x.id!==stepId);closeSheet('b');toast('b','Step removed','delete');refresh('b');syncClientPreview()});
+    $('#se-save',sh).addEventListener('click',()=>{const name=$('#se-name',sh).value.trim()||st.name;const cond=useC&&f?{f,eq:v}:undefined;
+      if(stepId){st.name=name;st.cond=cond;ST.fresh.add(st.id);setTimeout(()=>ST.fresh.delete(st.id),900)}
+      else{const ns=S(st.kind,name,{cond});const i=s.steps.findIndex(x=>x.kind==='team'||x.kind==='gov');s.steps.splice(i<0?s.steps.length:i,0,ns);ST.fresh.add(ns.id);setTimeout(()=>ST.fresh.delete(ns.id),900)}
+      closeSheet('b');toast('b',stepId?'Step saved':'Step added · new requests get it');refresh('b');syncClientPreview()});
+  });
+}
+const ICONS=['description','badge','autorenew','swap_horiz','event_busy','work_history','groups','gpp_maybe','id_card','build','account_balance','receipt_long','home_work','flight','local_shipping','verified','gavel','storefront'];
+A.newsvc=()=>sheet('b',`<h3>New service</h3><p class="sub">Start blank, or copy a service you already offer and change it.</p>
+  <div class="kinds"><button data-tpl=""><span class="ibx"><span class="ms">add</span></span><b>Start blank</b><small>Details form, quotation and a team step</small></button>${ST.services.slice(0,5).map(x=>`<button data-tpl="${x.id}"><span class="ibx"><span class="ms">${x.icon}</span></span><b>${esc(x.name)}</b><small>Copy its ${x.steps.length} steps and price</small></button>`).join('')}</div>`,sh=>{
+  sh.onclick=e=>{const b=e.target.closest('[data-tpl]');if(!b)return;const src=b.dataset.tpl?svcById(b.dataset.tpl):null;const id=uid('svc');
+    const ns=src?{...structuredClone(src),id,name:src.name+' (copy)',on:false,steps:src.steps.map(x=>({...structuredClone(x),id:uid('st')}))}
+      :{id,name:'New service',icon:'description',eta:'Depends on the authority',blurb:'Say in one line what this service does for the client.',on:false,fields:['cr','details'],steps:[S('form','Your details'),S('quote','Quotation'),S('team','Team review')],price:{mode:'quote',fixed:0,gov:true,vat:true}};
+    ST.services.unshift(ns);closeSheet('b');go('b','b.builder',{svc:id});setTimeout(()=>A.editdetails('b',{svc:id}),380)}});
+A.editdetails=(side,d)=>{const s=svcById(d.svc);let icon=s.icon;
+  sheet('b',`<h3>Service details</h3><p class="sub">This is what clients see in the service list.</p>
+  <div class="fld"><label for="sd-name">Name</label><input id="sd-name" value="${esc(s.name)}"></div>
+  <div class="fld"><label for="sd-blurb">Short description</label><textarea id="sd-blurb">${esc(s.blurb)}</textarea></div>
+  <div class="fld"><label for="sd-eta">Usual time</label><input id="sd-eta" value="${esc(s.eta)}" placeholder="e.g. Usually 3–5 working days"><div class="hint">Keep it an estimate. The authority decides the timing.</div></div>
+  <div class="fld"><label id="sd-il">Icon</label><div class="icons" id="sd-icons" role="radiogroup" aria-labelledby="sd-il">${ICONS.map(i=>`<button role="radio" aria-checked="${i===icon}" class="${i===icon?'on':''}" data-i="${i}" aria-label="${i.replace(/_/g,' ')}"><span class="ms">${i}</span></button>`).join('')}</div></div>
+  <button class="btn pri" id="sd-save">Save details</button>`,sh=>{
+    $('#sd-icons',sh).addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;icon=b.dataset.i;$$('#sd-icons button',sh).forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-checked',x===b)})});
+    $('#sd-save',sh).addEventListener('click',()=>{s.name=$('#sd-name',sh).value.trim()||s.name;s.blurb=$('#sd-blurb',sh).value.trim();s.eta=$('#sd-eta',sh).value.trim()||s.eta;s.icon=icon;closeSheet('b');toast('b','Details saved');refresh('b');syncClientPreview()})})};
+A.editprice=(side,d)=>{const s=svcById(d.svc);let mode=s.price.mode;
+  sheet('b',`<h3>Price</h3><p class="sub">Every quotation for ${esc(s.name)} starts from this.</p>
+  <div class="fld"><label id="pr-l">How is it priced?</label><div class="opts" id="pr-mode" role="radiogroup" aria-labelledby="pr-l"><button role="radio" data-m="fixed" class="${mode==='fixed'?'on':''}">Fixed price</button><button role="radio" data-m="quote" class="${mode==='quote'?'on':''}">Quote each request</button></div></div>
+  <div class="fld" id="pr-fixed" style="${mode==='fixed'?'':'display:none'}"><label for="pr-amt">Service charge</label><div class="money"><span>BHD</span><input id="pr-amt" inputmode="decimal" value="${Number(s.price.fixed||0).toFixed(3)}"></div><div class="hint">Clients see this price before they start.</div></div>
+  <div class="hint" id="pr-quote" style="margin:-6px 0 18px;${mode==='quote'?'':'display:none'}">Clients see "Priced after review". Your team enters the charge on each request.</div>
+  <label class="chk" style="margin:0 0 6px"><input type="checkbox" id="pr-gov" ${s.price.gov?'checked':''}>A government fee is added on each quotation</label>
+  <label class="chk" style="margin:0 0 18px"><input type="checkbox" id="pr-vat" ${s.price.vat?'checked':''}>Add VAT (10%) to the service charge</label>
+  <button class="btn pri" id="pr-save">Save price</button>`,sh=>{
+    $('#pr-mode',sh).addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;mode=b.dataset.m;$$('#pr-mode button',sh).forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-checked',x===b)});$('#pr-fixed',sh).style.display=mode==='fixed'?'':'none';$('#pr-quote',sh).style.display=mode==='quote'?'':'none';if(mode==='fixed')$('#pr-amt',sh).focus()});
+    $('#pr-save',sh).addEventListener('click',()=>{const amt=parseFloat($('#pr-amt',sh).value)||0;if(mode==='fixed'&&!(amt>0)){$('#pr-amt',sh).focus();return}
+      s.price={mode,fixed:amt,gov:$('#pr-gov',sh).checked,vat:$('#pr-vat',sh).checked};closeSheet('b');toast('b','Price saved · new requests use it','payments');refresh('b');syncClientPreview()})})};
+A.addq=(side,d)=>qEditor(d.svc,null);
+A.editq=(side,d)=>qEditor(d.svc,d.f);
+function qEditor(svcId,key){const s=svcById(svcId);const F=key?FL[key]:{label:'',type:'choice',opts:['Yes','No']};let type=F.type;
+  const used=key&&(s.steps.some(x=>x.cond?.f===key));
+  sheet('b',`<h3>${key?'Edit question':'Add a question'}</h3><p class="sub">Choice answers can switch steps on or off.</p>
+  <div class="fld"><label for="qe-label">Question</label><input id="qe-label" value="${esc(F.label)}" placeholder="e.g. Is the employee inside Bahrain?"></div>
+  <div class="fld"><label id="qe-tl">Answer type</label><div class="opts" id="qe-type" role="radiogroup" aria-labelledby="qe-tl"><button role="radio" data-t="choice" class="${type==='choice'?'on':''}">Choose one</button><button role="radio" data-t="text" class="${type==='text'?'on':''}">Short answer</button></div></div>
+  <div class="fld" id="qe-of" style="${type==='choice'?'':'display:none'}"><label for="qe-opts">Choices</label><input id="qe-opts" value="${esc((F.opts||[]).join(', '))}"><div class="hint">Separate them with commas.</div></div>
+  ${used?'<div class="hint" style="margin:-8px 0 18px">A step depends on this answer, so keep its choices the same.</div>':''}
+  <div class="row2">${key?`<button class="btn sm sec2 danger" id="qe-del" ${used?'disabled':''}><span class="ms">delete</span>Remove</button>`:''}<button class="btn sm pri" id="qe-save">${key?'Save':'Add question'}</button></div>`,sh=>{
+    $('#qe-type',sh).addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;type=b.dataset.t;$$('#qe-type button',sh).forEach(x=>x.classList.toggle('on',x===b));$('#qe-of',sh).style.display=type==='choice'?'':'none'});
+    $('#qe-del',sh)?.addEventListener('click',()=>{s.fields=s.fields.filter(f=>f!==key);closeSheet('b');toast('b','Question removed','delete');refresh('b')});
+    $('#qe-save',sh).addEventListener('click',()=>{const label=$('#qe-label',sh).value.trim();if(!label){$('#qe-label',sh).focus();return}
+      const opts=$('#qe-opts',sh).value.split(',').map(x=>x.trim()).filter(Boolean);
+      const def=type==='choice'?{label,type,opts:opts.length?opts:['Yes','No']}:{label,type,ph:''};
+      if(key){const nk=key.startsWith('q')?key:uid('q');FL[nk]=def;if(nk!==key){s.fields=s.fields.map(f=>f===key?nk:f);s.steps.forEach(x=>{if(x.cond?.f===key)x.cond={...x.cond,f:nk}})}}
+      else{const nk=uid('q');FL[nk]=def;s.fields.push(nk)}
+      closeSheet('b');toast('b',key?'Question saved':'Question added');refresh('b');syncClientPreview()})})}
+A.approve=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='done';c.at=Date.now();markFresh(r,c);log(r,'team',`${c.name} approved`,`ANFAL approved your ${c.name.toLowerCase()}`);advance(r);
+  toast('b','Approved · client notified');emit('b',{text:`Approved ${c.name.toLowerCase()} for ${r.id}`,ctext:`Your ${c.name.toLowerCase()} was approved.${whoOf(r)==='client'?' Next: '+curStep(r).name.toLowerCase()+'.':''}`,req:r.id});refreshAll()};
+A.askagain=(side,d)=>{const r=reqById(d.id),c=curStep(r);const reasons=['Photo is blurry','Passport has expired','Wrong document','Page is cut off','Details not readable'];
+  sheet('b',`<h3>Ask for ${esc(c.name.toLowerCase())} again</h3><p class="sub">The client gets this reason on ${r.channel==='wa'?'WhatsApp':'their app'} and can upload a new copy.</p><div class="fld"><label id="rs-l">Reason</label><div class="opts" id="rs" role="radiogroup" aria-labelledby="rs-l">${reasons.map((x,i)=>`<button class="${i===0?'on':''}" data-v="${x}">${x}</button>`).join('')}</div></div><div class="fld"><label for="rs-note">Note for the client (optional)</label><textarea id="rs-note" placeholder="e.g. Please take it in daylight"></textarea></div><button class="btn pri" id="rs-send"><span class="ms">send</span>Send request</button>`,sh=>{
+    let reason=reasons[0];$('#rs',sh).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;reason=b.dataset.v;$$('#rs button',sh).forEach(x=>x.classList.toggle('on',x===b))});
+    $('#rs-send',sh).addEventListener('click',()=>{c.phase='redo';c.reason=reason;c.note=$('#rs-note',sh).value.trim();c.file=null;c.since=Date.now();log(r,'team',`Asked again: ${reason}`,`ANFAL asked for your ${c.name.toLowerCase()} again: ${reason}`);closeSheet('b');toast('b','Sent to client','send');emit('b',{text:`Asked again for ${c.name.toLowerCase()}`,ctext:`Please send your ${c.name.toLowerCase()} again: ${reason}.`,req:r.id});refreshAll()})})};
+A.quote=(side,d)=>{const r=reqById(d.id),sv=svcById(r.svc),pr=sv.price;const fixed=pr.mode==='fixed';
+  sheet('b',`<h3>Quotation for ${r.id}</h3><p class="sub">${esc(sv.name)}${r.values.employee?' · '+esc(r.values.employee):''}. The government fee and your service charge stay on separate lines.</p>
+  ${pr.gov?`<div class="fld"><label for="q-gov">Government fee (LMRA)</label><div class="money"><span>BHD</span><input id="q-gov" inputmode="decimal" placeholder="0.000"></div><div class="hint">Enter the current official fee for this transaction.</div></div>`:''}
+  <div class="fld"><label for="q-fee">ANFAL service charge</label><div class="money"><span>BHD</span><input id="q-fee" inputmode="decimal" value="${fixed?Number(pr.fixed).toFixed(3):''}" placeholder="0.000" ${fixed?'readonly':''}></div><div class="hint">${fixed?'Fixed price from this service. Change it in Services.':'Quote each request. Enter your charge for this one.'}</div></div>
+  <div class="qsum" id="q-sum"></div>
+  <button class="btn pri" id="q-send" disabled><span class="ms">send</span>Send to client</button>`,sh=>{
+    const val=id=>{const el=$(id,sh);return el?parseFloat(el.value):0};
+    const upd=()=>{const q={gov:pr.gov?(val('#q-gov')||0):0,fee:val('#q-fee')||0,vat:pr.vat};
+      $('#q-sum',sh).innerHTML=`${q.vat?`<span>VAT 10% on service charge</span><b>${BHD(qVat(q))}</b>`:''}<span>Client pays in total</span><b>${BHD(qTotal(q))}</b>`;
+      $('#q-send',sh).disabled=!(q.fee>0&&(!pr.gov||val('#q-gov')>0));return q};
+    upd();sh.oninput=upd;
+    $('#q-send',sh).addEventListener('click',()=>{const c=curStep(r);r.quote=upd();c.phase='client';c.since=Date.now();log(r,'team','Quotation sent','ANFAL sent your quotation');closeSheet('b');toast('b','Quotation sent','send');emit('b',{text:`Quotation sent for ${r.id}`,ctext:`Your quotation is ready: ${BHD(qTotal(r.quote))} in total. Review and accept.`,req:r.id});refreshAll()})})};
+A.teamdone=(side,d)=>{const r=reqById(d.id),c=curStep(r);const sub=/LMRA|Submit|Apply|Raise/.test(c.name);
+  const finish=(appNo)=>{if(appNo)r.appNo=appNo;c.st='done';c.at=Date.now();markFresh(r,c);log(r,'team',`${c.name} done${appNo?' · '+appNo:''}`,sub?`ANFAL submitted your request${appNo?' · application '+appNo:''}`:`ANFAL finished: ${c.name.toLowerCase()}`);advance(r);closeSheet('b');toast('b','Marked as done');emit('b',{text:`${c.name} · ${r.id}`,ctext:sub?`Submitted to LMRA${appNo?' · application '+appNo:''}. LMRA decides; we will update you.`:`ANFAL finished ${c.name.toLowerCase()}.${whoOf(r)==='client'?' Your turn: '+curStep(r).name.toLowerCase()+'.':''}`,req:r.id});refreshAll()};
+  if(!sub)return finish();
+  sheet('b',`<h3>${esc(c.name)}</h3><p class="sub">Add the application number so the client can track it.</p><div class="fld"><label for="ap-no">LMRA application number</label><input id="ap-no" value="2026-118734"></div><button class="btn pri" id="ap-ok">Mark as submitted</button>`,sh=>$('#ap-ok',sh).addEventListener('click',()=>finish($('#ap-no',sh).value.trim())))};
+A.gov=(side,d)=>{const r=reqById(d.id),c=curStep(r);sheet('b',`<h3>LMRA decision</h3><p class="sub">${r.appNo?'Application '+esc(r.appNo)+'. ':''}Record what LMRA decided. The client is told right away.</p><div style="display:flex;flex-direction:column;gap:8px"><button class="btn pri" data-g="ok"><span class="ms">verified</span>Approved</button><button class="btn sec2" data-g="more"><span class="ms">note_add</span>LMRA wants more documents</button><button class="btn sec2" data-g="no" style="color:var(--bad)"><span class="ms">block</span>Rejected</button></div>`,sh=>{
+  sh.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;const g=b.dataset.g;closeSheet('b');
+    if(g==='ok'){c.st='done';c.at=Date.now();markFresh(r,c);log(r,'gov','LMRA approved',`LMRA approved your ${svcById(r.svc).name.toLowerCase()}`);advance(r);toast('b','Recorded · request complete','verified');emit('b',{text:`LMRA approved ${r.id}`,ctext:`Good news: LMRA approved your ${svcById(r.svc).name.toLowerCase()}.`,req:r.id})}
+    if(g==='more'){const ns={...S('upload','Additional document requested by LMRA'),id:uid('rs'),st:'todo'};const i=r.steps.indexOf(c);r.steps.splice(i,0,ns);c.st='todo';advance(r);ST.fresh.add(ns.id);log(r,'gov','LMRA asked for more documents','LMRA asked for one more document');toast('b','Step added to the journey','note_add');emit('b',{text:`LMRA wants more documents · ${r.id}`,ctext:'LMRA asked for one more document. Upload it to keep things moving.',req:r.id})}
+    if(g==='no'){c.st='rejected';log(r,'gov','LMRA rejected · escalated to clearance team','LMRA did not approve. ANFAL’s team will contact you.');toast('b','Escalated to a person','flag');emit('b',{text:`LMRA rejected ${r.id}`,ctext:'LMRA did not approve this application. Our clearance team will contact you about the next step.',req:r.id})}
+    refreshAll()})})};
+A.reopen=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='active';c.phase='gov';c.since=Date.now();log(r,'team','Resubmitted to LMRA','ANFAL resubmitted your application');emit('b',{text:`Resubmitted ${r.id}`,ctext:'ANFAL resubmitted your application to LMRA.',req:r.id});refreshAll()};
+A.remind=(side,d)=>{const r=reqById(d.id),c=curStep(r);log(r,'team','Reminder sent',`Reminder: ${c.name.toLowerCase()} is waiting for you`);toast('b',`Reminder sent on ${r.channel==='wa'?'WhatsApp':'the app'}`,'send');emit('b',{text:`Reminder · ${c.name.toLowerCase()}`,ctext:`Reminder: your ${c.name.toLowerCase()} is the next step.`,req:r.id});refreshAll()};
+
+A.csvc=(side,d)=>go('c','c.service',{svc:d.svc});
+A.cstart=(side,d)=>{const r=newRequest(d.svc,{});ST.requests.unshift(r);ST.newCards.add(r.id);
+  emit('c',{text:`New request · ${svcById(d.svc).name}`,req:r.id,title:'New request · client app'});
+  P.c.stack=[{scr:'c.home',params:{}},{scr:'c.req',params:{id:r.id}}];paint('c','push');refresh('b')};
+A.creq=(side,d)=>go('c','c.req',{id:d.id,web:top('c').params.web});
+A.cstep=(side,d)=>go('c','c.step',{id:d.id,web:top('c').params.web});
+A.pick=(side,d,el)=>{const id=top('c').params.id;ST.drafts[id][d.f]=d.v;syncForm($('.scr',P.c.vp),reqById(id))};
+A.formsubmit=(side,d)=>{const r=reqById(d.id),c=curStep(r);Object.assign(r.values,ST.drafts[r.id]);c.st='done';c.at=Date.now();markFresh(r,c);log(r,'client','Details submitted','You sent your details');advance(r);
+  const sk=r.steps.filter(s=>s.st==='skipped').length;
+  emit('c',{text:`${r.contact.split(' ')[0]} sent details${sk?' · '+sk+' step'+(sk>1?'s':'')+' not needed':''}`,req:r.id});back('c');refresh('b')};
+A.acceptquote=(side,d)=>{const r=reqById(d.id),c=curStep(r);c.st='done';c.at=Date.now();markFresh(r,c);log(r,'client','Quotation accepted','You accepted the quotation');advance(r);emit('c',{text:`Quotation accepted · ${BHD(qTotal(r.quote))}`,req:r.id});back('c');refresh('b')};
+A.samplefile=(side,d)=>{const r=reqById(d.id);startUpload($('.scr',P.c.vp),r,curStep(r),null)};
+A.clearsig=()=>$('.scr',P.c.vp)._clear?.();
+A.sign=(side,d)=>{const el=$('.scr',P.c.vp);const r=reqById(d.id),c=curStep(r);c.sig=el._sig?.();$('#stamp',el).classList.add('on');$('#signbtn',el).disabled=true;
+  setTimeout(()=>{c.st='done';c.at=Date.now();markFresh(r,c);log(r,'client',`${c.name} signed`,`You signed the ${c.name.toLowerCase()}`);advance(r);emit('c',{text:`${r.contact.split(' ')[0]} signed the ${c.name.toLowerCase()}`,req:r.id});back('c');refresh('b')},RM()?20:900)};
+A['demo-b']=(side,d)=>{tab('b','b.board');go('b','b.req',{id:d.id});nudge('b')};
+A.openweb=(side,d)=>go('c','c.req',{id:d.id,web:true});
+A.closeweb=()=>{P.c.stack=[{scr:'w.chat',params:{}}];paint('c','pop')};
+A.wapick=(side,d)=>{const s=svcById(d.svc);const w=ST.wa;w.msgs.push({me:true,text:s.name,t:Date.now()});
+  if(s.fields.includes('location'))waBot(`${s.name}. Is the employee inside or outside Bahrain?`,{then:()=>w.msgs.push({type:'btns',f:'location',opts:FL.location.opts,svc:s.id})});
+  else waOpen(s.id,{})};
+A.waans=(side,d)=>{const w=ST.wa;const m=w.msgs.find(x=>x.type==='btns'&&!x.done);if(!m)return;m.done=true;w.msgs.push({me:true,text:d.v,t:Date.now()});waOpen(m.svc,{[d.f]:d.v})};
+function waOpen(svcId,values){const w=ST.wa;
+  waBot('',{type:'link',then:()=>{const r=newRequest(svcId,{channel:'wa',values});ST.requests.unshift(r);ST.newCards.add(r.id);w.req=r.id;const last=w.msgs[w.msgs.length-1];last.req=r.id;last.text=`I’ve opened ${r.id} for you. Complete each step at the link. You can also send documents here and I’ll file them to your request.`;
+    emit('c',{text:`Noor opened ${r.id} · ${svcById(svcId).name} via WhatsApp`,req:r.id,title:'New request · WhatsApp'});refresh('b')}},1100)}
+A.waattach=()=>{const w=ST.wa;const r=reqById(w.req);if(!r)return;w.msgs.push({type:'img',t:Date.now()});
+  const st=r.steps.find(s=>s.kind==='upload'&&/passport/i.test(s.name)&&s.st!=='done');
+  if(st){st.file={name:'passport.jpg',art:'passport',size:'0.9 MB',via:'wa'};if(st.st==='active'&&(st.phase==='client'||st.phase==='redo')){st.phase='review';st.since=Date.now()}log(r,'noor','Noor filed passport.jpg from WhatsApp','Noor filed your passport copy');
+    waBot(`Got it. I’ve filed this as the passport copy on ${r.id}. Our team will check it when we reach that step.`);emit('c',{text:`Noor filed passport.jpg to ${r.id}`,req:r.id});refresh('b')}
+  else waBot('Thanks, I’ve added this to your request.')};
+
+/* ---------- Wiring ---------- */
+function bindPhone(side){
+  const vp=P[side].vp;
+  vp.addEventListener('click',e=>{
+    const t=e.target.closest('[data-act],[data-tab],.push,.scrim');if(!t||!vp.contains(t))return;
+    if(t.classList.contains('scrim')){closeSheet(side);return}
+    if(t.classList.contains('push')){t.classList.remove('show');const id=t.dataset.req;if(id&&reqById(id)){if(side==='b'){tab('b','b.board');go('b','b.req',{id})}else if(ST.entry==='wa'){P.c.stack=[{scr:'w.chat',params:{}},{scr:'c.req',params:{id,web:true}}];paint('c','push')}else{tab('c','c.home');go('c','c.req',{id})}}return}
+    if(t.dataset.tab){if(t.dataset.tab==='c.updates'){ST._seenUnread=ST.unread;ST.unread=0}tab(side,t.dataset.tab,t.dataset.name?{name:t.dataset.name}:{});return}
+    const a=A[t.dataset.act];if(a){e.preventDefault();a(side,t.dataset,t)}
+  });
+}
+function setEntry(v){ST.entry=v;$('#entry-app').classList.toggle('on',v==='app');$('#entry-wa').classList.toggle('on',v==='wa');
+  $('#clabel').textContent=v==='app'?'ANFAL client app · Yousif, Gulf Star Trading':'WhatsApp + secure link · no app installed';
+  if(v==='wa'){if(!ST.wa)waInit();P.c.stack=[{scr:'w.chat',params:{}}]}else P.c.stack=[{scr:'c.home',params:{}}];paint('c','fade')}
+function setView(v){$('#dev-c').dataset.hide=v==='c'?'0':'1';$('#dev-b').dataset.hide=v==='b'?'0':'1';$('#view-c').classList.toggle('on',v==='c');$('#view-b').classList.toggle('on',v==='b')}
+function setTheme(t){const root=document.documentElement;if(t==='system')root.removeAttribute('data-theme');else root.setAttribute('data-theme',t);$$('[data-theme-set]').forEach(b=>b.classList.toggle('on',b.dataset.themeSet===t));try{localStorage.setItem('rsr-theme',t)}catch(e){}}
+$$('[data-theme-set]').forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.themeSet)));
+$$('[data-entry]').forEach(b=>b.addEventListener('click',()=>setEntry(b.dataset.entry)));
+$$('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+$('#reset').addEventListener('click',boot);
+$('#kindlist').innerHTML=Object.values(KIND).map(k=>`<div><span class="ibx"><span class="ms">${k.icon}</span></span><span><b>${k.label}</b>${k.desc}</span></div>`).join('');
+P.c.vp=$('#vp-c');P.b.vp=$('#vp-b');bindPhone('c');bindPhone('b');
+function boot(){
+  const entry=ST?.entry||'app';ST=null;seed();ST.entry=entry;ST.wa=null;ST._seenUnread=0;
+  ST.unread=1;log(reqById('ANF-2036'),'team','Reminder sent','Reminder: your passport copy is the next step');
+  $('#feed').innerHTML='<li class="empty">Act on either phone. Each step change travels here.</li>';
+  Object.keys(ringMem).forEach(k=>delete ringMem[k]);
+  P.b.stack=[{scr:'b.board',params:{}}];paint('b','fade');setEntry(entry);
+  setView(narrow()?($('#view-b').classList.contains('on')?'b':'c'):'c');if(!narrow()){$('#dev-b').dataset.hide='0'}
+}
+matchMedia('(max-width: 979px)').addEventListener('change',()=>{if(!narrow()){$('#dev-c').dataset.hide='0';$('#dev-b').dataset.hide='0'}else setView('c')});
+try{const t=localStorage.getItem('rsr-theme');if(t)setTheme(t)}catch(e){}
+boot();
+})();
+</script>
+
+</html>
