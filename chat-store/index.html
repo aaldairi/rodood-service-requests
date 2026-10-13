@@ -429,6 +429,77 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .line{display:flex;justify-content:space-between;font-size:var(--fs-body-sm);padding:8px 0}
 .line.tot{font-weight:600;border-top:1px solid var(--b2);margin-top:4px;padding-top:12px}
 
+
+/* ---------- Business phone ---------- */
+.rail{width:170px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:150px;gap:15px}
+.rail h3{font-size:var(--fs-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--ts);font-weight:500}
+.track{position:relative;width:130px;height:30px}
+.track::before{content:'';position:absolute;left:0;right:0;top:14px;height:2px;background:repeating-linear-gradient(90deg,var(--b3) 0 6px,transparent 6px 11px)}
+.packet{position:absolute;top:9px;left:0;width:12px;height:12px;border-radius:50%;background:var(--grad);box-shadow:var(--glow);opacity:0}
+.packet.go-r{animation:pk-r .9s var(--e-out) forwards}.packet.go-l{animation:pk-l .9s var(--e-out) forwards}
+@keyframes pk-r{0%{transform:translateX(-6px) scale(.4);opacity:0}15%{opacity:1;transform:translateX(10px) scale(1)}85%{opacity:1}100%{transform:translateX(124px) scale(.5);opacity:0}}
+@keyframes pk-l{0%{transform:translateX(124px) scale(.4);opacity:0}15%{opacity:1;transform:translateX(108px) scale(1)}85%{opacity:1}100%{transform:translateX(-6px) scale(.5);opacity:0}}
+.rail .feed{width:100%}
+.bhd{position:absolute;top:46px;left:0;right:0;height:50px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 20px;pointer-events:none}
+.bhd>*{pointer-events:auto}
+.bhd .ttl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.bhd .ttl b{display:block;font-size:var(--fs-body);font-weight:600;letter-spacing:0;white-space:nowrap}
+.bhd .ttl small{display:block;font-size:var(--fs-micro);color:var(--ts);margin-top:1px;white-space:nowrap}
+.mode{height:36px;padding:0 12px;border-radius:var(--r-pill);display:flex;align-items:center;gap:6px;font-size:var(--fs-label);font-weight:500;transition:background .25s,color .25s}
+.mode .ms{font-size:16px}
+.mode.ai{background:var(--tint-purple);color:var(--tpur)}
+.mode.hu{background:var(--tint-orange);color:var(--orange-tx)}
+.bthread{padding-top:60px}
+.bthread .msg{transform-origin:bottom left}
+.bthread .msg.me{transform-origin:bottom right}
+.bthread .bub.you{background:var(--tint-orange);box-shadow:inset 0 0 0 1px rgba(245,130,31,.3);border-radius:18px 18px 6px 18px}
+.bthread .bub.noor{background:var(--tint-purple);box-shadow:inset 0 0 0 1px rgba(155,31,224,.22);border-radius:18px 18px 6px 18px}
+.takeover{margin:0 var(--gutter) 8px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:var(--tint-purple);font-size:var(--fs-label);color:var(--tpur)}
+.takeover .ms{font-size:18px}
+.takeover span{flex:1;color:var(--tp);font-weight:300}
+.takeover button{height:32px;padding:0 12px;border-radius:var(--r-pill);background:var(--elev);color:var(--tp);font-size:var(--fs-micro);font-weight:500;box-shadow:var(--ring)}
+.bmenu{position:absolute;left:var(--gutter);bottom:72px;z-index:45;display:grid;grid-template-columns:repeat(4,64px);gap:10px;padding:12px;border-radius:22px;background:var(--elev);box-shadow:var(--shadow-pop),var(--ring);transform-origin:bottom left;transform:scale(.5);opacity:0;pointer-events:none;transition:transform .35s var(--spring),opacity .2s}
+.bmenu.show{transform:none;opacity:1;pointer-events:auto}
+.bmenu button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--ts)}
+.bmenu button .ic{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;color:#fff}
+.bmenu button .ic .ms{font-size:24px}
+.bmenu button .ic.grad{background:var(--grad)}
+.bmenu.show button{animation:rise .4s var(--spring) both;animation-delay:calc(var(--i) * 40ms)}
+/* AI offer sheet */
+.brief{display:flex;align-items:flex-end;gap:8px;margin-top:4px}
+.brief .inp{min-height:48px;border-radius:24px}
+.brief .inp input{height:48px}
+.brief .send{transform:scale(1);background:var(--purple)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chips button{height:34px;padding:0 13px;border-radius:var(--r-pill);font-size:var(--fs-label);background:var(--s2);box-shadow:var(--ring);color:var(--tp);display:flex;align-items:center;gap:6px}
+.chips button .ms{font-size:16px;color:var(--tpur)}
+.drafting{display:flex;flex-direction:column;gap:10px;padding:18px 0 6px}
+.drafting .l{height:14px;border-radius:7px;background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 50%,var(--s2) 75%);background-size:200% 100%;animation:shim 1.1s linear infinite}
+.drafting .l.w1{width:60%}.drafting .l.w2{width:90%}.drafting .l.w3{width:75%}.drafting .l.w4{width:40%;height:24px}
+@keyframes shim{to{background-position:-200% 0}}
+.drafting .st{display:flex;align-items:center;gap:8px;font-size:var(--fs-label);color:var(--tpur);margin-bottom:6px}
+.drafting .st .ms{font-size:18px;animation:spin 1.6s linear infinite}
+.prev{border-radius:24px;background:var(--elev);box-shadow:var(--ring),0 10px 30px rgba(10,11,42,.10);padding:20px;animation:deal .55s var(--spring) both}
+.prev .by{display:flex;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--tpur);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.prev .by .ms{font-size:16px}
+.prev h4{font-size:var(--fs-h2);font-weight:600;letter-spacing:0;line-height:1.2;margin-top:10px}
+.prev .to{font-size:var(--fs-label);color:var(--ts);margin-top:4px;font-weight:300}
+.prev .lines{margin-top:16px;display:flex;flex-direction:column}
+.prev .ln{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b2);font-size:var(--fs-body-sm)}
+.prev .ln .n{flex:1;min-width:0;font-weight:300}
+.prev .ln .n small{display:block;font-size:var(--fs-micro);color:var(--ts);margin-top:1px}
+.prev .ln .v{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:var(--fs-label)}
+.prev .ln.disc .v{color:var(--good)}
+.prev .ln .x{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--ts);background:var(--s2)}
+.prev .ln .x .ms{font-size:16px}
+.prev .tot{display:flex;align-items:baseline;justify-content:space-between;padding-top:14px}
+.prev .tot span{font-size:var(--fs-label);color:var(--ts)}
+.prev .tot b{font-size:26px;font-weight:600;letter-spacing:-.2px;font-variant-numeric:tabular-nums}
+.prev .meta2{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.prev .meta2 .chip{height:30px;padding:0 12px;font-size:var(--fs-label);font-weight:400;gap:6px}
+.prev .meta2 .chip .ms{font-size:16px}
+.prev .edit{display:flex;gap:10px;margin-top:16px}
+
 /* ---------- Notes ---------- */
 .notes{max-width:960px;margin:0 auto 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .note{background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-lg);padding:20px}
@@ -438,7 +509,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .note ul{padding-left:16px;display:flex;flex-direction:column;gap:5px}
 .note b{color:var(--tp);font-weight:500}
 .note code{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:var(--s2);padding:1px 6px;border-radius:6px;color:var(--tp)}
-@media (max-width:760px){.console{width:100%;padding-top:0}.stage{gap:18px}}
+@media (max-width:760px){.rail{width:100%;padding-top:0}.rail .track{display:none}.stage{gap:18px}}
 </style>
 </head>
 <body>
@@ -446,7 +517,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 <header class="deck">
   <div class="eyebrow">Rodood Client · one page per business</div>
   <div class="lockup"><span class="mark" aria-hidden="true"></span><b>Chat and Store</b></div>
-  <p>Every business the client deals with has one page. <b style="font-weight:500;color:var(--tp)">Chat</b> is the conversation: Noor answers instantly, the team steps in when needed, and offers, products, services, invoices and files arrive as cards you can act on. <b style="font-weight:500;color:var(--tp)">Store</b> is the business itself: products, services, your orders and requests. Use the business console on the right to send things into the chat.</p>
+  <p>Every business the client deals with has one page. <b style="font-weight:500;color:var(--tp)">Chat</b> is the conversation: Noor answers instantly, the team steps in when needed, and quotations, products, services, invoices and files arrive as cards you can act on. <b style="font-weight:500;color:var(--tp)">Store</b> is the business itself: products, services, your orders and requests. The second phone is Rodood Business: the team replies, takes over from Noor, and creates quotations by giving Noor one line.</p>
   <div class="ctrls">
     <div class="seg" role="group" aria-label="Theme">
       <button id="th-auto" class="on"><span class="ms">contrast</span>System</button>
@@ -479,38 +550,54 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
     </div>
   </div>
 
-  <aside class="console">
-    <h3><i></i>Business side · Mawared Travel team</h3>
-    <p>What the team (or Noor) does in Rodood Business. Each action lands in the client's chat as a card.</p>
-    <div class="con">
-      <h4>Send into the chat</h4>
-      <button class="cb" data-con="offer"><span class="ms">local_offer</span><b>Create offer</b><small>quotation Q-204</small></button>
-      <button class="cb" data-con="product"><span class="ms">shopping_bag</span><b>Share a product</b><small>from the catalogue</small></button>
-      <button class="cb" data-con="service"><span class="ms">design_services</span><b>Share a service</b><small>starts a request</small></button>
-      <button class="cb" data-con="invoice"><span class="ms">receipt</span><b>Raise invoice</b><small id="inv-hint">linked to Q-204</small></button>
-      <div class="opt" id="inv-opt"><button class="on" data-inv="linked">From quotation</button><button data-inv="standalone">Standalone</button></div>
-    </div>
-    <div class="con">
-      <h4>Attachments</h4>
-      <button class="cb" data-con="image"><span class="ms">image</span><b>Send a photo</b><small>itinerary</small></button>
-      <button class="cb" data-con="file"><span class="ms">description</span><b>Send a file</b><small>PDF</small></button>
-      <button class="cb" data-con="audio"><span class="ms">mic</span><b>Send a voice note</b><small>0:14</small></button>
-    </div>
-    <div class="con">
-      <h4>Who is talking</h4>
-      <button class="cb" data-con="handover"><span class="ms">support_agent</span><b id="ho-t">Hand over to Sara</b><small id="ho-s">Noor is replying</small></button>
-    </div>
-    <ul class="feed" id="feed"><li style="background:none;box-shadow:none;text-align:center;animation:none">Events from both sides appear here.</li></ul>
+  <aside class="rail">
+    <h3>Live sync</h3>
+    <div class="track"><span class="packet" id="packet"></span></div>
+    <ul class="feed" id="feed"><li style="background:none;box-shadow:none;text-align:center;animation:none">Act on either phone.</li></ul>
   </aside>
+
+  <div class="dev">
+    <div class="devlabel"><i style="background:var(--orange)"></i><span id="blabel">Rodood Business · Mawared Travel · Sara</span></div>
+    <div class="phone" id="bphone"><div class="notch"></div>
+      <div class="vp" id="bvp">
+        <div class="sbar"><span id="bclock">3:14</span><span class="ic"><span class="ms">signal_cellular_alt</span><span class="ms">wifi</span><span class="ms">battery_full</span></span></div>
+        <div class="scr"><div class="top"></div>
+          <div class="bhd"><button class="gb glass" data-act="toast" data-t="Back to the inbox"><span class="ms">arrow_back</span></button>
+            <div class="ttl"><b>Abdulla Aldairi</b><small>+973 •••• 9902 · client since Jun</small></div>
+            <button class="mode ai glass" id="bmode" data-act="bmode"><span class="ms">auto_awesome</span><span id="bmode-t">Noor</span></button></div>
+          <div class="thread bthread" id="bthread"></div>
+          <div class="takeover" id="takeover"><span class="ms">auto_awesome</span><span>Noor is handling this chat.</span><button data-act="bmode">Take over</button></div>
+          <div class="bmenu" id="bmenu">
+            <button style="--i:0" data-bcon="offer"><span class="ic grad"><span class="ms">auto_awesome</span></span>Quotation</button>
+            <button style="--i:1" data-bcon="product"><span class="ic g1"><span class="ms">shopping_bag</span></span>Product</button>
+            <button style="--i:2" data-bcon="service"><span class="ic g6"><span class="ms">design_services</span></span>Service</button>
+            <button style="--i:3" data-bcon="invoice"><span class="ic g3"><span class="ms">receipt</span></span>Invoice</button>
+            <button style="--i:4" data-bcon="image"><span class="ic g2"><span class="ms">image</span></span>Photo</button>
+            <button style="--i:5" data-bcon="file"><span class="ic g4"><span class="ms">description</span></span>File</button>
+            <button style="--i:6" data-bcon="audio"><span class="ic g5"><span class="ms">mic</span></span>Voice</button>
+            <button style="--i:7" data-bcon="noor"><span class="ic" style="background:var(--s3);color:var(--tp)"><span class="ms">edit_note</span></span>Ask Noor</button>
+          </div>
+          <div class="comp"><button class="ib plus" id="bplus"><span class="ms">add</span></button><div class="inp"><input id="binp" placeholder="Reply as Sara" autocomplete="off"><button class="send" id="bsend"><span class="ms">arrow_upward</span></button></div><button class="mic" id="bmic"><span class="ms">mic</span></button></div>
+        </div>
+        <div class="toast" id="btoast"><span class="ms">check_circle</span><span id="btoast-t"></span></div>
+        <div class="scrim" id="bscrim"></div>
+        <div class="sheet" id="bsheet"></div>
+      </div>
+    </div>
+  </div>
 </main>
 
 <section class="notes">
   <div class="note"><h2><span class="ms">account_tree</span>How a client finds a business</h2>
     <ul><li><b>Today:</b> a business appears on Home only after it opens a request for the number, or after an order. The app has no link handler and nothing calls the follow API.</li>
     <li><b>Proposed:</b> universal links for <code>app.rodoodai.com/s/&lt;code&gt;</code> and <code>/b/&lt;code&gt;</code> open the app on this page; "Add a business" on Home scans the QR or pastes the link and calls <code>POST /api/customer/stores/:code/follow</code>.</li></ul></div>
+  <div class="note"><h2><span class="ms">auto_awesome</span>Creating a quotation</h2>
+    <ul><li>The team gives Noor one line ("Italy, 2 people, 10 days, 10% off") or a voice note. Noor picks the lines from the catalogue and services, adds official fees separately, applies the discount and a 7-day validity.</li>
+    <li>The preview is the exact card the client sees: title, lines, total, validity. The team can remove a line, change the discount or validity, then Send. Noor never sends a quotation on its own.</li>
+    <li>One document type: a quotation with an optional discount. A promotion on a product is a shared product at a discounted price, not a separate card. Accepted quotations lock and raise a draft invoice linked to them.</li></ul></div>
   <div class="note"><h2><span class="ms">forum</span>Chat</h2>
     <ul><li>One thread per business. Purple = Noor, orange = a person; the header dot shows who is replying now.</li>
-    <li>Message kinds: <code>text</code>, <code>product</code>, <code>service</code>, <code>offer</code> (quotation with lines, validity, accept), <code>invoice</code> (optional <code>quoteId</code>, pay), <code>image</code>, <code>file</code>, <code>audio</code>, <code>system</code>.</li>
+    <li>Message kinds: <code>text</code>, <code>product</code>, <code>service</code>, <code>quotation</code> (lines, validity, accept), <code>invoice</code> (optional <code>quoteId</code>, pay), <code>image</code>, <code>file</code>, <code>audio</code>, <code>system</code>.</li>
     <li>Client composer: text, photo, camera, file, hold-to-record voice. Suggestion chips come from Noor.</li></ul></div>
   <div class="note"><h2><span class="ms">storefront</span>Store</h2>
     <ul><li>The store and services the business already has on Rodood, inside the page. Add to basket, checkout, start a request.</li>
@@ -582,15 +669,15 @@ function init(){
   ST={biz:'mawared',tab:'home',seg:'chat',basket:{},chat:{},hu:{},inv:'linked',sent:{},unread:{mawared:0,anfal:1},offer:null,invoice:null,paid:false,accepted:false,audio:null,rec:false,cat:'All'};
   for(const k in BIZ){ST.chat[k]=BIZ[k].seed.map(m=>({...m}));ST.hu[k]=false;}
   ST.hu.anfal=true;
-  $('#feed').innerHTML='<li style="background:none;box-shadow:none;text-align:center;animation:none">Events from both sides appear here.</li>';
-  $('#ho-t').textContent='Hand over to Sara';$('#ho-s').textContent='Noor is replying';
+  $('#feed').innerHTML='<li style="background:none;box-shadow:none;text-align:center;animation:none">Act on either phone.</li>';
+  bthread();bmode();
   go('home');
 }
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const now=()=>{const d=new Date();return d.getHours()%12||12;}
 const tnow=()=>{const d=new Date();return (d.getHours()%12||12)+':'+String(d.getMinutes()).padStart(2,'0');}
-$('#clock').textContent=tnow();
+$('#clock').textContent=tnow();$('#bclock').textContent=tnow();
 
 /* ---------- screens ---------- */
 const screens=$('#screens');
@@ -639,7 +726,7 @@ function openBiz(id,seg){ST.biz=id;ST.seg=seg||'chat';ST.unread[id]=0;$('#vp').c
   </div>
   <div class="bpill" id="bpill"><b id="bp-n"></b><small id="bp-t"></small><button class="go" data-act="basket">Basket<span class="ms" style="font-size:16px">arrow_forward</span></button></div>`,'a-push');
   $('#clabel').textContent='Rodood Client · '+b.name+' · '+(ST.seg==='chat'?'Chat':'Store');
-  thread(true);suggs();work();basketPill();wireComposer();
+  thread(true);suggs();work();basketPill();wireComposer();bthread();
 }
 function who(){const b=BIZ[ST.biz];const hu=ST.hu[ST.biz];const s=$('#bsub');if(!s)return;
   s.innerHTML=hu?`<i class="live hu"></i>${b.id==='anfal'?'Khalid':'Sara'} from ${b.name} is replying`:`<i class="live"></i>Noor replies instantly · the team steps in when needed`;
@@ -648,6 +735,7 @@ function thread(all){const t=$('#thread');if(!t)return;const msgs=ST.chat[ST.biz
   if(all){t.innerHTML=`<div class="ident"><span class="av lg ${ST.hu[ST.biz]?'':'ai'}" id="bav">${b.ini}</span><b>${esc(b.name)}</b><small id="bsub"></small></div>`+msgs.map((m,i)=>msgHtml(m,i)).join('');t.scrollTop=t.scrollHeight;who();}
 }
 function push(m){const t=$('#thread');m.t=m.t||tnow();ST.chat[ST.biz].push(m);if(t){t.insertAdjacentHTML('beforeend',msgHtml(m,ST.chat[ST.biz].length-1));t.scrollTo({top:t.scrollHeight,behavior:'smooth'});}
+  if(ST.biz==='mawared'){const bt=$('#bthread');bt.insertAdjacentHTML('beforeend',bmsgHtml(m,ST.chat[ST.biz].length-1));bt.scrollTo({top:bt.scrollHeight,behavior:'smooth'});packet(m.from==='me'?'r':'l');}
   if(ST.seg==='work'&&m.from!=='me'){const nb=$('#segbadge');if(nb){nb.textContent=(+nb.textContent||0)+1;nb.classList.remove('hide');}}}
 function msgHtml(m,i){
   if(m.day)return `<div class="day">${m.day}</div>`;
@@ -667,11 +755,11 @@ function msgHtml(m,i){
 }
 function productCard(p){if(!p)return'';return `<div class="pc chatpc"><button class="img ${p.g}" data-act="pdetail" data-id="${p.id}" style="width:100%"><span class="ms">${p.ic}</span></button><div class="bd"><b>${esc(p.name)}</b><div class="pr"><span class="price">${BHD(p.price)}</span><span class="add" data-act="add" data-id="${p.id}"><span class="ms">add</span>Add</span></div></div></div>`;}
 function serviceCard(s){if(!s)return'';return `<div class="rc"><div class="bd"><div class="svc"><span class="ic"><span class="ms">${s.ic}</span></span><div style="min-width:0;flex:1"><b style="font-size:var(--fs-body-sm);font-weight:500;display:block">${esc(s.name)}</b><p style="margin-top:2px">${s.eta}</p></div></div><dl class="kv">${s.gov?`<dt>${s.govLabel}</dt><dd>${BHD(s.gov)}</dd>`:''}<dt>Service charge</dt><dd>${s.fee?BHD(s.fee):'Free'}</dd></dl><div class="act2"><button class="btn pri" data-act="startreq" data-id="${s.id}"><span class="ms">play_arrow</span>Start request</button></div></div></div>`;}
-function offerCard(m){const o=m.offer;const acc=o.accepted;return `<div class="rc offer ${acc?'accepted':''}" id="offer-${o.id}"><div class="bd"><div class="hdr"><span class="ms">local_offer</span>Offer · ${o.id} · valid until ${o.until}</div><b style="display:block;margin-top:8px;font-size:var(--fs-body-sm);font-weight:500">${esc(o.title)}</b><p>${esc(o.d)}</p>
+function offerCard(m){const o=m.offer;const acc=o.accepted;return `<div class="rc offer ${acc?'accepted':''}" id="offer-${o.id}"><div class="bd"><div class="hdr"><span class="ms">request_quote</span>Quotation ${o.id} · valid until ${o.until}</div><b style="display:block;margin-top:8px;font-size:var(--fs-body-sm);font-weight:500">${esc(o.title)}</b><p>${esc(o.d)}</p>
   <dl class="kv">${o.lines.map(l=>`<div style="display:contents" class="${l.disc?'disc':''}"><dt>${esc(l.n)}</dt><dd>${l.disc?'−':''}${BHD(Math.abs(l.v))}</dd></div>`).join('')}<div style="display:contents" class="tot"><dt>Total</dt><dd>${BHD(o.total)}</dd></div></dl>
   <div class="act2">${acc?`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Accepted</span>`:`<button class="btn sec2" data-act="say" data-t="Can you do it a bit cheaper?">Ask</button><button class="btn pri" data-act="accept" data-id="${o.id}">Accept</button>`}</div></div></div>`;}
 function invoiceCard(m){const v=m.inv;return `<div class="rc inv ${v.paid?'paid':''}" id="inv-${v.id}"><div class="bd"><div class="hdr"><span class="ms">receipt</span>Invoice ${v.id}<span class="chip ${v.paid?'w-good':'w-hu'}" style="margin-left:auto">${v.paid?'Paid':'Unpaid'}</span></div>
-  ${v.quote?`<div class="link"><span class="ms">link</span>From quotation ${v.quote}</div>`:`<div class="link"><span class="ms">link_off</span>Standalone</div>`}
+  ${v.quote?`<div class="link"><span class="ms">link</span>Linked to quotation ${v.quote}</div>`:`<div class="link"><span class="ms">link_off</span>Standalone</div>`}
   <dl class="kv">${v.lines.map(l=>`<div style="display:contents"><dt>${esc(l.n)}</dt><dd>${BHD(l.v)}</dd></div>`).join('')}<div style="display:contents" class="tot"><dt>Total due</dt><dd>${BHD(v.total)}</dd></div></dl>
   <div class="act2">${v.paid?`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Paid ${v.paidAt} · receipt sent</span>`:`<button class="btn sec2" data-act="toast" data-t="PDF opens">PDF</button><button class="btn pri" data-act="pay" data-id="${v.id}"><span class="ms">credit_card</span>Pay ${BHD(v.total)}</button></div>`}</div></div></div>`;}
 function audioCard(m,i){const bars=Array.from({length:26},(_,n)=>`<i style="--h:${6+Math.round(Math.abs(Math.sin(n*1.3+i))*20)}px;--n:${n}"></i>`).join('');return `<div class="att audio" data-act="play" data-i="${i}"><span class="pl"><span class="ms">play_arrow</span></span><div class="wave">${bars}</div><small>${m.len}</small></div>`;}
@@ -694,20 +782,20 @@ function say(text){const inp=$('#inp');if(inp){inp.value='';$('#send').classList
   reply(text);}
 function typing(ms,cb){const t=$('#thread');if(!t)return cb();const el=document.createElement('div');el.className='msg';el.innerHTML=`<div class="who"><span class="chip w-ai"><span class="ms">auto_awesome</span>Noor</span></div><div class="typing"><i></i><i></i><i></i></div>`;t.appendChild(el);t.scrollTo({top:t.scrollHeight,behavior:'smooth'});setTimeout(()=>{el.remove();cb();},ms);}
 function reply(text){const b=BIZ[ST.biz];
-  if(ST.hu[ST.biz]){setTimeout(()=>{push({from:'hu',who:(b.id==='anfal'?'Khalid':'Sara')+' · '+b.name,text:text==='voice'?'Got your voice note, give me a minute.':'On it. I will come back to you shortly.'});feed('person','Team replied','');},1600);return;}
+  if(ST.hu[ST.biz]){if(b.id==='anfal'){setTimeout(()=>{push({from:'hu',who:'Khalid · ANFAL Clearance',text:'On it. I will come back to you shortly.'});},1600);}return;}
   if(b.id==='anfal'){typing(1100,()=>push({from:'noor',text:text==='voice'?'I heard you. Khalid will confirm the timing.':'Khalid prepared your application. You can sign it from Store, under your requests.'}));return;}
   const r=NOOR_REPLIES.find(x=>x.m.test(text));
   if(r&&r.handover){typing(900,()=>{push({from:'noor',text:'Sure. Sara from the team is joining this chat.'});handover(true);});return;}
   typing(1200,()=>{if(r)push({from:'noor',text:r.text,cards:r.cards,svc:r.svc});else push({from:'noor',text:text==='voice'?'Thanks for the voice note. I can help with luggage, eSIMs, visas and packages. What do you need?':'I can help with luggage, eSIMs, visas and packages. Try "Show me luggage".'});feed('auto_awesome','Noor replied','');});}
-function handover(on){ST.hu[ST.biz]=on;who();suggs();$('#ho-t').textContent=on?'Give back to Noor':'Hand over to Sara';$('#ho-s').textContent=on?'Sara has the chat':'Noor is replying';
+function handover(on){ST.hu[ST.biz]=on;who();suggs();bmode();
   if(on){setTimeout(()=>{push({from:'hu',who:'Sara · Mawared Travel',text:'Hi Abdulla, Sara here. I can put together an offer for the trip.'});feed('support_agent','Sara took over the chat','');},1400);}else{push({from:'noor',text:'Noor is back. Sara handed the chat to me.'});feed('auto_awesome','Noor has the chat','');}}
 
 /* ---------- business console ---------- */
 function con(k){const b=BIZ.mawared;if(ST.tab!=='biz'||ST.biz!=='mawared'){openBiz('mawared','chat');ST.tab='biz';}
   const from=ST.hu.mawared?{from:'hu',who:'Sara · Mawared Travel'}:{from:'noor'};
   nudge();
-  if(k==='offer'){if(ST.offer){toast('Offer Q-204 already sent');return;}ST.offer={id:'Q-204',title:'Italy trip · 10 days, 2 people',d:'Flights BAH–FCO return, 9 nights in Rome and Florence, Schengen visa processing for two.',until:'Fri 17 Oct',lines:[{n:'Flights × 2',v:380},{n:'Hotels · 9 nights',v:540},{n:'Visa processing × 2',v:70},{n:'Embassy fee × 2',v:120},{n:'Loyal client discount',v:-60,disc:true}],total:1050,accepted:false};
-    push({...from,text:'Here is the offer for the Italy trip. Valid until Friday.',kind:'offer',offer:ST.offer});feed('local_offer','Offer Q-204 sent','BHD 1,050.000 · valid until Fri');}
+  if(k==='offer'){ST.offer={id:'Q-204',title:'Italy trip · 10 days, 2 people',d:'Flights BAH–FCO return, 9 nights in Rome and Florence, Schengen visa processing for two.',until:'Fri 17 Oct',lines:[{n:'Flights × 2',v:380},{n:'Hotels · 9 nights',v:540},{n:'Visa processing × 2',v:70},{n:'Embassy fee × 2',v:120},{n:'Loyal client discount',v:-60,disc:true}],total:1050,accepted:false};
+    push({...from,text:'Here is the quotation for the Italy trip. Valid until Friday.',kind:'offer',offer:ST.offer});feed('request_quote','Quotation Q-204 sent','BHD 1,050.000 · valid until Fri');}
   if(k==='product'){const p=b.products[5];push({...from,text:'This package is open for November, in case the dates suit you.',cards:[p.id]});feed('shopping_bag','Shared a product',p.name);}
   if(k==='service'){push({...from,text:'Travel insurance is required for the visa. Start it here and I attach it to your file.',svc:'s1'});feed('design_services','Shared a service','Schengen visa processing');}
   if(k==='invoice'){const linked=ST.inv==='linked';if(linked&&!ST.offer){toast('Create the offer first, or choose Standalone');return;}
@@ -717,6 +805,7 @@ function con(k){const b=BIZ.mawared;if(ST.tab!=='biz'||ST.biz!=='mawared'){openB
   if(k==='file'){push({...from,kind:'file',name:'Italy-trip-itinerary.pdf',size:'1.2 MB'});feed('description','Sent a file','Italy-trip-itinerary.pdf');}
   if(k==='audio'){push({...from,kind:'audio',len:'0:14'});feed('mic','Sent a voice note','0:14');}
   if(k==='handover'){handover(!ST.hu.mawared);}
+  if(k==='bprod'){const p=b.products.find(x=>x.id===ST.pick);push({...from,cards:[p.id]});feed('shopping_bag','Shared a product',p.name);}
   if(ST.seg==='work'){pushBanner(b.name,last('mawared'));}
 }
 function nudge(){const p=$('#phone');p.classList.add('nudge');setTimeout(()=>p.classList.remove('nudge'),900);}
@@ -763,8 +852,8 @@ function startreq(id){const s=BIZ[ST.biz].services.find(x=>x.id===id);sheet(`<h3
   <button class="btn pri" id="goreq"><span class="ms">play_arrow</span>Start request</button>`);
   $('#goreq').onclick=()=>{BIZ[ST.biz].requests.unshift({id:'n'+Date.now(),name:s.name,step:'Your turn · answer a few questions',done:0,cur:1,tot:6,who:'client'});closeSheet();work();toast('Request started');feed('assignment','Client started a request',s.name);
     setTimeout(()=>push({from:'noor',text:`Started: ${s.name}. First step is a short form, it takes two minutes. You will find it under Store.`}),800);};}
-function accept(id){const card=$('#offer-'+id);ST.offer.accepted=true;card.classList.add('accepted');card.querySelector('.act2').innerHTML=`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Accepted</span>`;feed('check_circle','Client accepted Q-204','BHD 1,050.000');
-  setTimeout(()=>push({from:'me',text:'Accepted the offer',read:true}),200);
+function accept(id){const card=$('#offer-'+id);ST.offer.accepted=true;card.classList.add('accepted');const bc=$('#boffer-'+id);if(bc){bc.classList.add('accepted');const ch=bc.querySelector('.hdr .chip');ch.className='chip w-good';ch.style.background='';ch.textContent='Accepted';}btoast('Abdulla accepted '+id);card.querySelector('.act2').innerHTML=`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Accepted</span>`;feed('check_circle','Client accepted Q-204','BHD 1,050.000');
+  setTimeout(()=>push({from:'me',text:'Accepted the quotation',read:true}),200);
   setTimeout(()=>{const v={id:'INV-1042',quote:'Q-204',lines:[{n:'Italy trip · as quoted',v:1050}],total:1050,paid:false};ST.invoice=v;push({from:ST.hu.mawared?'hu':'noor',who:'Sara · Mawared Travel',text:'Great. Here is the invoice for the trip.',kind:'invoice',inv:v});feed('receipt','Invoice INV-1042 raised','linked to Q-204');},1500);}
 function pay(id){const v=ST.invoice;let m='card';
   sheet(`<h3>Pay ${BHD(v.total)}</h3><p class="sub">Invoice ${v.id} · to the Tap account of Mawared Travel. Rodood never holds your money.</p><div class="pay" id="paym">
@@ -773,7 +862,7 @@ function pay(id){const v=ST.invoice;let m='card';
   <button data-m="benefit"><span class="ic" style="background:#D62027">BP</span>BenefitPay<small>Tap</small></button></div><div style="height:16px"></div><button class="btn pri" id="paygo"><span class="ms">lock</span>Pay ${BHD(v.total)}</button>`);
   $$('#paym button').forEach(b=>b.onclick=()=>{$$('#paym button').forEach(x=>x.classList.remove('on'));b.classList.add('on');m=b.dataset.m;});
   $('#paygo').onclick=()=>{const g=$('#paygo');g.innerHTML='<span class="spin"></span>Paying';g.disabled=true;setTimeout(()=>{$('#sheet').innerHTML=`<div class="grab"></div><div class="big-ok"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><h3 style="text-align:center">Paid</h3><p class="sub" style="text-align:center">${BHD(v.total)} · ${m==='card'?'Visa 4421':m==='apple'?'Apple Pay':'BenefitPay'} · receipt in the chat.</p><button class="btn sec2" id="paydone">Done</button>`;$('#paydone').onclick=closeSheet;
-    v.paid=true;v.paidAt=tnow();const card=$('#inv-'+v.id);card.classList.add('paid','flip');card.querySelector('.hdr .chip').className='chip w-good';card.querySelector('.hdr .chip').textContent='Paid';card.querySelector('.act2').innerHTML=`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Paid ${v.paidAt} · receipt sent</span>`;feed('paid','Invoice '+v.id+' paid',BHD(v.total)+' via Tap');
+    v.paid=true;v.paidAt=tnow();const bi=$('#binv-'+v.id);if(bi){bi.classList.add('paid');const ch=bi.querySelector('.hdr .chip');ch.className='chip w-good';ch.textContent='Paid';}btoast('Invoice '+v.id+' paid');const card=$('#inv-'+v.id);card.classList.add('paid','flip');card.querySelector('.hdr .chip').className='chip w-good';card.querySelector('.hdr .chip').textContent='Paid';card.querySelector('.act2').innerHTML=`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Paid ${v.paidAt} · receipt sent</span>`;feed('paid','Invoice '+v.id+' paid',BHD(v.total)+' via Tap');
     setTimeout(()=>push({from:'noor',kind:'file',name:'Receipt-'+v.id+'.pdf',size:'88 KB'}),1200);},1500);};}
 function playAudio(el){const on=el.classList.toggle('on');el.querySelector('.pl .ms').textContent=on?'pause':'play_arrow';if(on){clearTimeout(el._t);el._t=setTimeout(()=>{el.classList.remove('on');el.querySelector('.pl .ms').textContent='play_arrow';},4000);}}
 
@@ -781,8 +870,6 @@ function playAudio(el){const on=el.classList.toggle('on');el.querySelector('.pl 
 document.addEventListener('click',e=>{
   const nav=e.target.closest('#bnav button');if(nav){go(nav.dataset.tab);return;}
   const seg=e.target.closest('#seg button');if(seg){setSeg(seg.dataset.seg);return;}
-  const cb=e.target.closest('.cb[data-con]');if(cb){con(cb.dataset.con);return;}
-  const inv=e.target.closest('#inv-opt button');if(inv){$$('#inv-opt button').forEach(b=>b.classList.remove('on'));inv.classList.add('on');ST.inv=inv.dataset.inv;$('#inv-hint').textContent=ST.inv==='linked'?'linked to Q-204':'standalone';return;}
   if(e.target.closest('#scrim')){closeSheet();return;}
   if(e.target.closest('#lightbox')){$('#lightbox').classList.remove('show');return;}
   if(e.target.closest('#push')){$('#push').classList.remove('show');setSeg('chat');return;}
@@ -811,6 +898,82 @@ function setSeg(s){ST.seg=s;$('#seg').classList.toggle('right',s==='work');$$('#
   if(s==='chat'){$('#segbadge').classList.add('hide');$('#segbadge').textContent='0';const t=$('#thread');if(t)t.scrollTop=t.scrollHeight;}
   if(s==='work'){$('#amenu').classList.remove('show');$('#plus').classList.remove('open');work();}
   basketPill();$('#clabel').textContent='Rodood Client · '+BIZ[ST.biz].name+' · '+(s==='chat'?'Chat':'Store');}
+
+/* ---------- business phone ---------- */
+function bmsgHtml(m,i){
+  if(m.day)return `<div class="day">${m.day}</div>`;
+  const b=BIZ.mawared;const mine=m.from!=='me';
+  let who='';if(mine){who=m.from==='hu'?`<div class="who" style="padding-right:4px"><span class="chip w-hu"><span class="ms">person</span>You</span></div>`:`<div class="who" style="padding-right:4px"><span class="chip w-ai"><span class="ms">auto_awesome</span>Noor</span></div>`;}
+  let body='';
+  if(m.text)body+=`<div class="bub ${mine?(m.from==='hu'?'you':'noor'):''}">${esc(m.text)}</div>`;
+  if(m.cards)body+=m.cards.map(id=>{const p=b.products.find(x=>x.id===id);return `<div class="pc chatpc"><div class="img ${p.g}"><span class="ms">${p.ic}</span></div><div class="bd"><b>${esc(p.name)}</b><div class="pr"><span class="price">${BHD(p.price)}</span></div></div></div>`;}).join('');
+  if(m.svc){const sv=b.services.find(x=>x.id===m.svc);body+=`<div class="rc"><div class="bd"><div class="svc"><span class="ic"><span class="ms">${sv.ic}</span></span><div style="min-width:0;flex:1"><b style="font-size:var(--fs-body-sm);font-weight:500;display:block">${esc(sv.name)}</b><p style="margin-top:2px">${sv.eta}</p></div></div></div></div>`;}
+  if(m.kind==='offer'){const o=m.offer;body+=`<div class="rc offer ${o.accepted?'accepted':''}" id="boffer-${o.id}"><div class="bd"><div class="hdr"><span class="ms">request_quote</span>Quotation ${o.id}<span class="chip ${o.accepted?'w-good':'w-nt'}" style="margin-left:auto;background:${o.accepted?'':'var(--s3)'}">${o.accepted?'Accepted':'Sent'}</span></div><b style="display:block;margin-top:8px;font-size:var(--fs-body-sm);font-weight:500">${esc(o.title)}</b><dl class="kv"><div style="display:contents" class="tot"><dt>Total</dt><dd>${BHD(o.total)}</dd></div></dl></div></div>`;}
+  if(m.kind==='invoice'){const v=m.inv;body+=`<div class="rc inv ${v.paid?'paid':''}" id="binv-${v.id}"><div class="bd"><div class="hdr"><span class="ms">receipt</span>Invoice ${v.id}<span class="chip ${v.paid?'w-good':'w-hu'}" style="margin-left:auto">${v.paid?'Paid':'Unpaid'}</span></div><dl class="kv"><div style="display:contents" class="tot"><dt>Total</dt><dd>${BHD(v.total)}</dd></div></dl></div></div>`;}
+  if(m.kind==='image')body+=`<div class="att pic g3"><div class="cap">${esc(m.cap)}</div></div>`;
+  if(m.kind==='file')body+=`<div class="att file"><span class="fi"><span class="ms">picture_as_pdf</span></span><div style="min-width:0"><b>${esc(m.name)}</b><small>${m.size} · PDF</small></div><span class="ms dl">download</span></div>`;
+  if(m.kind==='audio')body+=audioCard(m,i);
+  return `<div class="msg ${mine?'me':''}">${who}${body}<div class="meta">${m.t}${mine?'<span class="ms read">done_all</span>':''}</div></div>`;
+}
+function bthread(){const t=$('#bthread');if(!t)return;t.innerHTML=ST.chat.mawared.map((m,i)=>bmsgHtml(m,i)).join('');t.scrollTop=t.scrollHeight;}
+function bmode(){const hu=ST.hu.mawared;const m=$('#bmode');m.className='mode glass '+(hu?'hu':'ai');m.querySelector('.ms').textContent=hu?'person':'auto_awesome';$('#bmode-t').textContent=hu?'You':'Noor';$('#takeover').style.display=hu?'none':'';$('#binp').placeholder=hu?'Reply as Sara':'Noor replies · take over to write';$('#blabel').textContent='Rodood Business · Mawared Travel · '+(hu?'Sara has the chat':'Noor handling');}
+function packet(dir){const p=$('#packet');p.className='packet';void p.offsetWidth;p.className='packet go-'+dir;}
+function btoast(t){$('#btoast-t').textContent=t;const e=$('#btoast');e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
+function bsheet(html){$('#bsheet').innerHTML=`<div class="grab"></div>${html}`;$('#bvp').classList.add('sheet-on');}
+function bclose(){$('#bvp').classList.remove('sheet-on');}
+function bsay(text){const inp=$('#binp');inp.value='';$('#bsend').classList.remove('on');if(!ST.hu.mawared)handover(true);if(ST.biz!=='mawared'){openBiz('mawared','chat');ST.tab='biz';}
+  push({from:'hu',who:'Sara · Mawared Travel',text});feed('person','Sara wrote',text);nudge();}
+function openBiz_ensure(){if(ST.tab!=='biz'||ST.biz!=='mawared'){openBiz('mawared','chat');ST.tab='biz';}}
+
+/* AI offer: brief → draft → clean preview → send */
+const OFFER_BRIEFS=[
+ {m:/italy|rome|europe|schengen/i,title:'Italy trip · 10 days, 2 people',d:'Flights BAH–FCO return, 9 nights in Rome and Florence, Schengen visa processing for two.',lines:[{n:'Flights × 2',s:'BAH–FCO return, economy',v:380},{n:'Hotels · 9 nights',s:'Rome 5 nights, Florence 4 nights',v:540},{n:'Visa processing × 2',s:'Schengen, service charge',v:70},{n:'Embassy fee × 2',s:'Official fee, paid to the embassy',v:120,off:true}]},
+ {m:/umrah|makkah|madinah/i,title:'Umrah package · 7 nights, 4 people',d:'Flights, hotel near Haram, airport transfers and visas for four.',lines:[{n:'Umrah package × 4',s:'7 nights, hotel near Haram',v:1680},{n:'Umrah visa × 4',s:'Official fee',v:160,off:true},{n:'Private transfers',s:'Airport and Haram',v:60}]},
+ {m:/visa/i,title:'Schengen visa · 1 person',d:'Visa processing with appointment booking and document check.',lines:[{n:'Visa processing',s:'Service charge',v:35},{n:'Embassy fee',s:'Official fee',v:60,off:true},{n:'Travel insurance · 10 days',s:'Required for the application',v:12}]},
+];
+function parseBrief(text){const base=OFFER_BRIEFS.find(x=>x.m.test(text))||OFFER_BRIEFS[0];const pct=(text.match(/(\d{1,2})\s*%/)||[])[1];const people=(text.match(/(\d)\s*(people|persons|pax|adults)/i)||[])[1];const o={id:'Q-'+(204+(ST.offerN||0)),title:base.title,d:base.d,lines:base.lines.map(l=>({...l})),pct:pct?+pct:(/discount|loyal|off/i.test(text)?5:0),days:7};if(people&&base===OFFER_BRIEFS[0]){o.title=o.title.replace(/\d people/,people+' people');}return o;}
+function offerTotals(o){const sub=o.lines.reduce((a,l)=>a+l.v,0);const discBase=o.lines.filter(l=>!l.off).reduce((a,l)=>a+l.v,0);const disc=Math.round(discBase*o.pct/100);return {sub,disc,total:sub-disc};}
+function offerSheetBrief(){bsheet(`<h3>Quotation for Abdulla</h3><p class="sub">Tell Noor what to quote in one line. Noor builds it from your catalogue and services.</p>
+  <div class="brief"><div class="inp"><input id="brief" placeholder="e.g. Italy, 2 people, 10 days, 10% off" autocomplete="off"><button class="send on" id="briefgo"><span class="ms">auto_awesome</span></button></div><button class="mic" data-act="toast" data-t="Hold to say it"><span class="ms">mic</span></button></div>
+  <div class="chips"><button data-brief="Italy trip, 2 people, 10 days, 10% off"><span class="ms">flight_takeoff</span>Italy · 2 people · 10% off</button><button data-brief="Umrah, 4 people, 7 nights"><span class="ms">mosque</span>Umrah · 4 people</button><button data-brief="Schengen visa only, loyal client"><span class="ms">badge</span>Visa only</button></div>`);
+  const go=()=>{const v=$('#brief').value.trim();if(v)offerDraft(v);};$('#briefgo').onclick=go;$('#brief').addEventListener('keydown',e=>{if(e.key==='Enter')go();});$$('#bsheet [data-brief]').forEach(b=>b.onclick=()=>offerDraft(b.dataset.brief));setTimeout(()=>$('#brief').focus(),350);}
+function offerDraft(brief){bsheet(`<h3>Quotation for Abdulla</h3><p class="sub">"${esc(brief)}"</p><div class="drafting"><div class="st"><span class="ms">auto_awesome</span>Noor is matching your catalogue and fees</div><div class="l w1"></div><div class="l w2"></div><div class="l w3"></div><div class="l w2"></div><div class="l w4"></div></div>`);
+  feed('auto_awesome','Noor drafting a quotation',brief);setTimeout(()=>{ST.draft=parseBrief(brief);ST.draft.brief=brief;offerPreview();},1700);}
+function offerPreview(){const o=ST.draft;const t=offerTotals(o);const until=new Date(Date.now()+o.days*864e5).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});o.until=until;
+  bsheet(`<div class="prev"><div class="by"><span class="ms">auto_awesome</span>Drafted by Noor · review before sending</div><h4>${esc(o.title)}</h4><div class="to">To Abdulla Aldairi · ${o.id}</div>
+  <div class="lines">${o.lines.map((l,i)=>`<div class="ln"><div class="n">${esc(l.n)}<small>${esc(l.s)}</small></div><span class="v">${BHD(l.v)}</span><button class="x" data-rm="${i}" aria-label="Remove"><span class="ms">close</span></button></div>`).join('')}
+  ${t.disc?`<div class="ln disc"><div class="n">Discount ${o.pct}%<small>On services, not on official fees</small></div><span class="v">−${BHD(t.disc)}</span><button class="x" data-rm="disc"><span class="ms">close</span></button></div>`:''}</div>
+  <div class="tot"><span>Total</span><b>${BHD(t.total)}</b></div>
+  <div class="meta2"><button class="chip" data-cycle="days"><span class="ms">event</span>Valid ${o.days} days · until ${until}</button><button class="chip" data-cycle="pct"><span class="ms">percent</span>Discount ${o.pct}%</button></div></div>
+  <div class="edit"><button class="btn sec2" id="redo"><span class="ms">refresh</span>Change brief</button><button class="btn pri" id="sendoffer">Send to Abdulla</button></div>`);
+  $$('#bsheet [data-rm]').forEach(b=>b.onclick=()=>{const k=b.dataset.rm;if(k==='disc')o.pct=0;else o.lines.splice(+k,1);offerPreview();});
+  $$('#bsheet [data-cycle]').forEach(b=>b.onclick=()=>{if(b.dataset.cycle==='days')o.days=o.days===7?3:o.days===3?14:7;else o.pct=o.pct===0?5:o.pct===5?10:o.pct===10?15:0;offerPreview();});
+  $('#redo').onclick=offerSheetBrief;$('#sendoffer').onclick=sendOffer;}
+function sendOffer(){const o=ST.draft;const t=offerTotals(o);ST.offerN=(ST.offerN||0)+1;openBiz_ensure();
+  const lines=o.lines.map(l=>({n:l.n,v:l.v}));if(t.disc)lines.push({n:`Discount ${o.pct}%`,v:-t.disc,disc:true});
+  ST.offer={id:o.id,title:o.title,d:o.d,until:o.until,lines,total:t.total,accepted:false};
+  const from=ST.hu.mawared?{from:'hu',who:'Sara · Mawared Travel'}:{from:'hu',who:'Sara · Mawared Travel'};if(!ST.hu.mawared)handover(true);
+  bclose();push({...from,text:`Here is the quotation for the ${o.title.split(' ·')[0]}. Valid until ${o.until}.`,kind:'offer',offer:ST.offer});feed('request_quote','Quotation '+o.id+' sent',BHD(t.total)+' · valid until '+o.until);nudge();btoast('Quotation sent');
+  if(ST.seg==='work')pushBanner('Mawared Travel','Quotation '+o.id+' · '+BHD(t.total));}
+function bpickProduct(){const b=BIZ.mawared;bsheet(`<h3>Share a product</h3><p class="sub">From the Mawared Travel catalogue.</p>${b.products.map(p=>`<button class="lrow" data-bpick="${p.id}" style="padding:10px 0"><span class="img ${p.g}" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex:none"><span class="ms" style="color:#fff;font-size:22px">${p.ic}</span></span><span class="nm"><b>${esc(p.name)}</b><small>${BHD(p.price)}</small></span><span class="ms" style="color:var(--ts)">chevron_right</span></button>`).join('')}`);
+  $$('#bsheet [data-bpick]').forEach(x=>x.onclick=()=>{ST.pick=x.dataset.bpick;bclose();openBiz_ensure();con('bprod');nudge();});}
+function bcon(k){openBiz_ensure();
+  if(k==='offer')return offerSheetBrief();
+  if(k==='product')return bpickProduct();
+  if(k==='noor'){btoast('Noor drafts a reply from the chat');return;}
+  if(k==='invoice'){if(!ST.offer){ST.inv='standalone';}else ST.inv='linked';}
+  con(k);nudge();}
+/* business events */
+document.addEventListener('click',e=>{
+  const bc=e.target.closest('[data-bcon]');if(bc){$('#bmenu').classList.remove('show');$('#bplus').classList.remove('open');bcon(bc.dataset.bcon);return;}
+  if(e.target.closest('#bplus')){$('#bplus').classList.toggle('open');$('#bmenu').classList.toggle('show');return;}
+  if(e.target.closest('#bscrim')){bclose();return;}
+  if(e.target.closest('[data-act=bmode]')){openBiz_ensure();handover(!ST.hu.mawared);return;}
+  if(e.target.closest('#bsend')){const v=$('#binp').value.trim();if(v)bsay(v);return;}
+});
+$('#binp').addEventListener('input',()=>$('#bsend').classList.toggle('on',$('#binp').value.trim().length>0));
+$('#binp').addEventListener('keydown',e=>{if(e.key==='Enter'&&$('#binp').value.trim())bsay($('#binp').value.trim());});
+
 /* theme */
 const root=document.documentElement;
 $('#th-auto').onclick=()=>{root.removeAttribute('data-theme');th('auto');};$('#th-dark').onclick=()=>{root.dataset.theme='dark';th('dark');};$('#th-light').onclick=()=>{root.dataset.theme='light';th('light');};
