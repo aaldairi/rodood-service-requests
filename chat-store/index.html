@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive prototype: one page per business in Rodood Client. Chat (Noor + the team, with offers, products, services, invoices and attachments) and Store (products, services, your orders and requests).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0">
 <style>
 /* Rodood design system — Poppins only, pink = primary action, purple = Noor/AI, orange = a person,
@@ -16,6 +16,7 @@
   --orange:#F5821F; --pink:#E0328C; --purple:#9B1FE0; --navy:#0A0B2A;
   --grad:linear-gradient(90deg,#F5821F 0%,#E0328C 50%,#9B1FE0 100%);
   --font:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
   --fs-h1:24px; --fs-h2:20px; --fs-body:16px; --fs-body-sm:15px; --fs-label:13px; --fs-micro:11px; --ls-ui:.4px;
   --gutter:15px; --r-md:12px; --r-lg:24px; --r-xl:32px; --r-pill:500px;
   --shadow-pop:0 8px 32px rgba(0,0,0,.45); --glow:0 0 24px rgba(224,50,140,.35);
@@ -46,6 +47,7 @@
   --bad:#D93C42; --tint-bad:rgba(217,60,66,.10); --good:#1E9E5E; --tint-good:rgba(30,158,94,.12);
   --phone-edge:#05060F; --scrim:rgba(5,6,15,.45); --shadow-pop:0 8px 32px rgba(10,11,42,.18); --out:#FBE4F0; color-scheme:light; }
 *{margin:0;padding:0;box-sizing:border-box}
+.amt{font-family:var(--mono);font-weight:500;letter-spacing:-.01em;font-size:.94em;white-space:nowrap}
 html{font-size:15px}
 body{font-family:var(--font);background:var(--canvas);color:var(--tp);-webkit-font-smoothing:antialiased;letter-spacing:var(--ls-ui);padding-inline:16px;transition:background .25s}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;letter-spacing:inherit;touch-action:manipulation}
@@ -378,6 +380,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .pc p{font-size:var(--fs-label);color:var(--ts);line-height:1.45;font-weight:300;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pc .pr{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:8px;font-size:var(--fs-label);font-weight:600;font-variant-numeric:tabular-nums}
 .pc .pr .price{white-space:nowrap}
+.pc .pr .amt{font-size:1.05em}
 .pc .add{flex:none}
 .pc.chatpc{width:216px;padding:8px 8px 12px;border-radius:24px;background:var(--elev);box-shadow:var(--ring),0 6px 20px rgba(0,0,0,.14);animation:deal .55s var(--spring) both}
 .pc.chatpc .img{cursor:pointer;border-radius:18px}
@@ -499,7 +502,8 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .prev .ln .x .ms{font-size:16px}
 .prev .tot{display:flex;align-items:baseline;justify-content:space-between;padding-top:14px}
 .prev .tot span{font-size:var(--fs-label);color:var(--ts)}
-.prev .tot b{font-size:26px;font-weight:600;letter-spacing:-.2px;font-variant-numeric:tabular-nums}
+.prev .tot b{font-size:26px;font-weight:600;letter-spacing:-.2px}
+.prev .tot b .amt{font-size:1em;font-weight:600}
 .prev .meta2{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .prev .meta2 .chip{height:30px;padding:0 12px;font-size:var(--fs-label);font-weight:400;gap:6px}
 .prev .meta2 .chip .ms{font-size:16px}
@@ -666,7 +670,7 @@ const NOOR_REPLIES=[
   {m:/umrah|package/i,text:'The 7-night Umrah package is open for November.',cards:['p6']},
   {m:/person|human|someone|agent/i,handover:true},
 ];
-const BHD=n=>'BHD '+n.toFixed(3);
+const BHD=n=>`<span class="amt">BHD ${n.toFixed(3)}</span>`;
 
 /* ---------- state ---------- */
 let ST;
@@ -814,9 +818,9 @@ function con(k){const b=BIZ.mawared;if(ST.tab!=='biz'||ST.biz!=='mawared'){openB
   if(ST.seg==='work'){pushBanner(b.name,last('mawared'));}
 }
 function nudge(){const p=$('#phone');p.classList.add('nudge');setTimeout(()=>p.classList.remove('nudge'),900);}
-function feed(ic,t,s){const f=$('#feed');if(f.querySelector('li[style]'))f.innerHTML='';f.insertAdjacentHTML('afterbegin',`<li><b><span class="ms">${ic}</span>${esc(t)}</b>${esc(s||'')}</li>`);while(f.children.length>7)f.lastChild.remove();}
-function pushBanner(t,b){$('#push-t').textContent=t;$('#push-b').textContent=b;const p=$('#push');p.classList.add('show');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('show'),4200);}
-function toast(t){$('#toast-t').textContent=t;const e=$('#toast');e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
+function feed(ic,t,s){s=String(s||'').replace(/<[^>]+>/g,'');const f=$('#feed');if(f.querySelector('li[style]'))f.innerHTML='';f.insertAdjacentHTML('afterbegin',`<li><b><span class="ms">${ic}</span>${esc(t)}</b>${esc(s||'')}</li>`);while(f.children.length>7)f.lastChild.remove();}
+function pushBanner(t,b){$('#push-t').textContent=t;$('#push-b').textContent=String(b).replace(/<[^>]+>/g,'');const p=$('#push');p.classList.add('show');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('show'),4200);}
+function toast(t){$('#toast-t').textContent=String(t).replace(/<[^>]+>/g,'');const e=$('#toast');e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
 
 /* ---------- work pane ---------- */
 function work(){const w=$('#work');if(!w)return;const b=BIZ[ST.biz];const cats=['All',...new Set(b.products.map(p=>p.cat))];if(b.services.length)cats.push('Services');
@@ -832,7 +836,7 @@ function work(){const w=$('#work');if(!w)return;const b=BIZ[ST.biz];const cats=[
   ${!b.requests.length&&!b.orders.length?'<div class="card" style="margin:0 15px;color:var(--ts);font-size:var(--fs-label);text-align:center">Nothing yet.</div>':''}`;
 }
 function basketPill(){const p=$('#bpill');if(!p)return;const n=Object.values(ST.basket).reduce((a,b)=>a+b,0);const tot=Object.entries(ST.basket).reduce((a,[id,q])=>a+q*BIZ[ST.biz].products.find(x=>x.id===id).price,0);
-  p.classList.toggle('show',n>0&&ST.seg==='work');$('#bp-n').textContent=n+(n===1?' item':' items');$('#bp-t').textContent=BHD(tot);}
+  p.classList.toggle('show',n>0&&ST.seg==='work');$('#bp-n').textContent=n+(n===1?' item':' items');$('#bp-t').innerHTML=BHD(tot);}
 function add(id,fromEl){ST.basket[id]=(ST.basket[id]||0)+1;
   if(ST.seg==='work'){fly(fromEl);setTimeout(()=>{basketPill();const p=$('#bpill');p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump');},420);}else{basketPill();toast('Added · see Store');$('#segbadge').textContent=Object.values(ST.basket).reduce((a,b)=>a+b,0);$('#segbadge').classList.remove('hide');}
   feed('add_shopping_cart','Client added to basket',BIZ[ST.biz].products.find(p=>p.id===id).name);}
@@ -851,7 +855,7 @@ function pdetail(id){const p=BIZ[ST.biz].products.find(x=>x.id===id);let q=1;she
 function basket(){const b=BIZ[ST.biz];const items=Object.entries(ST.basket);const tot=items.reduce((a,[id,q])=>a+q*b.products.find(x=>x.id===id).price,0);
   sheet(`<h3>Basket</h3><p class="sub">${b.name} · pay on delivery or now by card, Apple Pay or BenefitPay.</p>${items.map(([id,q])=>{const p=b.products.find(x=>x.id===id);return `<div class="line"><span>${q} × ${esc(p.name)}</span><b>${BHD(q*p.price)}</b></div>`;}).join('')}<div class="line"><span>Delivery</span><b>Free</b></div><div class="line tot"><span>Total</span><b>${BHD(tot)}</b></div><div style="height:14px"></div><button class="btn pri" id="checkout"><span class="ms">lock</span>Place order · ${BHD(tot)}</button>`);
   $('#checkout').onclick=()=>{const n=items.reduce((a,[,q])=>a+q,0);b.orders.unshift({id:'#'+(1180+b.orders.length),items:n,total:tot,st:'Placed · being prepared'});ST.basket={};closeSheet();basketPill();work();toast('Order placed');feed('local_shipping','Order placed',n+' items · '+BHD(tot));
-    setTimeout(()=>{push({from:'noor',text:`Order ${b.orders[0].id} is placed. ${n} ${n===1?'item':'items'}, ${BHD(tot)}, pay on delivery. I will tell you when it is on its way.`});},900);};}
+    setTimeout(()=>{push({from:'noor',text:`Order ${b.orders[0].id} is placed. ${n} ${n===1?'item':'items'}, BHD ${tot.toFixed(3)}, pay on delivery. I will tell you when it is on its way.`});},900);};}
 function startreq(id){const s=BIZ[ST.biz].services.find(x=>x.id===id);sheet(`<h3>${esc(s.name)}</h3><p class="sub">${s.eta}. ${s.gov?s.govLabel+' '+BHD(s.gov)+' is paid to the authority; ':''}service charge ${s.fee?BHD(s.fee):'free'}.</p>
   <div class="card" style="padding:14px;margin-bottom:16px"><dl class="kv" style="margin:0"><div style="display:contents"><dt>Step 1</dt><dd>Answer a few questions</dd></div><div style="display:contents"><dt>Step 2</dt><dd>Upload passport</dd></div><div style="display:contents"><dt>Step 3</dt><dd>Review and accept the quotation</dd></div></dl></div>
   <button class="btn pri" id="goreq"><span class="ms">play_arrow</span>Start request</button>`);
@@ -923,7 +927,7 @@ function bmsgHtml(m,i){
 function bthread(){const t=$('#bthread');if(!t)return;t.innerHTML=ST.chat.mawared.map((m,i)=>bmsgHtml(m,i)).join('');t.scrollTop=t.scrollHeight;}
 function bmode(){const hu=ST.hu.mawared;const m=$('#bmode');m.className='mode glass '+(hu?'hu':'ai');m.querySelector('.ms').textContent=hu?'person':'auto_awesome';$('#bmode-t').textContent=hu?'You':'Noor';$('#takeover').style.display=hu?'none':'';$('#binp').placeholder=hu?'Reply as Sara':'Noor replies · take over to write';$('#blabel').textContent='Rodood Business · Mawared Travel · '+(hu?'Sara has the chat':'Noor handling');}
 function packet(dir){const p=$('#packet');p.className='packet';void p.offsetWidth;p.className='packet go-'+dir;}
-function btoast(t){$('#btoast-t').textContent=t;const e=$('#btoast');e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
+function btoast(t){$('#btoast-t').textContent=String(t).replace(/<[^>]+>/g,'');const e=$('#btoast');e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
 function bsheet(html,full){const sh=$('#bsheet');sh.classList.toggle('full',!!full);sh.innerHTML=`<div class="grab"></div>${full?'<button class="closex" data-bclose><span class="ms">close</span></button>':''}${html}`;$('#bvp').classList.add('sheet-on');}
 function bclose(){$('#bvp').classList.remove('sheet-on');}
 function bsay(text){const inp=$('#binp');inp.value='';$('#bsend').classList.remove('on');if(!ST.hu.mawared)handover(true);if(ST.biz!=='mawared'){openBiz('mawared','chat');ST.tab='biz';}
