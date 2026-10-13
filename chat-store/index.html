@@ -589,6 +589,56 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .findcard .in b{display:block;font-size:var(--fs-body-sm);font-weight:500}
 .findcard .in p{font-size:var(--fs-label);color:var(--ts);margin-top:2px;line-height:1.4}
 
+
+/* Discover v2: carousel, category bubbles, product strip, 2-column staggered grid */
+.dcats{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:14px var(--gutter) 4px}
+.dcats::-webkit-scrollbar{display:none}
+.dcats button{flex:none;width:58px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--ts);transition:color .2s}
+.dcats button .bub{width:52px;height:52px;border-radius:18px;background:var(--s2);box-shadow:var(--ring);display:grid;place-items:center;color:var(--tp);transition:background .25s,transform .3s var(--spring),color .25s}
+.dcats button .bub .ms{font-size:24px}
+.dcats button.on{color:var(--pink-tx);font-weight:500}
+.dcats button.on .bub{background:var(--pink);color:#fff;box-shadow:var(--glow);transform:translateY(-2px)}
+.feat{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px var(--gutter) 6px}
+.feat::-webkit-scrollbar{display:none}
+.fcard{flex:none;width:84%;height:156px;border-radius:var(--r-lg);scroll-snap-align:start;position:relative;overflow:hidden;text-align:left;color:#fff;padding:16px;display:flex;flex-direction:column;justify-content:space-between;animation:rise .5s var(--e-out) both;animation-delay:calc(var(--i)*70ms)}
+.fcard .big{position:absolute;inset-inline-end:-14px;bottom:-22px;font-size:132px;opacity:.22;transform:rotate(-10deg)}
+.fcard .fc{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:var(--r-pill);background:rgba(255,255,255,.22);font-size:var(--fs-micro);font-weight:500;align-self:flex-start;backdrop-filter:blur(6px)}
+.fcard .fc .ms{font-size:14px}
+.fcard>div{max-width:62%;position:relative}
+.fcard b{display:block;font-size:var(--fs-h2);font-weight:600;letter-spacing:0;line-height:1.15}
+.fcard small{display:block;font-size:var(--fs-label);opacity:.85;margin-top:3px;font-weight:300}
+.fcard .go{position:absolute;inset-inline-end:14px;bottom:14px;height:34px;padding:0 14px;border-radius:var(--r-pill);background:#fff;color:var(--navy);font-size:var(--fs-label);font-weight:500;display:flex;align-items:center;gap:4px}
+.fcard .go .ms{font-size:16px}
+.fdots{display:flex;justify-content:center;gap:5px;margin-top:6px}
+.fdots i{width:6px;height:6px;border-radius:3px;background:var(--b3);transition:width .3s,background .3s}
+.fdots i.on{width:18px;background:var(--pink)}
+.pstrip{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:0 var(--gutter) 4px}
+.pstrip::-webkit-scrollbar{display:none}
+.ptile{flex:none;width:124px;text-align:left;animation:rise .45s var(--e-out) both;animation-delay:calc(var(--i)*40ms)}
+.ptile .img{width:124px;height:124px;border-radius:18px;display:grid;place-items:center;position:relative}
+.ptile .img .ms{font-size:38px;color:rgba(255,255,255,.92)}
+.ptile .img .from{position:absolute;inset-inline-start:8px;bottom:8px;width:26px;height:26px;border-radius:50%;background:var(--elev);color:var(--tp);display:grid;place-items:center;font-size:9px;font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.ptile b{display:block;font-size:var(--fs-label);font-weight:600;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptile .pr{font-size:var(--fs-label);margin-top:2px}
+.ptile small{display:block;font-size:var(--fs-micro);color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dgrid{display:flex;gap:12px;padding:0 var(--gutter);align-items:flex-start}
+.dgrid .col{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
+.dtile{display:block;width:100%;text-align:left;animation:rise .45s var(--e-out) both;animation-delay:calc(var(--i)*45ms)}
+.dtile .cv{height:var(--h,150px);border-radius:22px;position:relative;display:grid;place-items:center;overflow:hidden;transition:transform .3s var(--spring)}
+.dtile:active .cv{transform:scale(.97)}
+.dtile .cv .ic{font-size:46px;color:rgba(255,255,255,.92)}
+.dtile .cv .open{position:absolute;top:10px;inset-inline-start:10px;width:10px;height:10px;border-radius:50%;background:#3DD68C;box-shadow:0 0 0 3px rgba(255,255,255,.35)}
+.dtile .cv .mine{position:absolute;top:8px;inset-inline-end:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--pink);display:grid;place-items:center}
+.dtile .cv .mine .ms{font-size:16px}
+.dtile .cv .av{position:absolute;inset-inline-start:10px;bottom:10px;width:38px;height:38px;font-size:12px;background:var(--elev);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.dtile b{display:block;font-size:var(--fs-body-sm);font-weight:600;letter-spacing:0;margin-top:8px;line-height:1.25}
+.dtile small{display:block;font-size:var(--fs-micro);color:var(--ts);margin-top:2px}
+.dtile .tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.dtile .tags span{height:20px;padding:0 8px;border-radius:var(--r-pill);background:var(--s2);font-size:10.5px;color:var(--ts);display:inline-flex;align-items:center}
+.dhead{display:flex;align-items:baseline;justify-content:space-between;margin:22px var(--gutter) 10px}
+.dhead h3{font-size:var(--fs-body);font-weight:600;letter-spacing:0}
+.dhead small{font-size:var(--fs-label);color:var(--ts)}
+
 /* ---------- Notes ---------- */
 .notes{max-width:960px;margin:0 auto 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .note{background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-lg);padding:20px}
@@ -774,6 +824,9 @@ Object.assign(BIZ,{
     services:[{id:'g1',name:'Home deep clean',ic:'cleaning_services',eta:'same week',fee:35,gov:0},{id:'g2',name:'AC cleaning',ic:'ac_unit',eta:'next day',fee:12,gov:0},{id:'g3',name:'Sofa shampoo',ic:'weekend',eta:'2 days',fee:20,gov:0}]}),
 });
 const DCATS=['All','Travel','Home','Flowers','Food','Health','Services','Government'];
+const DCAT_IC={All:'apps',Travel:'flight',Home:'chair',Flowers:'local_florist',Food:'bakery_dining',Health:'health_and_safety',Services:'handyman',Government:'account_balance'};
+const TAGS={mawared:'Trips, visas and packages',anfal:'LMRA and EWA paperwork, done for you',danat:'Majlis and living, delivered',bloom:'Fresh flowers, same day',optics:'Frames, lenses and eye tests',bakery:'Baked this morning',gulfclean:'Deep clean, AC and sofas'};
+const FEATURED=['danat','bloom','mawared'];
 
 const NOOR_REPLIES=[
   {m:/luggage|bag|trolley/i,text:'Here is what we have for luggage.',cards:['p2','p4','p5']},
@@ -825,15 +878,20 @@ function home(){
 function last(id){const c=ST.chat[id];for(let i=c.length-1;i>=0;i--){const m=c[i];if(m.text)return (m.from==='me'?'You: ':'')+m.text;if(m.kind)return {offer:'Offer sent',product:'Shared a product',service:'Shared a service',invoice:'Invoice',image:'Photo',file:'File',audio:'Voice note'}[m.kind]||'';}return '';}
 function stores(){return `<div class="top"></div><div class="hd"><div class="t"><h1 style="font-size:var(--fs-h1)">Discover</h1><small>Every open business on Rodood</small></div></div>
   <div class="scroll"><div class="dsearch"><span class="ms">search</span><input id="dq" placeholder="Search businesses, products, services" value="${esc(ST.dq)}" autocomplete="off"></div>
-  <div class="pills" id="dpills">${DCATS.map(c=>`<button class="${ST.dcat===c?'on':''}" data-act="dcat" data-c="${c}">${c}</button>`).join('')}</div>
+  <div class="dcats" id="dpills">${DCATS.map(c=>`<button class="${ST.dcat===c?'on':''}" data-act="dcat" data-c="${c}"><span class="bub"><span class="ms">${DCAT_IC[c]}</span></span>${c}</button>`).join('')}</div>
   <div id="dres">${dresults()}</div></div>`;}
 function bizMatches(b,q){if(!q)return true;q=q.toLowerCase();return [b.name,b.kind,b.cat,b.area,...b.products.map(p=>p.name),...b.services.map(x=>x.name)].some(x=>String(x||'').toLowerCase().includes(q));}
 function dresults(){const all=Object.values(BIZ).filter(b=>b.listed!==false);const yours=all.filter(b=>ST.follow.has(b.id));
+  const browsing=!ST.dq&&ST.dcat==='All';
   const list=all.filter(b=>(ST.dcat==='All'||b.cat===ST.dcat)&&bizMatches(b,ST.dq));
-  const meta=b=>[b.products.length?b.products.length+' products':'',b.services.length?b.services.length+' services':''].filter(Boolean).join(' · ');
-  return `${!ST.dq&&ST.dcat==='All'&&yours.length?`<div class="sec">Your businesses</div><div class="yours">${yours.map((b,i)=>`<button style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><span class="av ${ST.hu[b.id]?'':'ai'}">${b.ini}</span><span class="nm">${esc(b.name)}</span></button>`).join('')}</div>`:''}
-  <div class="sec">${ST.dq?'Results':'Open now'} · ${list.length}</div>
-  ${list.length?`<div class="dlist">${list.map((b,i)=>`<button class="dcard" style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><div class="cv ${b.cover}"><span class="ms">${b.coverIc}</span><span class="chip op"><i></i>Open</span>${ST.follow.has(b.id)?'<span class="chip yb"><span class="ms">bookmark</span>Yours</span>':''}</div><div class="bd"><span class="av lg">${b.ini}</span><span class="nm"><b>${esc(b.name)}</b><small>${esc(b.kind)} · ${esc(b.area)} · ${meta(b)}</small></span><span class="ms ch">chevron_right</span></div></button>`).join('')}</div>`:`<div class="dempty">No open business matches “${esc(ST.dq||ST.dcat)}”.</div>`}`;}
+  const meta=b=>[b.products.length?b.products.length+' products':'',b.services.length?b.services.length+' services':''].filter(Boolean);
+  const feat=browsing?`<div class="dhead"><h3>Featured</h3><small>This week</small></div><div class="feat" id="feat">${FEATURED.map((id,i)=>{const b=BIZ[id];return `<button class="fcard ${b.cover}" style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><span class="ms big">${b.coverIc}</span><span class="fc"><span class="ms">auto_awesome</span>Featured</span><div><b>${esc(b.name)}</b><small>${esc(TAGS[b.id]||b.kind)} · ${esc(b.area)}</small></div><span class="go">Visit<span class="ms">arrow_forward</span></span></button>`;}).join('')}</div><div class="fdots" id="fdots">${FEATURED.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`:'';
+  const mine=browsing&&yours.length?`<div class="dhead"><h3>Your businesses</h3><small>${yours.length}</small></div><div class="yours">${yours.map((b,i)=>`<button style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><span class="av ${ST.hu[b.id]?'':'ai'}">${b.ini}</span><span class="nm">${esc(b.name)}</span></button>`).join('')}</div>`:'';
+  const pop=browsing?(()=>{const ps=[];for(const b of all)for(const p of b.products.slice(0,2))ps.push({b,p});ps.sort((x,y)=>(x.p.id>y.p.id?1:-1));return `<div class="dhead"><h3>Popular right now</h3><small>Across Rodood</small></div><div class="pstrip">${ps.slice(0,8).map(({b,p},i)=>`<button class="ptile" style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><div class="img ${p.g}"><span class="ms">${p.ic}</span><span class="from">${b.ini}</span></div><b>${esc(p.name)}</b><div class="pr">${BHD(p.price)}</div><small>${esc(b.name)}</small></button>`).join('')}</div>`;})():'';
+  const H=[168,132,150,186,140,176,158];
+  const tileHtml=(b,i)=>`<button class="dtile" style="--i:${i};--h:${H[i%H.length]}px" data-act="open" data-biz="${b.id}" data-seg="work"><div class="cv ${b.cover}"><span class="ms ic">${b.coverIc}</span><span class="open" title="Open now"></span>${ST.follow.has(b.id)?'<span class="mine"><span class="ms f">bookmark</span></span>':''}<span class="av">${b.ini}</span></div><b>${esc(b.name)}</b><small>${esc(b.kind)} · ${esc(b.area)}</small><div class="tags">${meta(b).map(t=>`<span>${t}</span>`).join('')}</div></button>`;
+  const grid=list.length?`<div class="dgrid"><div class="col">${list.filter((_,i)=>i%2===0).map((b,k)=>tileHtml(b,k*2)).join('')}</div><div class="col" style="padding-top:28px">${list.filter((_,i)=>i%2===1).map((b,k)=>tileHtml(b,k*2+1)).join('')}</div></div>`:`<div class="dempty">No open business matches “${esc(ST.dq||ST.dcat)}”.</div>`;
+  return `${feat}${mine}${pop}<div class="dhead"><h3>${ST.dq?'Results':ST.dcat==='All'?'All businesses':ST.dcat}</h3><small>${list.length} open</small></div>${grid}`;}
 function follow(id,why){if(ST.follow.has(id))return;ST.follow.add(id);toast(BIZ[id].name+' added to your businesses');feed('bookmark_add','Client followed '+BIZ[id].name,why||'');}
 function simple(t){const n={activity:'Activity',account:'Account'}[t];return `<div class="top"></div><div class="hd"><div class="t"><h1>${n}</h1></div></div><div class="scroll"><div class="stg"><div class="card" style="margin:10px 15px;text-align:center;color:var(--ts);font-size:var(--fs-label)">Unchanged in this prototype. Open a business from Home.</div></div></div>`;}
 
@@ -1148,6 +1206,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-wact]');if
   if(k==='pay'){toast('Opens Tap payment page');setTimeout(()=>{const v=ST.invoice;v.paid=true;v.paidAt=tnow();const bi=$('#binv-'+v.id);if(bi){bi.classList.add('paid');const ch=bi.querySelector('.hdr .chip');ch.className='chip w-good';ch.textContent='Paid';}btoast('Invoice '+v.id+' paid');feed('paid','Invoice '+v.id+' paid via Tap link','');push({from:'noor',kind:'file',name:'Receipt-'+v.id+'.pdf',size:'88 KB'});},1500);}
 });
 
+document.addEventListener('scroll',e=>{const f=e.target;if(f&&f.id==='feat'){const i=Math.round(f.scrollLeft/(f.firstElementChild.offsetWidth+12));$$('#fdots i').forEach((d,k)=>d.classList.toggle('on',k===i));}},true);
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='dq'){ST.dq=e.target.value.trim();$('#dres').innerHTML=dresults();}});
 /* theme */
 const root=document.documentElement;
