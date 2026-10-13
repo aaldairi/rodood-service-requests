@@ -161,6 +161,9 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .scrim{position:absolute;inset:0;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity var(--d-sheet);z-index:50}
 .sheet{position:absolute;left:0;right:0;bottom:0;max-height:88%;overflow-y:auto;scrollbar-width:none;border-radius:var(--r-xl) var(--r-xl) 0 0;background:var(--elev);transform:translateY(102%);transition:transform var(--d-sheet) var(--e-sheet);z-index:60;padding:12px 20px 34px}
 .sheet .grab{width:40px;height:5px;border-radius:5px;background:var(--b3);margin:0 auto 18px}
+.sheet.full{max-height:100%;height:100%;border-radius:0;padding:54px var(--gutter) 34px}
+.sheet.full .grab{display:none}
+.sheet.full .closex{position:absolute;top:52px;right:12px;width:40px;height:40px;border-radius:50%;background:var(--s2);display:grid;place-items:center;color:var(--tp)}
 .vp.sheet-on .scrim{opacity:1;pointer-events:auto}
 .vp.sheet-on .sheet{transform:none}
 .sheet h3{font-size:var(--fs-h2);font-weight:600;margin-bottom:5px;letter-spacing:0}
@@ -454,10 +457,10 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .bthread .msg.me{transform-origin:bottom right}
 .bthread .bub.you{background:var(--tint-orange);box-shadow:inset 0 0 0 1px rgba(245,130,31,.3);border-radius:18px 18px 6px 18px}
 .bthread .bub.noor{background:var(--tint-purple);box-shadow:inset 0 0 0 1px rgba(155,31,224,.22);border-radius:18px 18px 6px 18px}
-.takeover{margin:0 var(--gutter) 8px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:var(--tint-purple);font-size:var(--fs-label);color:var(--tpur)}
-.takeover .ms{font-size:18px}
-.takeover span{flex:1;color:var(--tp);font-weight:300}
-.takeover button{height:32px;padding:0 12px;border-radius:var(--r-pill);background:var(--elev);color:var(--tp);font-size:var(--fs-micro);font-weight:500;box-shadow:var(--ring)}
+.takeover{margin:0 var(--gutter) 8px;display:flex;align-items:center;gap:8px;height:44px;padding:0 6px 0 14px;border-radius:var(--r-pill);background:var(--tint-purple);box-shadow:inset 0 0 0 1px rgba(155,31,224,.18)}
+.takeover .ms{font-size:18px;color:var(--tpur);flex:none}
+.takeover b{flex:1;min-width:0;font-size:var(--fs-label);font-weight:400;color:var(--tp);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.takeover button{flex:none;height:32px;padding:0 14px;border-radius:var(--r-pill);background:var(--elev);color:var(--tp);font-size:var(--fs-label);font-weight:500;box-shadow:var(--ring)}
 .bmenu{position:absolute;left:var(--gutter);bottom:72px;z-index:45;display:grid;grid-template-columns:repeat(4,64px);gap:10px;padding:12px;border-radius:22px;background:var(--elev);box-shadow:var(--shadow-pop),var(--ring);transform-origin:bottom left;transform:scale(.5);opacity:0;pointer-events:none;transition:transform .35s var(--spring),opacity .2s}
 .bmenu.show{transform:none;opacity:1;pointer-events:auto}
 .bmenu button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--ts)}
@@ -480,6 +483,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .drafting .st{display:flex;align-items:center;gap:8px;font-size:var(--fs-label);color:var(--tpur);margin-bottom:6px}
 .drafting .st .ms{font-size:18px;animation:spin 1.6s linear infinite}
 .prev{padding:4px 0 0;animation:deal .55s var(--spring) both}
+.prev h4{font-size:var(--fs-h1)}
 .prev .by{display:flex;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--tpur);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
 .prev .by .ms{font-size:16px}
 .prev h4{font-size:var(--fs-h2);font-weight:600;letter-spacing:0;line-height:1.2;margin-top:10px}
@@ -567,7 +571,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
             <div class="ttl"><b>Abdulla Aldairi</b><small>+973 3999 9902</small></div>
             <button class="mode ai glass" id="bmode" data-act="bmode"><span class="ms">auto_awesome</span><span id="bmode-t">Noor</span></button></div>
           <div class="thread bthread" id="bthread"></div>
-          <div class="takeover" id="takeover"><span class="ms">auto_awesome</span><span>Noor is handling this chat.</span><button data-act="bmode">Take over</button></div>
+          <div class="takeover" id="takeover"><span class="ms">auto_awesome</span><b>Noor is handling this chat</b><button data-act="bmode">Take over</button></div>
           <div class="bmenu" id="bmenu">
             <button style="--i:0" data-bcon="offer"><span class="ic grad"><span class="ms">auto_awesome</span></span>Quotation</button>
             <button style="--i:1" data-bcon="product"><span class="ic g1"><span class="ms">shopping_bag</span></span>Product</button>
@@ -920,7 +924,7 @@ function bthread(){const t=$('#bthread');if(!t)return;t.innerHTML=ST.chat.maware
 function bmode(){const hu=ST.hu.mawared;const m=$('#bmode');m.className='mode glass '+(hu?'hu':'ai');m.querySelector('.ms').textContent=hu?'person':'auto_awesome';$('#bmode-t').textContent=hu?'You':'Noor';$('#takeover').style.display=hu?'none':'';$('#binp').placeholder=hu?'Reply as Sara':'Noor replies · take over to write';$('#blabel').textContent='Rodood Business · Mawared Travel · '+(hu?'Sara has the chat':'Noor handling');}
 function packet(dir){const p=$('#packet');p.className='packet';void p.offsetWidth;p.className='packet go-'+dir;}
 function btoast(t){$('#btoast-t').textContent=t;const e=$('#btoast');e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
-function bsheet(html){$('#bsheet').innerHTML=`<div class="grab"></div>${html}`;$('#bvp').classList.add('sheet-on');}
+function bsheet(html,full){const sh=$('#bsheet');sh.classList.toggle('full',!!full);sh.innerHTML=`<div class="grab"></div>${full?'<button class="closex" data-bclose><span class="ms">close</span></button>':''}${html}`;$('#bvp').classList.add('sheet-on');}
 function bclose(){$('#bvp').classList.remove('sheet-on');}
 function bsay(text){const inp=$('#binp');inp.value='';$('#bsend').classList.remove('on');if(!ST.hu.mawared)handover(true);if(ST.biz!=='mawared'){openBiz('mawared','chat');ST.tab='biz';}
   push({from:'hu',who:'Sara · Mawared Travel',text});feed('person','Sara wrote',text);nudge();}
@@ -946,7 +950,7 @@ function offerPreview(){const o=ST.draft;const t=offerTotals(o);const until=new 
   ${t.disc?`<div class="ln disc"><div class="r"><div class="n">Discount ${o.pct}%</div><span class="v">−${BHD(t.disc)}</span><button class="x" data-rm="disc"><span class="ms">close</span></button></div><small>On services, not on official fees</small></div>`:''}</div>
   <div class="tot"><span>Total</span><b>${BHD(t.total)}</b></div>
   <div class="meta2"><button class="chip" data-cycle="days"><span class="ms">event</span>Valid ${o.days} days · until ${until}</button><button class="chip" data-cycle="pct"><span class="ms">percent</span>Discount ${o.pct}%</button></div></div>
-  <div class="edit"><button class="btn sec2" id="redo"><span class="ms">refresh</span>Change brief</button><button class="btn pri" id="sendoffer">Send to Abdulla</button></div>`);
+  <div class="edit"><button class="btn sec2" id="redo"><span class="ms">refresh</span>Change brief</button><button class="btn pri" id="sendoffer">Send to Abdulla</button></div>`,true);
   $$('#bsheet [data-rm]').forEach(b=>b.onclick=()=>{const k=b.dataset.rm;if(k==='disc')o.pct=0;else o.lines.splice(+k,1);offerPreview();});
   $$('#bsheet [data-cycle]').forEach(b=>b.onclick=()=>{if(b.dataset.cycle==='days')o.days=o.days===7?3:o.days===3?14:7;else o.pct=o.pct===0?5:o.pct===5?10:o.pct===10?15:0;offerPreview();});
   $('#redo').onclick=offerSheetBrief;$('#sendoffer').onclick=sendOffer;}
@@ -968,7 +972,7 @@ function bcon(k){openBiz_ensure();
 document.addEventListener('click',e=>{
   const bc=e.target.closest('[data-bcon]');if(bc){$('#bmenu').classList.remove('show');$('#bplus').classList.remove('open');bcon(bc.dataset.bcon);return;}
   if(e.target.closest('#bplus')){$('#bplus').classList.toggle('open');$('#bmenu').classList.toggle('show');return;}
-  if(e.target.closest('#bscrim')){bclose();return;}
+  if(e.target.closest('#bscrim')||e.target.closest('[data-bclose]')){bclose();return;}
   if(e.target.closest('[data-act=bmode]')){openBiz_ensure();handover(!ST.hu.mawared);return;}
   if(e.target.closest('#bsend')){const v=$('#binp').value.trim();if(v)bsay(v);return;}
 });
