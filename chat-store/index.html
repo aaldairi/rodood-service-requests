@@ -249,8 +249,9 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .rc .kv .disc dd{color:var(--good)}
 .rc .hdr{display:flex;align-items:center;gap:8px;font-size:var(--fs-micro);text-transform:uppercase;letter-spacing:.08em;color:var(--ts);font-weight:500}
 .rc .hdr .ms{font-size:16px}
-.rc.offer,.rc.inv{width:300px}
-.msg:has(.rc.offer),.msg:has(.rc.inv){max-width:94%}
+.rc.offer,.rc.inv{width:100%}
+.msg:has(.rc.offer),.msg:has(.rc.inv){width:86%;max-width:86%}
+.msg:has(.rc.offer) .bub,.msg:has(.rc.inv) .bub{width:100%}
 .rc.offer .hdr{color:var(--orange-tx)}
 .rc.inv .hdr{color:var(--ts)}
 .rc .link{display:flex;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--ts);margin-top:6px}
