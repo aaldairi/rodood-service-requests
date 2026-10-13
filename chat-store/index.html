@@ -657,6 +657,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
   <div class="note"><h2><span class="ms">chat</span>On WhatsApp</h2>
     <ul><li>Same thread, WhatsApp-native shapes: a quotation is a PDF document plus a formatted summary (bold title, lines, total, validity) with reply buttons <b>Accept</b> and <b>Ask a question</b>; an invoice is a PDF plus a <b>Pay</b> link button to the Tap page.</li>
     <li>A product is an image message with name and price and a <b>View in store</b> link; a service is a text summary with <b>Start request</b> (secure web link). Photos, files and voice notes are native.</li>
+    <li>Every business thread starts with <b>Open in Rodood</b> (universal link app.rodoodai.com/b/&lt;code&gt;: opens the app if installed, otherwise the web client at app.rodoodai.com/my with the same features) and <b>Get Rodood Client</b> (App Store / Google Play). Quotations and invoices also carry Open in Rodood.</li>
     <li>Both channels write to the same conversation and the same quotation/invoice records; the business sees one thread.</li></ul></div>
   <div class="note"><h2><span class="ms">forum</span>Chat</h2>
     <ul><li>One thread per business. Purple = Noor, orange = a person; the header dot shows who is replying now.</li>
@@ -1052,21 +1053,25 @@ function wmsgHtml(m){
   if(m.svc){const sv=b.services.find(x=>x.id===m.svc);parts.push(`<div class="wb"><b>${esc(sv.name)}</b>\n${sv.eta}\n${sv.gov?sv.govLabel+': <span class="wmono">'+WT(sv.gov)+'</span>\n':''}Service charge: <span class="wmono">${sv.fee?WT(sv.fee):'Free'}</span>${t}</div><div class="wbtn"><span class="ms">open_in_new</span>Start request</div>`);}
   if(m.kind==='offer'){const o=m.offer;const lines=o.lines.map(l=>`${esc(l.n)}  <span class="wmono">${l.disc?'−':''}${WT(Math.abs(l.v))}</span>`).join('\n');
     parts.push(`<div class="wb"><div class="wdoc"><span class="ms">picture_as_pdf</span><div><b>Quotation ${o.id}.pdf</b><small>PDF · 1 page</small></div></div><b>Quotation ${o.id}</b>\n<b>${esc(o.title)}</b>\n${esc(o.d)}\n\n${lines}\n<b>Total  <span class="wmono">${WT(o.total)}</span></b>\nValid until ${o.until}${o.accepted?'\n\n✅ Accepted':''}${t}</div>`);
-    if(!o.accepted)parts.push(`<div class="wbtn" data-wact="accept" data-id="${o.id}">Accept</div><div class="wbtn" data-wact="ask">Ask a question</div>`);}
+    if(!o.accepted)parts.push(`<div class="wbtn" data-wact="accept" data-id="${o.id}">Accept</div><div class="wbtn" data-wact="ask">Ask a question</div>`);parts.push(`<div class="wbtn" data-wact="open"><span class="ms">open_in_new</span>Open in Rodood</div>`);}
   if(m.kind==='invoice'){const v=m.inv;parts.push(`<div class="wb"><div class="wdoc"><span class="ms">picture_as_pdf</span><div><b>Invoice ${v.id}.pdf</b><small>PDF · 1 page</small></div></div><b>Invoice ${v.id}</b>${v.quote?'\nLinked to quotation '+v.quote:''}\n${v.lines.map(l=>esc(l.n)+'  <span class="wmono">'+WT(l.v)+'</span>').join('\n')}\n<b>Total due  <span class="wmono">${WT(v.total)}</span></b>${v.paid?'\n\n✅ Paid '+v.paidAt+' · receipt sent':''}${t}</div>`);
-    if(!v.paid)parts.push(`<div class="wbtn" data-wact="pay" data-id="${v.id}"><span class="ms">open_in_new</span>Pay ${WT(v.total)}</div>`);}
+    if(!v.paid)parts.push(`<div class="wbtn" data-wact="pay" data-id="${v.id}"><span class="ms">open_in_new</span>Pay ${WT(v.total)}</div>`);parts.push(`<div class="wbtn" data-wact="open"><span class="ms">open_in_new</span>Open in Rodood</div>`);}
   if(m.kind==='image')parts.push(`<div class="wb"><div class="wimg g3"><span class="ms">image</span></div>${esc(m.cap)}${t}</div>`);
   if(m.kind==='file')parts.push(`<div class="wb"><div class="wdoc"><span class="ms">picture_as_pdf</span><div><b>${esc(m.name)}</b><small>${m.size} · PDF</small></div></div>${t}</div>`);
   if(m.kind==='audio')parts.push(`<div class="wb"><div class="waud"><span class="ms">play_arrow</span><span class="ln"></span><small>${m.len}</small></div>${t}</div>`);
   return `<div class="wm ${out?'out':''}">${parts.join('')}</div>`;
 }
-function wthread(){const w=$('#wth');if(!w)return;w.innerHTML=`<div class="wnote">Messages and calls are end-to-end encrypted. Quotations and invoices arrive as a PDF plus a summary, with WhatsApp buttons to accept or pay.</div>`+ST.chat.mawared.map(wmsgHtml).join('');w.scrollTop=w.scrollHeight;}
+function wthread(){const w=$('#wth');if(!w)return;w.innerHTML=`<div class="wnote">Messages and calls are end-to-end encrypted.</div><div class="wday">Today</div><div class="wm"><div class="wb"><div class="wimg" style="background:var(--grad)"><span class="ms">forum</span></div><b>Mawared Travel on Rodood</b>
+Everything with us in one place: your requests, orders, quotations and invoices, with Noor answering any time.
+_Noor · Mawared Travel_<span class="wt">10:01</span></div><div class="wbtn" data-wact="open"><span class="ms">open_in_new</span>Open in Rodood</div><div class="wbtn" data-wact="get"><span class="ms">download</span>Get Rodood Client</div></div>`+ST.chat.mawared.map(wmsgHtml).join('');w.scrollTop=w.scrollHeight;}
 function setChannel(wa){ST.wa=wa;$('#vp').classList.toggle('wa-on',wa);$('#ch-app').classList.toggle('on',!wa);$('#ch-wa').classList.toggle('on',wa);if(wa){ST.biz='mawared';wthread();$('#clabel').textContent='WhatsApp · +973 3999 9902 · Mawared Travel';}else{$('#clabel').textContent='Rodood Client · '+(ST.tab==='biz'?BIZ[ST.biz].name+' · '+(ST.seg==='chat'?'Chat':'Store'):'Home');}}
 $('#ch-app').onclick=()=>setChannel(false);$('#ch-wa').onclick=()=>setChannel(true);
 document.addEventListener('click',e=>{const a=e.target.closest('[data-wact]');if(!a)return;const k=a.dataset.wact;
   if(k==='accept'){ST.offer.accepted=true;const bc=$('#boffer-'+a.dataset.id);if(bc){bc.classList.add('accepted');const ch=bc.querySelector('.hdr .chip');ch.className='chip w-good';ch.style.background='';ch.textContent='Accepted';}btoast('Abdulla accepted '+a.dataset.id);feed('check_circle','Client accepted '+a.dataset.id+' on WhatsApp','');
     push({from:'me',text:'Accept',read:true});setTimeout(()=>{const v={id:'INV-1042',quote:a.dataset.id,lines:[{n:'As quoted',v:ST.offer.total}],total:ST.offer.total,paid:false};ST.invoice=v;push({from:'hu',who:'Sara · Mawared Travel',text:'Great. Here is the invoice for the trip.',kind:'invoice',inv:v});},1200);}
   if(k==='ask'){push({from:'me',text:'Can you do it a bit cheaper?',read:true});}
+  if(k==='open'){setChannel(false);openBiz('mawared','chat');ST.tab='biz';toast('Opened from the WhatsApp link');feed('open_in_new','Client opened Rodood from WhatsApp','app.rodoodai.com/b/mawared');}
+  if(k==='get'){toast('App Store / Google Play · Rodood Client');feed('download','Client tapped Get Rodood Client','');}
   if(k==='pay'){toast('Opens Tap payment page');setTimeout(()=>{const v=ST.invoice;v.paid=true;v.paidAt=tnow();const bi=$('#binv-'+v.id);if(bi){bi.classList.add('paid');const ch=bi.querySelector('.hdr .chip');ch.className='chip w-good';ch.textContent='Paid';}btoast('Invoice '+v.id+' paid');feed('paid','Invoice '+v.id+' paid via Tap link','');push({from:'noor',kind:'file',name:'Receipt-'+v.id+'.pdf',size:'88 KB'});},1500);}
 });
 
