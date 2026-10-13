@@ -556,6 +556,39 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .wa .wcomp .wmic .ms{color:#fff;font-size:22px}
 .wnote{font-size:11px;color:var(--w-ts);text-align:center;padding:4px 20px 0;line-height:1.4}
 
+
+/* ---------- Discover ---------- */
+.dsearch{display:flex;align-items:center;gap:10px;margin:4px var(--gutter) 0;height:46px;border-radius:var(--r-pill);background:var(--s2);box-shadow:var(--ring);padding:0 14px}
+.dsearch .ms{font-size:20px;color:var(--ts)}
+.dsearch input{flex:1;height:46px;font-size:var(--fs-body-sm);min-width:0}
+.dsearch input::placeholder{color:var(--tt)}
+.yours{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:2px var(--gutter) 4px}
+.yours::-webkit-scrollbar{display:none}
+.yours button{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--tp);text-align:center;animation:rise .4s var(--e-out) both;animation-delay:calc(var(--i)*40ms)}
+.yours button span.nm{width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.yours .av{width:56px;height:56px}
+.dlist{display:flex;flex-direction:column;gap:14px;padding:0 var(--gutter)}
+.dcard{display:block;width:100%;text-align:left;border-radius:var(--r-lg);overflow:hidden;background:var(--s2);box-shadow:var(--ring);animation:rise .45s var(--e-out) both;animation-delay:calc(var(--i)*45ms);transition:transform .15s}
+.dcard:active{transform:scale(.985)}
+.dcard .cv{height:108px;position:relative;display:grid;place-items:center}
+.dcard .cv .ms{font-size:44px;color:rgba(255,255,255,.92)}
+.dcard .cv .chip .ms{font-size:14px;color:#fff}
+.dcard .cv .yb{position:absolute;top:10px;inset-inline-end:10px;background:rgba(0,0,0,.35);color:#fff}
+.dcard .cv .op{position:absolute;top:10px;inset-inline-start:10px;background:rgba(0,0,0,.35);color:#fff}
+.dcard .cv .op i{width:7px;height:7px;border-radius:50%;background:#3DD68C;display:inline-block}
+.dcard .bd{display:flex;align-items:center;gap:12px;padding:12px 14px 14px;position:relative}
+.dcard .bd .av{margin-top:-34px;box-shadow:0 0 0 3px var(--canvas);background:var(--elev)}
+.dcard .bd .nm{flex:1;min-width:0}
+.dcard .bd .nm b{display:block;font-size:var(--fs-body);font-weight:600;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dcard .bd .nm small{display:block;font-size:var(--fs-label);color:var(--ts);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dcard .bd .ms.ch{color:var(--ts)}
+.dempty{margin:24px var(--gutter);text-align:center;color:var(--ts);font-size:var(--fs-label)}
+.findcard{margin:12px var(--gutter) 0;border-radius:var(--r-lg);padding:1.5px;background:var(--grad);display:block;width:calc(100% - 30px);text-align:left}
+.findcard .in{border-radius:22.5px;background:var(--elev);padding:16px;display:flex;align-items:center;gap:12px}
+.findcard .in .ic{width:44px;height:44px;border-radius:14px;background:var(--tint-pink);display:grid;place-items:center;color:var(--pink-tx);flex:none}
+.findcard .in b{display:block;font-size:var(--fs-body-sm);font-weight:500}
+.findcard .in p{font-size:var(--fs-label);color:var(--ts);margin-top:2px;line-height:1.4}
+
 /* ---------- Notes ---------- */
 .notes{max-width:960px;margin:0 auto 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .note{background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-lg);padding:20px}
@@ -595,7 +628,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
         <nav class="bnav" id="bnav">
           <button data-tab="home" class="on"><span class="ms">home</span>Home</button>
           <button data-tab="activity"><span class="ms">receipt_long</span>Activity</button>
-          <button data-tab="stores"><span class="ms">storefront</span>Stores</button>
+          <button data-tab="stores"><span class="ms">explore</span>Discover</button>
           <button data-tab="account"><span class="ms">person</span>Account</button>
         </nav>
         <div class="push" id="push"><div class="pi"><span class="ms">chat</span></div><div class="pt"><b><span id="push-t"></span><i>now</i></b><span id="push-b"></span></div></div>
@@ -646,8 +679,13 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 </main>
 
 <section class="notes">
+  <div class="note"><h2><span class="ms">explore</span>Discover</h2>
+    <ul><li>The Stores tab becomes <b>Discover</b>: every open business on Rodood, with search across names, products and services, category pills and the area. Your businesses sit on top.</li>
+    <li>Following is automatic: a business joins <b>Your businesses</b> when you send a message, add to basket, order or start a request. Links and QR codes still work as shortcuts.</li>
+    <li>Businesses control it with <b>Show on Rodood Discover</b> in store settings, on by default. Closed stores and link-only businesses never appear.</li>
+    <li>Server: <code>GET /api/stores?q=&amp;category=&amp;cursor=</code> returns open, listed stores (public, cached, paginated); store settings gain <code>listed</code> (default true). Following reuses <code>POST /api/customer/stores/:code/follow</code>.</li></ul></div>
   <div class="note"><h2><span class="ms">account_tree</span>How a client finds a business</h2>
-    <ul><li><b>Today:</b> a business appears on Home only after it opens a request for the number, or after an order. The app has no link handler and nothing calls the follow API.</li>
+    <ul><li><b>Before Discover:</b> a business appeared only after it opened a request for your number, after an order, or through its link or QR code.</li>
     <li><b>Proposed:</b> universal links for <code>app.rodoodai.com/s/&lt;code&gt;</code> and <code>/b/&lt;code&gt;</code> open the app on this page; "Add a business" on Home scans the QR or pastes the link and calls <code>POST /api/customer/stores/:code/follow</code>.</li></ul></div>
   <div class="note"><h2><span class="ms">auto_awesome</span>Creating a quotation</h2>
     <ul><li>The team gives Noor one line ("Italy, 2 people, 10 days, 10% off") or a voice note. Noor picks the lines from the catalogue and services, adds official fees separately, applies the discount and a 7-day validity.</li>
@@ -716,6 +754,27 @@ const BIZ={
     sugg:[{t:'Sign the application',ic:'draw',hu:true},{t:'What documents do I need?',ic:'description'},{t:'Talk to a person',ic:'support_agent',hu:true}],
   },
 };
+
+/* Discover: every open business on Rodood (listed:true). Followed = in "Your businesses". */
+Object.assign(BIZ.mawared,{area:'Manama',cat:'Travel',cover:'g3',coverIc:'flight_takeoff'});
+Object.assign(BIZ.anfal,{area:'Manama',cat:'Government',cover:'g6',coverIc:'badge'});
+const GENERIC_SUGG=[{t:'What do you recommend?',ic:'auto_awesome'},{t:'Delivery time?',ic:'local_shipping'},{t:'Talk to a person',ic:'support_agent',hu:true}];
+const mkBiz=(o)=>Object.assign({requests:[],orders:[],seed:[],sugg:GENERIC_SUGG,services:[],products:[]},o);
+Object.assign(BIZ,{
+  danat:mkBiz({id:'danat',name:'Danat Home',kind:'Furniture store',ini:'DH',code:'danat',area:'Seef',cat:'Home',cover:'g1',coverIc:'chair',
+    products:[{id:'d1',name:'Majlis sofa set',price:640,g:'g1',ic:'weekend',cat:'Living',d:'Seven seats, washable covers.'},{id:'d2',name:'Oak coffee table',price:120,g:'g5',ic:'table_restaurant',cat:'Living',d:'Solid oak.'},{id:'d3',name:'Arc floor lamp',price:45,g:'g2',ic:'floor_lamp',cat:'Lighting',d:'Warm white.'},{id:'d4',name:'Wool rug 3 × 2 m',price:180,g:'g3',ic:'texture',cat:'Living',d:'Hand-knotted.'}]}),
+  bloom:mkBiz({id:'bloom',name:'Bloom & Co',kind:'Florist',ini:'BC',code:'bloom',area:'Adliya',cat:'Flowers',cover:'g2',coverIc:'local_florist',
+    products:[{id:'b1',name:'Red rose box',price:18,g:'g2',ic:'local_florist',cat:'Boxes',d:'24 roses.'},{id:'b2',name:'White orchid',price:22,g:'g3',ic:'spa',cat:'Plants',d:'In a ceramic pot.'},{id:'b3',name:'Hand bouquet',price:15,g:'g1',ic:'filter_vintage',cat:'Bouquets',d:'Seasonal.'},{id:'b4',name:'Eid hamper',price:35,g:'g5',ic:'redeem',cat:'Gifts',d:'Flowers and sweets.'}]}),
+  optics:mkBiz({id:'optics',name:'Seef Optics',kind:'Optician',ini:'SO',code:'optics',area:'Seef',cat:'Health',cover:'g6',coverIc:'visibility',
+    products:[{id:'o1',name:'Titanium frames',price:85,g:'g6',ic:'eyeglasses',cat:'Frames',d:'Light and strong.'},{id:'o2',name:'Blue-light lenses',price:40,g:'g4',ic:'lens_blur',cat:'Lenses',d:'For screens.'}],
+    services:[{id:'os1',name:'Eye test',ic:'visibility',eta:'30 minutes',fee:5,gov:0}]}),
+  bakery:mkBiz({id:'bakery',name:'Noor Bakery',kind:'Bakery',ini:'NB',code:'bakery',area:'Riffa',cat:'Food',cover:'g5',coverIc:'bakery_dining',
+    products:[{id:'k1',name:'Za’atar manakish × 6',price:2.4,g:'g5',ic:'bakery_dining',cat:'Bakery',d:'Fresh every morning.'},{id:'k2',name:'Date ma’amoul box',price:6.5,g:'g1',ic:'cookie',cat:'Sweets',d:'500 g.'},{id:'k3',name:'Sourdough loaf',price:2,g:'g3',ic:'breakfast_dining',cat:'Bread',d:'Baked today.'}]}),
+  gulfclean:mkBiz({id:'gulfclean',name:'Gulf Clean',kind:'Home cleaning',ini:'GC',code:'gulfclean',area:'Manama',cat:'Services',cover:'g4',coverIc:'cleaning_services',
+    services:[{id:'g1',name:'Home deep clean',ic:'cleaning_services',eta:'same week',fee:35,gov:0},{id:'g2',name:'AC cleaning',ic:'ac_unit',eta:'next day',fee:12,gov:0},{id:'g3',name:'Sofa shampoo',ic:'weekend',eta:'2 days',fee:20,gov:0}]}),
+});
+const DCATS=['All','Travel','Home','Flowers','Food','Health','Services','Government'];
+
 const NOOR_REPLIES=[
   {m:/luggage|bag|trolley/i,text:'Here is what we have for luggage.',cards:['p2','p4','p5']},
   {m:/visa|schengen/i,text:'Schengen visa processing is BHD 35 service charge plus the embassy fee of BHD 60. 10 to 15 working days. Want me to start a request?',svc:'s1'},
@@ -730,7 +789,7 @@ const BHD=n=>`<span class="amt">BHD ${n.toFixed(3)}</span>`;
 let ST;
 function init(){
   $('#vp')&&$('#vp').classList.remove('wa-on');$('#ch-app')&&$('#ch-app').classList.add('on');$('#ch-wa')&&$('#ch-wa').classList.remove('on');
-  ST={biz:'mawared',tab:'home',seg:'chat',basket:{},chat:{},hu:{},inv:'linked',sent:{},unread:{mawared:0,anfal:1},offer:null,invoice:null,paid:false,accepted:false,audio:null,rec:false,cat:'All'};
+  ST={biz:'mawared',tab:'home',seg:'chat',follow:new Set(['mawared','anfal']),dq:'',dcat:'All',basket:{},chat:{},hu:{},inv:'linked',sent:{},unread:{mawared:0,anfal:1},offer:null,invoice:null,paid:false,accepted:false,audio:null,rec:false,cat:'All'};
   for(const k in BIZ){ST.chat[k]=BIZ[k].seed.map(m=>({...m}));ST.hu[k]=false;}
   ST.hu.anfal=true;
   $('#feed').innerHTML='<li style="background:none;box-shadow:none;text-align:center;animation:none">Act on either phone.</li>';
@@ -748,9 +807,9 @@ const screens=$('#screens');
 function render(html,anim){screens.innerHTML=`<div class="scr ${anim||''}">${html}</div>`;}
 function go(tab){ST.tab=tab;$$('#bnav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));$('#vp').classList.add('has-nav');
   if(tab==='home')render(home(),'a-pop');else if(tab==='stores')render(stores(),'a-pop');else render(simple(tab),'a-pop');
-  $('#clabel').textContent='Rodood Client · '+({home:'Home',activity:'Activity',stores:'Stores',account:'Account'}[tab]);}
+  $('#clabel').textContent='Rodood Client · '+({home:'Home',activity:'Activity',stores:'Discover',account:'Account'}[tab]);}
 function home(){
-  const rows=Object.values(BIZ).map((b,i)=>`<button class="biz" style="--i:${i+2}" data-act="open" data-biz="${b.id}">
+  const rows=Object.values(BIZ).filter(b=>ST.follow.has(b.id)).map((b,i)=>`<button class="biz" style="--i:${i+2}" data-act="open" data-biz="${b.id}">
     <span class="av ${ST.hu[b.id]?'':'ai'}">${b.ini}</span>
     <span class="nm"><b>${b.name}</b><small>${esc(last(b.id))}</small></span>
     ${ST.unread[b.id]?`<span class="un">${ST.unread[b.id]}</span>`:''}<span class="ms ch">chevron_right</span></button>`).join('');
@@ -758,12 +817,24 @@ function home(){
   <div class="scroll"><div class="stg">
     <div class="greet" style="--i:0">Good afternoon</div><h1 class="h1" style="--i:1">Your businesses</h1>
     <div style="height:10px"></div>${rows}
-    <div class="addbiz" style="--i:5"><b>Add a business</b><p>Open the link a business sent you, or scan its QR code at the counter. It joins this list.</p>
+    <button class="findcard" style="--i:4" data-act="tab" data-t="stores"><div class="in"><span class="ic"><span class="ms">explore</span></span><div style="flex:1;min-width:0"><b>Discover businesses</b><p>Every open business on Rodood, in one list.</p></div><span class="ms" style="color:var(--ts)">chevron_right</span></div></button>
+    <div class="addbiz" style="--i:5"><b>Have a link or QR code?</b><p>Open the link a business sent you, or scan its QR code at the counter.</p>
       <div class="row2"><button class="btn sec2 sm" data-act="toast" data-t="Camera opens to scan"><span class="ms">qr_code_scanner</span>Scan QR</button><button class="btn sec2 sm" data-act="toast" data-t="Paste app.rodoodai.com/s/…"><span class="ms">link</span>Paste link</button></div></div>
   </div></div>`;
 }
 function last(id){const c=ST.chat[id];for(let i=c.length-1;i>=0;i--){const m=c[i];if(m.text)return (m.from==='me'?'You: ':'')+m.text;if(m.kind)return {offer:'Offer sent',product:'Shared a product',service:'Shared a service',invoice:'Invoice',image:'Photo',file:'File',audio:'Voice note'}[m.kind]||'';}return '';}
-function stores(){return `<div class="top"></div><div class="hd"><div class="t"><h1>Stores</h1><small>Shops and services you use on Rodood</small></div></div><div class="scroll"><div class="stg">${Object.values(BIZ).map((b,i)=>`<button class="biz" style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><span class="av">${b.ini}</span><span class="nm"><b>${b.name}</b><small>${b.products.length?b.products.length+' products · ':''}${b.services.length} services</small></span><span class="ms ch">chevron_right</span></button>`).join('')}</div></div>`;}
+function stores(){return `<div class="top"></div><div class="hd"><div class="t"><h1 style="font-size:var(--fs-h1)">Discover</h1><small>Every open business on Rodood</small></div></div>
+  <div class="scroll"><div class="dsearch"><span class="ms">search</span><input id="dq" placeholder="Search businesses, products, services" value="${esc(ST.dq)}" autocomplete="off"></div>
+  <div class="pills" id="dpills">${DCATS.map(c=>`<button class="${ST.dcat===c?'on':''}" data-act="dcat" data-c="${c}">${c}</button>`).join('')}</div>
+  <div id="dres">${dresults()}</div></div>`;}
+function bizMatches(b,q){if(!q)return true;q=q.toLowerCase();return [b.name,b.kind,b.cat,b.area,...b.products.map(p=>p.name),...b.services.map(x=>x.name)].some(x=>String(x||'').toLowerCase().includes(q));}
+function dresults(){const all=Object.values(BIZ).filter(b=>b.listed!==false);const yours=all.filter(b=>ST.follow.has(b.id));
+  const list=all.filter(b=>(ST.dcat==='All'||b.cat===ST.dcat)&&bizMatches(b,ST.dq));
+  const meta=b=>[b.products.length?b.products.length+' products':'',b.services.length?b.services.length+' services':''].filter(Boolean).join(' · ');
+  return `${!ST.dq&&ST.dcat==='All'&&yours.length?`<div class="sec">Your businesses</div><div class="yours">${yours.map((b,i)=>`<button style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><span class="av ${ST.hu[b.id]?'':'ai'}">${b.ini}</span><span class="nm">${esc(b.name)}</span></button>`).join('')}</div>`:''}
+  <div class="sec">${ST.dq?'Results':'Open now'} · ${list.length}</div>
+  ${list.length?`<div class="dlist">${list.map((b,i)=>`<button class="dcard" style="--i:${i}" data-act="open" data-biz="${b.id}" data-seg="work"><div class="cv ${b.cover}"><span class="ms">${b.coverIc}</span><span class="chip op"><i></i>Open</span>${ST.follow.has(b.id)?'<span class="chip yb"><span class="ms">bookmark</span>Yours</span>':''}</div><div class="bd"><span class="av lg">${b.ini}</span><span class="nm"><b>${esc(b.name)}</b><small>${esc(b.kind)} · ${esc(b.area)} · ${meta(b)}</small></span><span class="ms ch">chevron_right</span></div></button>`).join('')}</div>`:`<div class="dempty">No open business matches “${esc(ST.dq||ST.dcat)}”.</div>`}`;}
+function follow(id,why){if(ST.follow.has(id))return;ST.follow.add(id);toast(BIZ[id].name+' added to your businesses');feed('bookmark_add','Client followed '+BIZ[id].name,why||'');}
 function simple(t){const n={activity:'Activity',account:'Account'}[t];return `<div class="top"></div><div class="hd"><div class="t"><h1>${n}</h1></div></div><div class="scroll"><div class="stg"><div class="card" style="margin:10px 15px;text-align:center;color:var(--ts);font-size:var(--fs-label)">Unchanged in this prototype. Open a business from Home.</div></div></div>`;}
 
 /* ---------- business page ---------- */
@@ -798,7 +869,7 @@ function who(){const b=BIZ[ST.biz];const hu=ST.hu[ST.biz];const s=$('#bsub');if(
 function thread(all){const t=$('#thread');if(!t)return;const msgs=ST.chat[ST.biz];const b=BIZ[ST.biz];
   if(all){t.innerHTML=`<div class="ident"><span class="av lg ${ST.hu[ST.biz]?'':'ai'}" id="bav">${b.ini}</span><b>${esc(b.name)}</b><small id="bsub"></small></div>`+msgs.map((m,i)=>msgHtml(m,i)).join('');t.scrollTop=t.scrollHeight;who();}
 }
-function push(m){const t=$('#thread');m.t=m.t||tnow();ST.chat[ST.biz].push(m);if(t){t.insertAdjacentHTML('beforeend',msgHtml(m,ST.chat[ST.biz].length-1));t.scrollTo({top:t.scrollHeight,behavior:'smooth'});}
+function push(m){const t=$('#thread');m.t=m.t||tnow();ST.chat[ST.biz].push(m);if(m.from==='me')follow(ST.biz,'sent a message');if(t){t.insertAdjacentHTML('beforeend',msgHtml(m,ST.chat[ST.biz].length-1));t.scrollTo({top:t.scrollHeight,behavior:'smooth'});}
   if(ST.wa)wthread();
   if(ST.biz==='mawared'){const bt=$('#bthread');bt.insertAdjacentHTML('beforeend',bmsgHtml(m,ST.chat[ST.biz].length-1));bt.scrollTo({top:bt.scrollHeight,behavior:'smooth'});packet(m.from==='me'?'r':'l');}
   if(ST.seg==='work'&&m.from!=='me'){const nb=$('#segbadge');if(nb){nb.textContent=(+nb.textContent||0)+1;nb.classList.remove('hide');}}}
@@ -847,6 +918,7 @@ function say(text){const inp=$('#inp');if(inp){inp.value='';$('#send').classList
   reply(text);}
 function typing(ms,cb){const t=$('#thread');if(!t)return cb();const el=document.createElement('div');el.className='msg';el.innerHTML=`<div class="who"><span class="chip w-ai"><span class="ms">auto_awesome</span>Noor</span></div><div class="typing"><i></i><i></i><i></i></div>`;t.appendChild(el);t.scrollTo({top:t.scrollHeight,behavior:'smooth'});setTimeout(()=>{el.remove();cb();},ms);}
 function reply(text){const b=BIZ[ST.biz];
+  if(!['mawared','anfal'].includes(b.id)&&!ST.hu[b.id]){if(/person|human|someone/i.test(text)){typing(900,()=>{push({from:'noor',text:'Sure. Someone from the team will reply here shortly.'});ST.hu[b.id]=true;who();suggs();});return;}typing(1100,()=>b.products.length?push({from:'noor',text:`Here is what ${b.name} has right now. Ask me about prices, delivery or timing.`,cards:b.products.slice(0,2).map(p=>p.id)}):push({from:'noor',text:`${b.name} offers ${b.services.map(x=>x.name).join(', ')}. Want me to start one?`,svc:b.services[0].id}));return;}
   if(ST.hu[ST.biz]){if(b.id==='anfal'){setTimeout(()=>{push({from:'hu',who:'Khalid · ANFAL Clearance',text:'On it. I will come back to you shortly.'});},1600);}return;}
   if(b.id==='anfal'){typing(1100,()=>push({from:'noor',text:text==='voice'?'I heard you. Khalid will confirm the timing.':'Khalid prepared your application. You can sign it from Store, under your requests.'}));return;}
   const r=NOOR_REPLIES.find(x=>x.m.test(text));
@@ -881,7 +953,7 @@ function toast(t){$('#toast-t').textContent=String(t).replace(/<[^>]+>/g,'');con
 /* ---------- work pane ---------- */
 function work(){const w=$('#work');if(!w)return;const b=BIZ[ST.biz];const cats=['All',...new Set(b.products.map(p=>p.cat))];if(b.services.length)cats.push('Services');
   const prods=b.products.filter(p=>ST.cat==='All'||p.cat===ST.cat);
-  w.innerHTML=`<div class="hero"><div class="in"><span class="av lg">${b.ini}</span><div style="min-width:0"><b>${esc(b.name)}</b><p>${b.kind} · ${b.products.length?b.products.length+' products · ':''}${b.services.length} services · pays on Rodood</p></div></div></div>
+  w.innerHTML=`<div class="hero"><div class="in"><span class="av lg">${b.ini}</span><div style="min-width:0"><b>${esc(b.name)}</b><p>${b.kind} · ${b.area?b.area+' · ':''}${b.products.length?b.products.length+' products · ':''}${b.services.length?b.services.length+' services · ':''}pays on Rodood</p></div></div></div>
   <button class="ask" data-act="askwork"><span class="ms">auto_awesome</span><span>Ask Noor or search</span><span class="go"><span class="ms">arrow_forward</span></span></button>
   ${b.products.length?`<div class="pills">${cats.map(c=>`<button class="${ST.cat===c?'on':''}" data-act="cat" data-c="${c}">${c}</button>`).join('')}</div>`:''}
   ${ST.cat!=='Services'&&prods.length?`<div class="sec" style="margin-top:16px">Products</div><div class="grid">${prods.map((p,i)=>`<button class="pc" style="--i:${i}" data-act="pdetail" data-id="${p.id}"><div class="img ${p.g}"><span class="ms">${p.ic}</span></div><div class="bd"><b>${esc(p.name)}</b><div class="pr"><span class="price">${BHD(p.price)}</span><span class="add" data-act="add" data-id="${p.id}"><span class="ms">add</span>Add</span></div></div></button>`).join('')}</div>`:''}
@@ -893,7 +965,7 @@ function work(){const w=$('#work');if(!w)return;const b=BIZ[ST.biz];const cats=[
 }
 function basketPill(){const p=$('#bpill');if(!p)return;const n=Object.values(ST.basket).reduce((a,b)=>a+b,0);const tot=Object.entries(ST.basket).reduce((a,[id,q])=>a+q*BIZ[ST.biz].products.find(x=>x.id===id).price,0);
   p.classList.toggle('show',n>0&&ST.seg==='work');$('#bp-n').textContent=n+(n===1?' item':' items');$('#bp-t').innerHTML=BHD(tot);}
-function add(id,fromEl){ST.basket[id]=(ST.basket[id]||0)+1;
+function add(id,fromEl){follow(ST.biz,'added to basket');ST.basket[id]=(ST.basket[id]||0)+1;
   if(ST.seg==='work'){fly(fromEl);setTimeout(()=>{basketPill();const p=$('#bpill');p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump');},420);}else{basketPill();toast('Added · see Store');$('#segbadge').textContent=Object.values(ST.basket).reduce((a,b)=>a+b,0);$('#segbadge').classList.remove('hide');}
   feed('add_shopping_cart','Client added to basket',BIZ[ST.biz].products.find(p=>p.id===id).name);}
 function fly(el){const vp=$('#vp');const r=el.getBoundingClientRect(),v=vp.getBoundingClientRect(),t=$('#bpill').getBoundingClientRect();const d=document.createElement('span');d.className='fly';d.style.left=(r.left-v.left+r.width/2-7)+'px';d.style.top=(r.top-v.top+r.height/2-7)+'px';vp.appendChild(d);
@@ -915,7 +987,7 @@ function basket(){const b=BIZ[ST.biz];const items=Object.entries(ST.basket);cons
 function startreq(id){const s=BIZ[ST.biz].services.find(x=>x.id===id);sheet(`<h3>${esc(s.name)}</h3><p class="sub">${s.eta}. ${s.gov?s.govLabel+' '+BHD(s.gov)+' is paid to the authority; ':''}service charge ${s.fee?BHD(s.fee):'free'}.</p>
   <div class="card" style="padding:14px;margin-bottom:16px"><dl class="kv" style="margin:0"><div style="display:contents"><dt>Step 1</dt><dd>Answer a few questions</dd></div><div style="display:contents"><dt>Step 2</dt><dd>Upload passport</dd></div><div style="display:contents"><dt>Step 3</dt><dd>Review and accept the quotation</dd></div></dl></div>
   <button class="btn pri" id="goreq"><span class="ms">play_arrow</span>Start request</button>`);
-  $('#goreq').onclick=()=>{BIZ[ST.biz].requests.unshift({id:'n'+Date.now(),name:s.name,step:'Your turn · answer a few questions',done:0,cur:1,tot:6,who:'client'});closeSheet();work();toast('Request started');feed('assignment','Client started a request',s.name);
+  $('#goreq').onclick=()=>{follow(ST.biz,'started a request');BIZ[ST.biz].requests.unshift({id:'n'+Date.now(),name:s.name,step:'Your turn · answer a few questions',done:0,cur:1,tot:6,who:'client'});closeSheet();work();toast('Request started');feed('assignment','Client started a request',s.name);
     setTimeout(()=>push({from:'noor',text:`Started: ${s.name}. First step is a short form, it takes two minutes. You will find it under Store.`}),800);};}
 function accept(id){const card=$('#offer-'+id);ST.offer.accepted=true;card.classList.add('accepted');const bc=$('#boffer-'+id);if(bc){bc.classList.add('accepted');const ch=bc.querySelector('.hdr .chip');ch.className='chip w-good';ch.style.background='';ch.textContent='Accepted';}btoast('Abdulla accepted '+id);card.querySelector('.act2').innerHTML=`<span class="okbtn"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Accepted</span>`;feed('check_circle','Client accepted Q-204','BHD 1,050.000');
   setTimeout(()=>push({from:'me',text:'Accepted the quotation',read:true}),200);
@@ -957,6 +1029,8 @@ document.addEventListener('click',e=>{
     else if(k==='File'){push({from:'me',kind:'file',name:'Bank-statement.pdf',size:'640 KB',read:true});feed('description','Client sent a file','Bank-statement.pdf');reply('file');}
     else toast('Location shared');}
   else if(act==='toast'){toast(a.dataset.t);}
+  else if(act==='dcat'){ST.dcat=a.dataset.c;$$('#dpills button').forEach(x=>x.classList.toggle('on',x.dataset.c===ST.dcat));$('#dres').innerHTML=dresults();}
+  else if(act==='tab'){go(a.dataset.t);}
 });
 function setSeg(s){ST.seg=s;$('#seg').classList.toggle('right',s==='work');$$('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.seg===s));
   $('#pane-chat').classList.toggle('left',s==='work');$('#pane-work').classList.toggle('rightx',s==='chat');
@@ -1074,6 +1148,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-wact]');if
   if(k==='pay'){toast('Opens Tap payment page');setTimeout(()=>{const v=ST.invoice;v.paid=true;v.paidAt=tnow();const bi=$('#binv-'+v.id);if(bi){bi.classList.add('paid');const ch=bi.querySelector('.hdr .chip');ch.className='chip w-good';ch.textContent='Paid';}btoast('Invoice '+v.id+' paid');feed('paid','Invoice '+v.id+' paid via Tap link','');push({from:'noor',kind:'file',name:'Receipt-'+v.id+'.pdf',size:'88 KB'});},1500);}
 });
 
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='dq'){ST.dq=e.target.value.trim();$('#dres').innerHTML=dresults();}});
 /* theme */
 const root=document.documentElement;
 $('#th-auto').onclick=()=>{root.removeAttribute('data-theme');th('auto');};$('#th-dark').onclick=()=>{root.dataset.theme='dark';th('dark');};$('#th-light').onclick=()=>{root.dataset.theme='light';th('light');};
