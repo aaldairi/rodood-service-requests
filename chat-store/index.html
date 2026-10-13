@@ -514,6 +514,49 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .prev .meta2 .chip .ms{font-size:16px}
 .prev .edit{display:flex;gap:10px;margin-top:16px}
 
+
+/* ---------- WhatsApp view of the same conversation ---------- */
+.wa{position:absolute;inset:0;display:none;flex-direction:column;background:var(--w-bg);color:var(--w-tp);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;letter-spacing:0}
+.vp.wa-on .wa{display:flex}
+.vp.wa-on .screens,.vp.wa-on .bnav{display:none}
+.wa .whd{height:92px;padding:50px 10px 0;display:flex;align-items:center;gap:8px;background:var(--w-head);border-bottom:1px solid rgba(0,0,0,.08);flex:none}
+.wa .whd .ms{font-size:22px;color:var(--w-accent)}
+.wa .whd .wav{width:36px;height:36px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:12px;font-weight:600}
+.wa .whd b{display:block;font-size:16px;font-weight:600;line-height:1.1}
+.wa .whd small{display:block;font-size:12px;color:var(--w-ts)}
+.wa .wth{flex:1;overflow-y:auto;scrollbar-width:none;padding:10px 10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--w-bg)}
+.wa .wth::-webkit-scrollbar{display:none}
+.wa .wday{align-self:center;font-size:12px;color:var(--w-ts);background:var(--w-head);padding:4px 10px;border-radius:8px;margin:6px 0}
+.wm{max-width:84%;display:flex;flex-direction:column;gap:3px;animation:bubble .4s var(--e-out) both}
+.wm.out{align-self:flex-end}
+.wb{background:var(--w-in);border-radius:10px;padding:7px 9px 6px;font-size:14.5px;line-height:1.38;box-shadow:0 1px .5px rgba(0,0,0,.13);position:relative;white-space:pre-wrap}
+.wm.out .wb{background:var(--w-out)}
+.wb b{font-weight:600}
+.wb .wt{display:block;text-align:right;font-size:11px;color:var(--w-ts);margin-top:3px;line-height:1}
+.wm.out .wb .wt{color:#53bdeb}
+.wb .wmono{font-family:var(--mono);font-size:13px}
+.wbtn{background:var(--w-in);border-radius:10px;padding:10px;text-align:center;color:#027eb5;font-size:14.5px;font-weight:500;box-shadow:0 1px .5px rgba(0,0,0,.13);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.wbtn .ms{font-size:18px;color:#027eb5}
+.wdoc{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.05);border-radius:8px;padding:8px;margin-bottom:4px}
+.wm.out .wdoc{background:rgba(0,0,0,.06)}
+.wdoc .ms{font-size:28px;color:#d93025}
+.wdoc div{min-width:0;font-size:13px}
+.wdoc div b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.wdoc div small{color:var(--w-ts);font-size:11px}
+.wimg{height:150px;border-radius:8px;margin:-2px -4px 4px;display:grid;place-items:center}
+.wimg .ms{font-size:46px;color:rgba(255,255,255,.92)}
+.waud{display:flex;align-items:center;gap:8px;min-width:200px}
+.waud .ms{font-size:26px;color:var(--w-ts)}
+.waud .ln{flex:1;height:3px;border-radius:3px;background:rgba(0,0,0,.18);position:relative}
+.waud .ln::after{content:'';position:absolute;left:0;top:-5px;width:13px;height:13px;border-radius:50%;background:#53bdeb}
+.waud small{font-size:11px;color:var(--w-ts)}
+.wa .wcomp{display:flex;align-items:center;gap:6px;padding:6px 8px 28px;background:var(--w-bar);flex:none}
+.wa .wcomp .ms{font-size:24px;color:var(--w-ts)}
+.wa .wcomp .wf{flex:1;height:40px;border-radius:20px;background:var(--w-in);display:flex;align-items:center;padding:0 12px;color:var(--w-ts);font-size:15px}
+.wa .wcomp .wmic{width:40px;height:40px;border-radius:50%;background:var(--w-accent);display:grid;place-items:center}
+.wa .wcomp .wmic .ms{color:#fff;font-size:22px}
+.wnote{font-size:11px;color:var(--w-ts);text-align:center;padding:4px 20px 0;line-height:1.4}
+
 /* ---------- Notes ---------- */
 .notes{max-width:960px;margin:0 auto 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .note{background:var(--s2);box-shadow:var(--ring);border-radius:var(--r-lg);padding:20px}
@@ -538,6 +581,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
       <button id="th-dark"><span class="ms">dark_mode</span>Dark</button>
       <button id="th-light"><span class="ms">light_mode</span>Light</button>
     </div>
+    <div class="seg" role="group" aria-label="Client channel"><button id="ch-app" class="on"><span class="ms">smartphone</span>Client app</button><button id="ch-wa"><span class="ms">chat</span>WhatsApp</button></div>
     <button class="ghost" id="reset"><span class="ms">restart_alt</span>Reset demo</button>
   </div>
 </header>
@@ -560,6 +604,7 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
         <div class="scrim" id="scrim"></div>
         <div class="sheet" id="sheet"></div>
         <div class="lightbox" id="lightbox"><div class="big g3"></div></div>
+        <div class="wa" id="wa"><div class="whd"><span class="ms">arrow_back_ios</span><span class="wav">MT</span><div style="flex:1;min-width:0"><b>Mawared Travel</b><small>Business account · Noor replies instantly</small></div><span class="ms">videocam</span><span class="ms">call</span></div><div class="wth" id="wth"></div><div class="wcomp"><span class="ms">add</span><div class="wf">Message</div><span class="ms">photo_camera</span><span class="wmic"><span class="ms">mic</span></span></div></div>
       </div>
     </div>
   </div>
@@ -609,6 +654,10 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
     <ul><li>The team gives Noor one line ("Italy, 2 people, 10 days, 10% off") or a voice note. Noor picks the lines from the catalogue and services, adds official fees separately, applies the discount and a 7-day validity.</li>
     <li>The preview is the exact card the client sees: title, lines, total, validity. The team can remove a line, change the discount or validity, then Send. Noor never sends a quotation on its own.</li>
     <li>One document type: a quotation with an optional discount. A promotion on a product is a shared product at a discounted price, not a separate card. Accepted quotations lock and raise a draft invoice linked to them.</li></ul></div>
+  <div class="note"><h2><span class="ms">chat</span>On WhatsApp</h2>
+    <ul><li>Same thread, WhatsApp-native shapes: a quotation is a PDF document plus a formatted summary (bold title, lines, total, validity) with reply buttons <b>Accept</b> and <b>Ask a question</b>; an invoice is a PDF plus a <b>Pay</b> link button to the Tap page.</li>
+    <li>A product is an image message with name and price and a <b>View in store</b> link; a service is a text summary with <b>Start request</b> (secure web link). Photos, files and voice notes are native.</li>
+    <li>Both channels write to the same conversation and the same quotation/invoice records; the business sees one thread.</li></ul></div>
   <div class="note"><h2><span class="ms">forum</span>Chat</h2>
     <ul><li>One thread per business. Purple = Noor, orange = a person; the header dot shows who is replying now.</li>
     <li>Message kinds: <code>text</code>, <code>product</code>, <code>service</code>, <code>quotation</code> (lines, validity, accept), <code>invoice</code> (optional <code>quoteId</code>, pay), <code>image</code>, <code>file</code>, <code>audio</code>, <code>system</code>.</li>
@@ -680,12 +729,13 @@ const BHD=n=>`<span class="amt">BHD ${n.toFixed(3)}</span>`;
 /* ---------- state ---------- */
 let ST;
 function init(){
+  $('#vp')&&$('#vp').classList.remove('wa-on');$('#ch-app')&&$('#ch-app').classList.add('on');$('#ch-wa')&&$('#ch-wa').classList.remove('on');
   ST={biz:'mawared',tab:'home',seg:'chat',basket:{},chat:{},hu:{},inv:'linked',sent:{},unread:{mawared:0,anfal:1},offer:null,invoice:null,paid:false,accepted:false,audio:null,rec:false,cat:'All'};
   for(const k in BIZ){ST.chat[k]=BIZ[k].seed.map(m=>({...m}));ST.hu[k]=false;}
   ST.hu.anfal=true;
   $('#feed').innerHTML='<li style="background:none;box-shadow:none;text-align:center;animation:none">Act on either phone.</li>';
   bthread();bmode();
-  go('home');
+  go('home');if(ST.wa)setChannel(false);
 }
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -749,6 +799,7 @@ function thread(all){const t=$('#thread');if(!t)return;const msgs=ST.chat[ST.biz
   if(all){t.innerHTML=`<div class="ident"><span class="av lg ${ST.hu[ST.biz]?'':'ai'}" id="bav">${b.ini}</span><b>${esc(b.name)}</b><small id="bsub"></small></div>`+msgs.map((m,i)=>msgHtml(m,i)).join('');t.scrollTop=t.scrollHeight;who();}
 }
 function push(m){const t=$('#thread');m.t=m.t||tnow();ST.chat[ST.biz].push(m);if(t){t.insertAdjacentHTML('beforeend',msgHtml(m,ST.chat[ST.biz].length-1));t.scrollTo({top:t.scrollHeight,behavior:'smooth'});}
+  if(ST.wa)wthread();
   if(ST.biz==='mawared'){const bt=$('#bthread');bt.insertAdjacentHTML('beforeend',bmsgHtml(m,ST.chat[ST.biz].length-1));bt.scrollTo({top:bt.scrollHeight,behavior:'smooth'});packet(m.from==='me'?'r':'l');}
   if(ST.seg==='work'&&m.from!=='me'){const nb=$('#segbadge');if(nb){nb.textContent=(+nb.textContent||0)+1;nb.classList.remove('hide');}}}
 function msgHtml(m,i){
@@ -987,6 +1038,37 @@ document.addEventListener('click',e=>{
 });
 $('#binp').addEventListener('input',()=>$('#bsend').classList.toggle('on',$('#binp').value.trim().length>0));
 $('#binp').addEventListener('keydown',e=>{if(e.key==='Enter'&&$('#binp').value.trim())bsay($('#binp').value.trim());});
+
+
+/* ---------- WhatsApp rendering ---------- */
+const WT=n=>'BHD '+n.toFixed(3);
+function wmsgHtml(m){
+  if(m.day)return `<div class="wday">${m.day}</div>`;
+  const out=m.from==='me';const b=BIZ.mawared;const t=`<span class="wt">${m.t}${out?' ✓✓':''}</span>`;
+  const hu=m.from==='hu';const sig=hu?`\n_${esc((m.who||'Team').split(' ·')[0])} · Mawared Travel_`:'';
+  let parts=[];
+  if(m.text)parts.push(`<div class="wb">${esc(m.text)}${sig}${t}</div>`);
+  if(m.cards)for(const id of m.cards){const p=b.products.find(x=>x.id===id);parts.push(`<div class="wb"><div class="wimg ${p.g}"><span class="ms">${p.ic}</span></div><b>${esc(p.name)}</b>\n<span class="wmono">${WT(p.price)}</span>${t}</div><div class="wbtn"><span class="ms">open_in_new</span>View in store</div>`);}
+  if(m.svc){const sv=b.services.find(x=>x.id===m.svc);parts.push(`<div class="wb"><b>${esc(sv.name)}</b>\n${sv.eta}\n${sv.gov?sv.govLabel+': <span class="wmono">'+WT(sv.gov)+'</span>\n':''}Service charge: <span class="wmono">${sv.fee?WT(sv.fee):'Free'}</span>${t}</div><div class="wbtn"><span class="ms">open_in_new</span>Start request</div>`);}
+  if(m.kind==='offer'){const o=m.offer;const lines=o.lines.map(l=>`${esc(l.n)}  <span class="wmono">${l.disc?'−':''}${WT(Math.abs(l.v))}</span>`).join('\n');
+    parts.push(`<div class="wb"><div class="wdoc"><span class="ms">picture_as_pdf</span><div><b>Quotation ${o.id}.pdf</b><small>PDF · 1 page</small></div></div><b>Quotation ${o.id}</b>\n<b>${esc(o.title)}</b>\n${esc(o.d)}\n\n${lines}\n<b>Total  <span class="wmono">${WT(o.total)}</span></b>\nValid until ${o.until}${o.accepted?'\n\n✅ Accepted':''}${t}</div>`);
+    if(!o.accepted)parts.push(`<div class="wbtn" data-wact="accept" data-id="${o.id}">Accept</div><div class="wbtn" data-wact="ask">Ask a question</div>`);}
+  if(m.kind==='invoice'){const v=m.inv;parts.push(`<div class="wb"><div class="wdoc"><span class="ms">picture_as_pdf</span><div><b>Invoice ${v.id}.pdf</b><small>PDF · 1 page</small></div></div><b>Invoice ${v.id}</b>${v.quote?'\nLinked to quotation '+v.quote:''}\n${v.lines.map(l=>esc(l.n)+'  <span class="wmono">'+WT(l.v)+'</span>').join('\n')}\n<b>Total due  <span class="wmono">${WT(v.total)}</span></b>${v.paid?'\n\n✅ Paid '+v.paidAt+' · receipt sent':''}${t}</div>`);
+    if(!v.paid)parts.push(`<div class="wbtn" data-wact="pay" data-id="${v.id}"><span class="ms">open_in_new</span>Pay ${WT(v.total)}</div>`);}
+  if(m.kind==='image')parts.push(`<div class="wb"><div class="wimg g3"><span class="ms">image</span></div>${esc(m.cap)}${t}</div>`);
+  if(m.kind==='file')parts.push(`<div class="wb"><div class="wdoc"><span class="ms">picture_as_pdf</span><div><b>${esc(m.name)}</b><small>${m.size} · PDF</small></div></div>${t}</div>`);
+  if(m.kind==='audio')parts.push(`<div class="wb"><div class="waud"><span class="ms">play_arrow</span><span class="ln"></span><small>${m.len}</small></div>${t}</div>`);
+  return `<div class="wm ${out?'out':''}">${parts.join('')}</div>`;
+}
+function wthread(){const w=$('#wth');if(!w)return;w.innerHTML=`<div class="wnote">Messages and calls are end-to-end encrypted. Quotations and invoices arrive as a PDF plus a summary, with WhatsApp buttons to accept or pay.</div>`+ST.chat.mawared.map(wmsgHtml).join('');w.scrollTop=w.scrollHeight;}
+function setChannel(wa){ST.wa=wa;$('#vp').classList.toggle('wa-on',wa);$('#ch-app').classList.toggle('on',!wa);$('#ch-wa').classList.toggle('on',wa);if(wa){ST.biz='mawared';wthread();$('#clabel').textContent='WhatsApp · +973 3999 9902 · Mawared Travel';}else{$('#clabel').textContent='Rodood Client · '+(ST.tab==='biz'?BIZ[ST.biz].name+' · '+(ST.seg==='chat'?'Chat':'Store'):'Home');}}
+$('#ch-app').onclick=()=>setChannel(false);$('#ch-wa').onclick=()=>setChannel(true);
+document.addEventListener('click',e=>{const a=e.target.closest('[data-wact]');if(!a)return;const k=a.dataset.wact;
+  if(k==='accept'){ST.offer.accepted=true;const bc=$('#boffer-'+a.dataset.id);if(bc){bc.classList.add('accepted');const ch=bc.querySelector('.hdr .chip');ch.className='chip w-good';ch.style.background='';ch.textContent='Accepted';}btoast('Abdulla accepted '+a.dataset.id);feed('check_circle','Client accepted '+a.dataset.id+' on WhatsApp','');
+    push({from:'me',text:'Accept',read:true});setTimeout(()=>{const v={id:'INV-1042',quote:a.dataset.id,lines:[{n:'As quoted',v:ST.offer.total}],total:ST.offer.total,paid:false};ST.invoice=v;push({from:'hu',who:'Sara · Mawared Travel',text:'Great. Here is the invoice for the trip.',kind:'invoice',inv:v});},1200);}
+  if(k==='ask'){push({from:'me',text:'Can you do it a bit cheaper?',read:true});}
+  if(k==='pay'){toast('Opens Tap payment page');setTimeout(()=>{const v=ST.invoice;v.paid=true;v.paidAt=tnow();const bi=$('#binv-'+v.id);if(bi){bi.classList.add('paid');const ch=bi.querySelector('.hdr .chip');ch.className='chip w-good';ch.textContent='Paid';}btoast('Invoice '+v.id+' paid');feed('paid','Invoice '+v.id+' paid via Tap link','');push({from:'noor',kind:'file',name:'Receipt-'+v.id+'.pdf',size:'88 KB'});},1500);}
+});
 
 /* theme */
 const root=document.documentElement;
