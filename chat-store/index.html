@@ -376,6 +376,8 @@ input,textarea{font-family:inherit;color:inherit;letter-spacing:inherit;border:n
 .pc .pr{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:8px;font-size:var(--fs-label);font-weight:600;font-variant-numeric:tabular-nums}
 .pc .pr .price{white-space:nowrap}
 .pc .add{flex:none}
+.pc.chatpc{width:200px;animation:deal .55s var(--spring) both}
+.pc.chatpc .img{cursor:pointer}
 .pc .add{height:32px;padding:0 12px;border-radius:var(--r-pill);background:var(--pink);color:#fff;display:flex;align-items:center;gap:4px;font-size:var(--fs-label);font-weight:500;transition:transform .25s var(--spring)}
 .pc .add:active{transform:scale(.9)}
 .pc .add .ms{font-size:16px}
@@ -662,7 +664,7 @@ function msgHtml(m,i){
   const meta=`<div class="meta">${m.t}${me?`<span class="ms ${m.read?'read':''}">done_all</span>`:''}</div>`;
   return `<div class="msg ${me?'me':''}" data-i="${i}">${who}${body}${meta}</div>`;
 }
-function productCard(p){if(!p)return'';return `<div class="rc"><div class="img ${p.g}"><span class="ms">${p.ic}</span><span class="chip tag" style="background:rgba(0,0,0,.35);color:#fff">${esc(p.cat)}</span></div><div class="bd"><div class="ttl"><b>${esc(p.name)}</b><span class="pr">${BHD(p.price)}</span></div><p>${esc(p.d)}</p><div class="act2"><button class="btn sec2" data-act="pdetail" data-id="${p.id}">Details</button><button class="btn pri" data-act="add" data-id="${p.id}"><span class="ms">add_shopping_cart</span>Add</button></div></div></div>`;}
+function productCard(p){if(!p)return'';return `<div class="pc chatpc"><button class="img ${p.g}" data-act="pdetail" data-id="${p.id}" style="width:100%"><span class="ms">${p.ic}</span></button><div class="bd"><b>${esc(p.name)}</b><div class="pr"><span class="price">${BHD(p.price)}</span><span class="add" data-act="add" data-id="${p.id}"><span class="ms">add</span>Add</span></div></div></div>`;}
 function serviceCard(s){if(!s)return'';return `<div class="rc"><div class="bd"><div class="svc"><span class="ic"><span class="ms">${s.ic}</span></span><div style="min-width:0;flex:1"><b style="font-size:var(--fs-body-sm);font-weight:500;display:block">${esc(s.name)}</b><p style="margin-top:2px">${s.eta}</p></div></div><dl class="kv">${s.gov?`<dt>${s.govLabel}</dt><dd>${BHD(s.gov)}</dd>`:''}<dt>Service charge</dt><dd>${s.fee?BHD(s.fee):'Free'}</dd></dl><div class="act2"><button class="btn pri" data-act="startreq" data-id="${s.id}"><span class="ms">play_arrow</span>Start request</button></div></div></div>`;}
 function offerCard(m){const o=m.offer;const acc=o.accepted;return `<div class="rc offer ${acc?'accepted':''}" id="offer-${o.id}"><div class="bd"><div class="hdr"><span class="ms">local_offer</span>Offer · ${o.id} · valid until ${o.until}</div><b style="display:block;margin-top:8px;font-size:var(--fs-body-sm);font-weight:500">${esc(o.title)}</b><p>${esc(o.d)}</p>
   <dl class="kv">${o.lines.map(l=>`<div style="display:contents" class="${l.disc?'disc':''}"><dt>${esc(l.n)}</dt><dd>${l.disc?'−':''}${BHD(Math.abs(l.v))}</dd></div>`).join('')}<div style="display:contents" class="tot"><dt>Total</dt><dd>${BHD(o.total)}</dd></div></dl>
