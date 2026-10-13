@@ -49,6 +49,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 .amt{font-family:var(--mono);font-weight:500;letter-spacing:-.01em;font-size:1.06em;white-space:nowrap;color:#707070}
 .disc .amt,.rc .kv .disc .amt{color:var(--good)}
+:root[data-theme="dark"] .amt{color:#9A9AA8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .amt{color:#9A9AA8}}
+:root[data-theme="dark"] .disc .amt{color:var(--good)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .disc .amt{color:var(--good)}}
 html{font-size:15px}
 body{font-family:var(--font);background:var(--canvas);color:var(--tp);-webkit-font-smoothing:antialiased;letter-spacing:var(--ls-ui);padding-inline:16px;transition:background .25s}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;letter-spacing:inherit;touch-action:manipulation}
